@@ -10,9 +10,9 @@ import brewer2mpl
 import glob
 
  # brewer2mpl.get_map args: set name  set type  number of colors
-bmap = brewer2mpl.get_map('Paired', 'qualitative', 12)
+bmap = brewer2mpl.get_map('Dark2', 'qualitative', 6)
 colors = bmap.mpl_colors
- 
+
 params = {
     'axes.labelsize': 18,
     'font.size': 18,
@@ -20,10 +20,14 @@ params = {
     'xtick.labelsize': 18,
     'ytick.labelsize': 18,
     'text.usetex': False,
-    'figure.figsize': [20, 8],
+    'figure.figsize': [10, 6],
     'legend.loc': 'best'
 }
 rcParams.update(params)
+
+linestyles = ['--', '-.', '-', ':']
+markers = ['*', '^', 's', 'o']
+markersizes = [15, 12, 12, 12]
 
 
 all_types = ["SmartNIC", "NetBricks", "SafeBricks"]
@@ -174,24 +178,11 @@ def draw_t_trend_for_task(_task):
     legends = list()
     for _type in all_types:
         data_vec = get_t_draw_data_vary_core(_type, _task, "w/ IPsec", "ICTF")
-        p1 = plt.bar(ind + width * (cnt - len(all_types) / 2 + 0.5), data_vec, width, color=colors[cnt], edgecolor = 'k', align="center")
+        p1, = plt.plot(ind, data_vec, linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt],
+            color=colors[cnt], linewidth=3)
+
         legends.append(p1)
         cnt += 1
-
-    if _task == "DPI":
-        for i in range(N):
-            if all_cores[i] == "5":
-                x_base = ind[i]
-                cnt = 0
-                for _type in all_types:
-                    if _type == "SmartNIC":
-                        # x = x_base + width * (cnt - len(all_types) / 2 + 0.5 - 0.2)
-                        # y = 0.4
-                        # plt.text(x, y, "Not Applied", fontsize=18, rotation=90)
-                        x = (x_base + width * (cnt - len(all_types) / 2 + 0.5)) / (N * 10 + 10)
-                        y = 0.13
-                        plt.text(x, y, "Not Applied", fontsize=18, rotation=90, horizontalalignment='center', verticalalignment='center', transform=plt.axes().transAxes)
-                    cnt += 1
 
 
     plt.legend(legends, all_types)
@@ -230,27 +221,17 @@ def draw_l_trend_for_task(_task):
         yerr[0, :] = np.array(data_vec_avg) - np.array(data_vec_avg)
         yerr[1, :] = np.array(data_vec_tail) - np.array(data_vec_avg)
         
-        p1 = plt.bar(ind + width * (cnt - len(all_types) / 2 + 0.5), data_vec_avg, width, yerr=yerr, color=colors[cnt], edgecolor = 'k', ecolor='k', align="center")
+        (p1, caps, _) = plt.errorbar(ind, data_vec_avg, yerr = yerr[1, :],
+            linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt],
+            color=colors[cnt], linewidth=3, capthick=2, capsize=10, elinewidth=2, lolims=True, ecolor=colors[cnt])
         legends.append(p1)
+        caps[0].set_marker('_')
+        caps[1].set_marker('')
+
         cnt += 1
 
-    if _task == "DPI":
-        for i in range(N):
-            if all_cores[i] == "5":
-                x_base = ind[i]
-                cnt = 0
-                for _type in all_types:
-                    if _type == "SmartNIC":
-                        # x = x_base + width * (cnt - len(all_types) / 2 + 0.5 - 0.2)
-                        # y = 0.4
-                        # plt.text(x, y, "Not Applied", fontsize=18, rotation=90)
-                        x = (x_base + width * (cnt - len(all_types) / 2 + 0.5)) / (N * 10 + 10)
-                        y = 0.13
-                        plt.text(x, y, "Not Applied", fontsize=18, rotation=90, horizontalalignment='center', verticalalignment='center', transform=plt.axes().transAxes)
-                    cnt += 1
-
     plt.legend(legends, all_types)
-    plt.ylabel('Average and 99th tail latency (microsecond)')
+    plt.ylabel('Avg. and 99th tail latency (microsecond)')
     plt.xlabel('# cores')
     plt.xticks(ind, all_cores)
     plt.savefig('./figures/l_trend_core_%s.pdf' % (_task,))
