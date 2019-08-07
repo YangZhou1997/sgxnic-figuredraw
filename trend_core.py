@@ -26,7 +26,7 @@ params = {
 rcParams.update(params)
 
 linestyles = ['--', '-.', '-', ':']
-markers = ['*', '^', 's', 'o']
+markers = ['*', '^', 'o', 's']
 markersizes = [15, 12, 12, 12]
 
 
@@ -34,7 +34,7 @@ all_types = ["SmartNIC", "NetBricks", "SafeBricks"]
 all_tasks = ["Firewall", "DPI", "NAT", "Maglev", "LPM", "Monitor"]
 all_ipsecs = ["w/ IPsec", "w/o IPsec"]
 all_traces = ["ICTF", "64B", "256B", "512B", "1KB"]
-all_cores = ["1", "2", "3", "4", "5"]
+all_cores = ["1", "2", "3", "4", "5", "6", "7", "8", "12", "16"]
 
 tasks_nic = ["firewall", "lpm", "maglev", "monitor", "nat", "hfa-se-maxperf-check"]
 tasks_ipsec_nic = ["firewall-ipsec", "lpm-ipsec", "maglev-ipsec", "monitor-ipsec", "nat-ipsec", "hfa-se-maxperf-ipsec-check"]
@@ -88,13 +88,19 @@ def get_trace(ori_name):
     }
     return switcher.get(ori_name, "Invalid trace name %s" % (ori_name,))
 
+
 def get_core(ori_name):
     switcher = {
         **dict.fromkeys(["0x1", "1"], "1"), 
         **dict.fromkeys(["0x3", "2"], "2"), 
         **dict.fromkeys(["0x7", "3"], "3"), 
         **dict.fromkeys(["0xF", "4"], "4"), 
-        **dict.fromkeys(["0x1F", "5"], "5")
+        **dict.fromkeys(["0x1F", "5"], "5"),
+        **dict.fromkeys(["0x3F", "6"], "6"),
+        **dict.fromkeys(["0x7F", "7"], "7"),
+        **dict.fromkeys(["0xFF", "8"], "8"),
+        **dict.fromkeys(["0xFFF", "12"], "12"),
+        **dict.fromkeys(["0xFFFF", "16"], "16")
     }
     return switcher.get(ori_name, "Invalid core name %s" % (ori_name,))
 
@@ -163,13 +169,7 @@ def get_t_draw_data_vary_core(_type, _task, _ipsec, _trace):
         data_vec.append(t_val_med[_type][_task][_ipsec][_trace][_core])
     return data_vec
 
-def draw_t_trend_for_task(_task):
-    data_load("./rawdata/nic")
-    data_load("./rawdata/nb")
-    data_load("./rawdata/sb")
-
-    process_draw_data()
-
+def draw_t_trend_for_task_ipsec_trace(_task, _ipsec, _trace):
     N = len(all_cores)
     ind = np.arange(N) * 10 + 10    # the x locations for the groups    
     width = 6.0/len(all_types)       # the width of the bars: can also be len(x) sequence
@@ -177,7 +177,7 @@ def draw_t_trend_for_task(_task):
     cnt = 0
     legends = list()
     for _type in all_types:
-        data_vec = get_t_draw_data_vary_core(_type, _task, "w/ IPsec", "ICTF")
+        data_vec = get_t_draw_data_vary_core(_type, _task, _ipsec, _trace)
         p1, = plt.plot(ind, data_vec, linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt],
             color=colors[cnt], linewidth=3)
 
@@ -189,7 +189,10 @@ def draw_t_trend_for_task(_task):
     plt.ylabel('Throughput (Mpps)')
     plt.xlabel('# cores')
     plt.xticks(ind, all_cores)
-    plt.savefig('./figures/t_trend_core_%s.pdf' % (_task,))
+    if _ipsec == "w/ IPsec":
+        plt.savefig('./figures/trend_core/t_trend_core_%s_ipsec_%s.pdf' % (_task,_trace))
+    else:
+        plt.savefig('./figures/trend_core/t_trend_core_%s_%s.pdf' % (_task,_trace))
     plt.clf()
 
 
@@ -202,13 +205,7 @@ def get_l_draw_data_vary_core(_type, _task, _ipsec, _trace):
         data_vec_tail.append(tail_l_val_med[_type][_task][_ipsec][_trace][_core])
     return data_vec_avg, data_vec_tail
 
-def draw_l_trend_for_task(_task):
-    data_load("./rawdata/nic")
-    data_load("./rawdata/nb")
-    data_load("./rawdata/sb")
-
-    process_draw_data()
-
+def draw_l_trend_for_task_ipsec_trace(_task, _ipsec, _trace):
     N = len(all_cores)
     ind = np.arange(N) * 10 + 10    # the x locations for the groups    
     width = 6.0/len(all_types)       # the width of the bars: can also be len(x) sequence
@@ -216,7 +213,7 @@ def draw_l_trend_for_task(_task):
     cnt = 0
     legends = list()
     for _type in all_types:
-        data_vec_avg, data_vec_tail = get_l_draw_data_vary_core(_type, _task, "w/ IPsec", "ICTF")
+        data_vec_avg, data_vec_tail = get_l_draw_data_vary_core(_type, _task, _ipsec, _trace)
         yerr = np.zeros((2, len(data_vec_avg)))
         yerr[0, :] = np.array(data_vec_avg) - np.array(data_vec_avg)
         yerr[1, :] = np.array(data_vec_tail) - np.array(data_vec_avg)
@@ -234,12 +231,23 @@ def draw_l_trend_for_task(_task):
     plt.ylabel('Avg. and 99th tail latency (microsecond)')
     plt.xlabel('# cores')
     plt.xticks(ind, all_cores)
-    plt.savefig('./figures/l_trend_core_%s.pdf' % (_task,))
+    if _ipsec == "w/ IPsec":
+        plt.savefig('./figures/trend_core/l_trend_core_%s_ipsec_%s.pdf' % (_task,_trace))
+    else:
+        plt.savefig('./figures/trend_core/l_trend_core_%s_%s.pdf' % (_task,_trace))
     plt.clf()
 
     
 
 if __name__ == '__main__':
-    for _task in all_tasks:
-        draw_t_trend_for_task(_task)
-        draw_l_trend_for_task(_task)
+    data_load("./rawdata/nic")
+    data_load("./rawdata/nb")
+    data_load("./rawdata/sb")
+
+    process_draw_data()
+
+    for _trace in all_traces:
+        for _ipsec in all_ipsecs:
+            for _task in all_tasks:
+                draw_t_trend_for_task_ipsec_trace(_task, _ipsec, _trace)
+                draw_l_trend_for_task_ipsec_trace(_task, _ipsec, _trace)

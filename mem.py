@@ -125,7 +125,7 @@ if __name__ == '__main__':
     plt.legend([p1], ["Maximum memory usage (MB)"])
     plt.ylabel("Maximum memory usage (MB)")
     plt.xticks(ind, all_tasks)
-    plt.savefig('./figures/maxmem.pdf')
+    plt.savefig('./figures/mem/maxmem.pdf')
     plt.clf()
 
 
@@ -139,7 +139,7 @@ if __name__ == '__main__':
     plt.legend([p1], ["Memory wasting ratio"])
     plt.ylabel("Memory wasting ratio")
     plt.xticks(ind, all_tasks)
-    plt.savefig('./figures/memratio.pdf')
+    plt.savefig('./figures/mem/memratio.pdf')
     plt.clf()
 
     file_out.close()

@@ -31,7 +31,7 @@ all_types = ["SmartNIC", "NetBricks", "SafeBricks"]
 all_tasks = ["Firewall", "DPI", "NAT", "Maglev", "LPM", "Monitor"]
 all_ipsecs = ["w/ IPsec", "w/o IPsec"]
 all_traces = ["ICTF", "64B", "256B", "512B", "1KB"]
-all_cores = ["1", "2", "3", "4", "5"]
+all_cores = ["1", "2", "3", "4", "5", "6"]
 
 tasks_nic = ["firewall", "lpm", "maglev", "monitor", "nat", "hfa-se-maxperf-check"]
 tasks_ipsec_nic = ["firewall-ipsec", "lpm-ipsec", "maglev-ipsec", "monitor-ipsec", "nat-ipsec", "hfa-se-maxperf-ipsec-check"]
@@ -91,7 +91,12 @@ def get_core(ori_name):
         **dict.fromkeys(["0x3", "2"], "2"), 
         **dict.fromkeys(["0x7", "3"], "3"), 
         **dict.fromkeys(["0xF", "4"], "4"), 
-        **dict.fromkeys(["0x1F", "5"], "5")
+        **dict.fromkeys(["0x1F", "5"], "5"),
+        **dict.fromkeys(["0x3F", "6"], "6"),
+        **dict.fromkeys(["0x7F", "7"], "7"),
+        **dict.fromkeys(["0xFF", "8"], "8"),
+        **dict.fromkeys(["0xFFF", "12"], "12"),
+        **dict.fromkeys(["0xFFFF", "16"], "16")
     }
     return switcher.get(ori_name, "Invalid core name %s" % (ori_name,))
 
@@ -202,7 +207,23 @@ def process_draw_data():
 #         plt.savefig('./figures/t_%s_ipsec.pdf' % (task,))
 #         plt.clf()
 
+def add_text(N, ind, width, core_list, plt, type_s, task=None):
+    if _core not in core_list:
+        for i in range(N):
+            if all_tasks[i] == task or task == None:
+                x_base = ind[i]
+                cnt = 0
+                for _type in all_types:
+                    if _type == type_s:
+                        x = x_base + width * (cnt - len(all_types) / 2 + 0.5 - 0.2)
+                        y = 0.46
+                        plt.text(x, y, "Not Applied", fontsize=18, rotation=90)
+                        # x = (x_base + width * (cnt - len(all_types) / 2 + 0.5)) / (N * 10 + 10 + 10)
+                        # y = 0.13
+                        # plt.text(x, y, "Not Applied", fontsize=18, rotation=90, horizontalalignment='center', verticalalignment='center', transform=plt.axes().transAxes)
+                    cnt += 1
 
+    
 
 
 def get_t_draw_data_vary_task(_type, _ipsec, _trace, _core):
@@ -211,13 +232,7 @@ def get_t_draw_data_vary_task(_type, _ipsec, _trace, _core):
         data_vec.append(t_val_med[_type][_task][_ipsec][_trace][_core])
     return data_vec
 
-def draw_t_bar_for_core(_core):
-    data_load("./rawdata/nic")
-    data_load("./rawdata/nb")
-    data_load("./rawdata/sb")
-
-    process_draw_data()
-
+def draw_t_bar_for_core_ipsec(_core, _ipsec):
     N = len(all_tasks)
     ind = np.arange(N) * 10 + 10    # the x locations for the groups    
     width = 6.0/len(all_types)       # the width of the bars: can also be len(x) sequence
@@ -225,31 +240,22 @@ def draw_t_bar_for_core(_core):
     cnt = 0
     legends = list()
     for _type in all_types:
-        data_vec = get_t_draw_data_vary_task(_type, "w/ IPsec", "ICTF", _core)
+        data_vec = get_t_draw_data_vary_task(_type, _ipsec, "ICTF", _core)
         p1 = plt.bar(ind + width * (cnt - len(all_types) / 2 + 0.5), data_vec, width, color=colors[cnt], edgecolor = 'k', align="center")
         legends.append(p1)
         cnt += 1
 
-    if _core not in ["1", "2", "3", "4"]:
-        for i in range(N):
-            if all_tasks[i] == "DPI":
-                x_base = ind[i]
-                cnt = 0
-                for _type in all_types:
-                    if _type == "SmartNIC":
-                        # x = x_base + width * (cnt - len(all_types) / 2 + 0.5 - 0.2)
-                        # y = 0.4
-                        # plt.text(x, y, "Not Applied", fontsize=18, rotation=90)
-                        x = (x_base + width * (cnt - len(all_types) / 2 + 0.5)) / (N * 10 + 10 + 10)
-                        y = 0.13
-                        plt.text(x, y, "Not Applied", fontsize=18, rotation=90, horizontalalignment='center', verticalalignment='center', transform=plt.axes().transAxes)
-                    cnt += 1
-
-
+    add_text(N, ind, width, ["1", "2", "3", "4"], plt, "SmartNIC", "DPI")
+    add_text(N, ind, width, ["1", "2", "3", "4", "5"], plt, "SafeBricks", None)
+    add_text(N, ind, width, ["1", "2", "3", "4", "5", "6"], plt, "NetBricks", None)
+    
     plt.legend(legends, all_types)
     plt.ylabel('Throughput (Mpps)')
     plt.xticks(ind, all_tasks)
-    plt.savefig('./figures/t_bar_%scores.pdf' % (_core,))
+    if _ipsec == "w/ IPsec":
+        plt.savefig('./figures/bar/t_bar_%scores_ipsec.pdf' % (_core,))
+    else:
+        plt.savefig('./figures/bar/t_bar_%scores.pdf' % (_core,))
     plt.clf()
 
 
@@ -262,13 +268,7 @@ def get_l_draw_data_vary_task(_type, _ipsec, _trace, _core):
         data_vec_tail.append(tail_l_val_med[_type][_task][_ipsec][_trace][_core])
     return data_vec_avg, data_vec_tail
 
-def draw_l_bar_for_core(_core):
-    data_load("./rawdata/nic")
-    data_load("./rawdata/nb")
-    data_load("./rawdata/sb")
-
-    process_draw_data()
-
+def draw_l_bar_for_core_ipsec(_core, _ipsec):
     N = len(all_tasks)
     ind = np.arange(N) * 10 + 10    # the x locations for the groups    
     width = 6.0/len(all_types)       # the width of the bars: can also be len(x) sequence
@@ -276,7 +276,7 @@ def draw_l_bar_for_core(_core):
     cnt = 0
     legends = list()
     for _type in all_types:
-        data_vec_avg, data_vec_tail = get_l_draw_data_vary_task(_type, "w/ IPsec", "ICTF", _core)
+        data_vec_avg, data_vec_tail = get_l_draw_data_vary_task(_type, _ipsec, "ICTF", _core)
         yerr = np.zeros((2, len(data_vec_avg)))
         yerr[0, :] = np.array(data_vec_avg) - np.array(data_vec_avg)
         yerr[1, :] = np.array(data_vec_tail) - np.array(data_vec_avg)
@@ -285,30 +285,29 @@ def draw_l_bar_for_core(_core):
         legends.append(p1)
         cnt += 1
 
-    if _core not in ["1", "2", "3", "4"]:
-        for i in range(N):
-            if all_tasks[i] == "DPI":
-                x_base = ind[i]
-                cnt = 0
-                for _type in all_types:
-                    if _type == "SmartNIC":
-                        # x = x_base + width * (cnt - len(all_types) / 2 + 0.5 - 0.2)
-                        # y = 0.4
-                        # plt.text(x, y, "Not Applied", fontsize=18, rotation=90)
-                        x = (x_base + width * (cnt - len(all_types) / 2 + 0.5)) / (N * 10 + 10 + 10)
-                        y = 0.13
-                        plt.text(x, y, "Not Applied", fontsize=18, rotation=90, horizontalalignment='center', verticalalignment='center', transform=plt.axes().transAxes)
-                    cnt += 1
-
+    add_text(N, ind, width, ["1", "2", "3", "4"], plt, "SmartNIC", "DPI")
+    add_text(N, ind, width, ["1", "2", "3", "4", "5"], plt, "SafeBricks", None)
+    add_text(N, ind, width, ["1", "2", "3", "4", "5", "6"], plt, "NetBricks", None)
+                
     plt.legend(legends, all_types)
     plt.ylabel('Average and 99th tail latency (microsecond)')
     plt.xticks(ind, all_tasks)
-    plt.savefig('./figures/l_bar_%scores.pdf' % (_core,))
+    if _ipsec == "w/ IPsec":
+        plt.savefig('./figures/bar/l_bar_%scores_ipsec.pdf' % (_core,))
+    else:
+        plt.savefig('./figures/bar/l_bar_%scores.pdf' % (_core,))
     plt.clf()
 
     
 
 if __name__ == '__main__':
-    for _core in all_cores:
-        draw_t_bar_for_core(_core)
-        draw_l_bar_for_core(_core)
+    data_load("./rawdata/nic")
+    data_load("./rawdata/nb")
+    data_load("./rawdata/sb")
+
+    process_draw_data()
+
+    for _ipsec in all_ipsecs:
+        for _core in all_cores:
+            draw_t_bar_for_core_ipsec(_core, _ipsec)
+            draw_l_bar_for_core_ipsec(_core, _ipsec)

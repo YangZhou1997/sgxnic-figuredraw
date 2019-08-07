@@ -26,7 +26,7 @@ params = {
 rcParams.update(params)
 
 linestyles = ['--', '-.', '-', ':']
-markers = ['*', '^', 's', 'o']
+markers = ['*', '^', 'o', 's']
 markersizes = [15, 12, 12, 12]
 
 
@@ -35,7 +35,7 @@ all_tasks = ["Firewall", "DPI", "NAT", "Maglev", "LPM", "Monitor"]
 all_ipsecs = ["w/ IPsec", "w/o IPsec"]
 # all_traces = ["ICTF", "64B", "256B", "512B", "1KB"]
 all_traces = ["64B", "256B", "512B", "1KB"]
-all_cores = ["1", "2", "3", "4", "5"]
+all_cores = ["1", "2", "3", "4", "5", "6"]
 
 tasks_nic = ["firewall", "lpm", "maglev", "monitor", "nat", "hfa-se-maxperf-check"]
 tasks_ipsec_nic = ["firewall-ipsec", "lpm-ipsec", "maglev-ipsec", "monitor-ipsec", "nat-ipsec", "hfa-se-maxperf-ipsec-check"]
@@ -95,10 +95,14 @@ def get_core(ori_name):
         **dict.fromkeys(["0x3", "2"], "2"), 
         **dict.fromkeys(["0x7", "3"], "3"), 
         **dict.fromkeys(["0xF", "4"], "4"), 
-        **dict.fromkeys(["0x1F", "5"], "5")
+        **dict.fromkeys(["0x1F", "5"], "5"),
+        **dict.fromkeys(["0x3F", "6"], "6"),
+        **dict.fromkeys(["0x7F", "7"], "7"),
+        **dict.fromkeys(["0xFF", "8"], "8"),
+        **dict.fromkeys(["0xFFF", "12"], "12"),
+        **dict.fromkeys(["0xFFFF", "16"], "16")
     }
     return switcher.get(ori_name, "Invalid core name %s" % (ori_name,))
-
 
 
 # type (nic, nb, sb) -> task -> ipsecs -> trace -> core -> throughput/latency values for 10 runs
@@ -185,7 +189,7 @@ def draw_t_trend_for_task_core(_task, _core):
     plt.ylabel('Throughput (Mpps)')
     plt.xlabel('Packet size')
     plt.xticks(ind, all_traces)
-    plt.savefig('./figures/t_trend_trace_%s_core_%s.pdf' % (_task, _core))
+    plt.savefig('./figures/trend_pktsize/t_trend_trace_%s_core_%s.pdf' % (_task, _core))
     plt.clf()
 
 
@@ -225,7 +229,7 @@ def draw_l_trend_for_task_core(_task, _core):
     plt.ylabel('Avg. and 99th tail latency (microsecond)')
     plt.xlabel('Packet size')
     plt.xticks(ind, all_traces)
-    plt.savefig('./figures/l_trend_trace_%s_core_%s.pdf' % (_task, _core))
+    plt.savefig('./figures/trend_pktsize/l_trend_trace_%s_core_%s.pdf' % (_task, _core))
     plt.clf()
 
     
