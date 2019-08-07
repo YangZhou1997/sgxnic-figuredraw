@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import matplotlib
 matplotlib.use('Agg')
 import numpy as np
@@ -5,6 +7,7 @@ import matplotlib.pyplot as plt
 from matplotlib import rcParams
 from collections import defaultdict
 import brewer2mpl
+import glob
 
  # brewer2mpl.get_map args: set name  set type  number of colors
 bmap = brewer2mpl.get_map('Paired', 'qualitative', 12)
@@ -23,104 +26,170 @@ params = {
 rcParams.update(params)
 
 
-tasks = ["firewall", "lpm", "maglev", "monitor", "nat", "hfa-se-maxperf"]
-pktgens = ["ICTF", "CAIDA64", "CAIDA256", "CAIDA512", "CAIDA1024"]
-tasks_ipsec = ["firewall-ipsec", "lpm-ipsec", "maglev-ipsec", "monitor-ipsec", "nat-ipsec", "hfa-se-maxperf-ipsec"]
-pktgens_ipsec = ["ICTF_IPSEC", "CAIDA64_IPSEC", "CAIDA256_IPSEC", "CAIDA512_IPSEC", "CAIDA1024_IPSEC"]
+all_types = ["SmartNIC", "NetBricks", "SafeBricks"]
+all_tasks = ["Firewall", "DPI", "NAT", "Maglev", "LPM", "Monitor"]
+all_ipsecs = ["w/ IPsec", "w/o IPsec"]
+all_traces = ["ICTF", "64B", "256B", "512B", "1KB"]
+all_cores = ["1", "2", "3", "4", "5"]
 
-num_queues = ["0x1", "0x3", "0x7", "0xF", "0x1F", "0x3F", "0x7F", "0xFF", "0xFFF", "0xFFFF"]
+tasks_nic = ["firewall", "lpm", "maglev", "monitor", "nat", "hfa-se-maxperf-check"]
+tasks_ipsec_nic = ["firewall-ipsec", "lpm-ipsec", "maglev-ipsec", "monitor-ipsec", "nat-ipsec", "hfa-se-maxperf-ipsec-check"]
+tasks_nb = ["acl-fw", "dpi", "lpm", "maglev", "monitoring", "nat-tcp-v4"]
+tasks_ipsec_nb = ["acl-fw-ipsec", "dpi-ipsec", "lpm-ipsec", "maglev-ipsec", "monitoring-ipsec", "nat-tcp-v4-ipsec"]
 
-t_val = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
-t_val_min = defaultdict(lambda: defaultdict(lambda: defaultdict(float)))
-t_val_med = defaultdict(lambda: defaultdict(lambda: defaultdict(float)))
-t_val_max = defaultdict(lambda: defaultdict(lambda: defaultdict(float)))
+traces = ["ICTF", "CAIDA64", "CAIDA256", "CAIDA512", "CAIDA1024"]
+traces_acl = ["ICTF_ACL", "CAIDA64_ACL", "CAIDA256_ACL", "CAIDA512_ACL", "CAIDA1024_ACL"]
+traces_ipsec = ["ICTF_IPSEC", "CAIDA64_IPSEC", "CAIDA256_IPSEC", "CAIDA512_IPSEC", "CAIDA1024_IPSEC"]
+traces_ipsec_acl = ["ICTF_IPSEC_ACL", "CAIDA64_IPSEC_ACL", "CAIDA256_IPSEC_ACL", "CAIDA512_IPSEC_ACL", "CAIDA1024_IPSEC_ACL"]
+
+cores_nic = ["0x1", "0x3", "0x7", "0xF", "0x1F", "0x3F", "0x7F", "0xFF", "0xFFF", "0xFFFF"]
+cores_sb = ["1", "2", "3", "4", "5"]
+cores_nb = ["1", "2", "3", "4", "5", "6"]
+
+# type (nic, nb, sb) -> task -> ipsecs -> trace -> core -> throughput/latency values for 10 runs
+t_val = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(list)))))
+avg_l_val = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(list)))))
+tail_l_val = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(list)))))
+
+# we report the median of the 10 runs. 
+# type (nic, nb, sb) -> task -> ipsecs -> trace -> core -> median throughput/latency values for 10 runs
+t_val_med = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(float)))))
+avg_l_val_med = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(float)))))
+tail_l_val_med = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(float)))))
+
+def get_type(ori_name):
+    switcher = {
+        **dict.fromkeys(["./rawdata/nic"], "SmartNIC"), 
+        **dict.fromkeys(["./rawdata/nb"], "NetBricks"), 
+        **dict.fromkeys(["./rawdata/sb"], "SafeBricks"), 
+    }
+    return switcher.get(ori_name, "Invalid path name %s" % (ori_name,))
+
+def get_task(ori_name):
+    switcher = {
+        **dict.fromkeys(["firewall", "firewall-ipsec", "acl-fw", "acl-fw-ipsec"], "Firewall"), 
+        **dict.fromkeys(["hfa-se-maxperf-check", "hfa-se-maxperf-ipsec-check", "dpi", "dpi-ipsec"], "DPI"), 
+        **dict.fromkeys(["nat", "nat-ipsec", "nat-tcp-v4", "nat-tcp-v4-ipsec"], "NAT"), 
+        **dict.fromkeys(["maglev", "maglev-ipsec"], "Maglev"), 
+        **dict.fromkeys(["lpm", "lpm-ipsec"], "LPM"), 
+        **dict.fromkeys(["monitor", "monitor-ipsec", "monitoring", "monitoring-ipsec"], "Monitor")
+    }
+    return switcher.get(ori_name, "Invalid task name %s" % (ori_name,))
+
+def get_ipsec(ori_name):
+    without_ipsec_names = ["firewall", "acl-fw", "hfa-se-maxperf-check", "dpi", "nat", "nat-tcp-v4", "maglev", "lpm", "monitor", "monitoring"]
+    with_ipsec_names = ["firewall-ipsec", "acl-fw-ipsec", "hfa-se-maxperf-ipsec-check", "dpi-ipsec", "nat-ipsec", "nat-tcp-v4-ipsec", "maglev-ipsec", "lpm-ipsec", "monitor-ipsec", "monitoring-ipsec"]
+    switcher = {
+        **dict.fromkeys(without_ipsec_names, "w/o IPsec"), 
+        **dict.fromkeys(with_ipsec_names, "w/ IPsec")
+    }
+    return switcher.get(ori_name, "Invalid task name %s" % (ori_name,))
+
+def get_trace(ori_name):
+    switcher = {
+        **dict.fromkeys(["ICTF", "ICTF_ACL", "ICTF_IPSEC", "ICTF_IPSEC_ACL"], "ICTF"), 
+        **dict.fromkeys(["CAIDA64", "CAIDA64_ACL", "CAIDA64_IPSEC", "CAIDA64_IPSEC_ACL"], "64B"), 
+        **dict.fromkeys(["CAIDA256", "CAIDA256_ACL", "CAIDA256_IPSEC", "CAIDA256_IPSEC_ACL"], "256B"), 
+        **dict.fromkeys(["CAIDA512", "CAIDA512_ACL", "CAIDA512_IPSEC", "CAIDA512_IPSEC_ACL"], "512B"), 
+        **dict.fromkeys(["CAIDA1024", "CAIDA1024_ACL", "CAIDA1024_IPSEC", "CAIDA1024_IPSEC_ACL"], "1KB")
+    }
+    return switcher.get(ori_name, "Invalid trace name %s" % (ori_name,))
+
+def get_core(ori_name):
+    switcher = {
+        **dict.fromkeys(["0x1", "1"], "1"), 
+        **dict.fromkeys(["0x3", "2"], "2"), 
+        **dict.fromkeys(["0x7", "3"], "3"), 
+        **dict.fromkeys(["0xF", "4"], "4"), 
+        **dict.fromkeys(["0x1F", "5"], "5")
+    }
+    return switcher.get(ori_name, "Invalid core name %s" % (ori_name,))
+
 
 # first load **all** files to the dict
-def load(filePath):
-    with open(filePath, 'r') as f:
-        raw_entry = f.readline()
-        while raw_entry:
-            entry_array = raw_entry.rstrip("\n").split(",")
-            # print entry_array
-            t_val[entry_array[0]][entry_array[1]][entry_array[2]].append(float(entry_array[3]))
+def data_load(fileDir):
+    f_list = glob.glob(fileDir + '/*')
+    print(f_list)
+    for f_name in f_list:
+        with open(f_name, 'r') as f:
             raw_entry = f.readline()
-            
+            while raw_entry:
+                entry_array = raw_entry.rstrip("\n").split(",")
+                # print(entry_array)
+                _type = get_type(fileDir)
+                _task = get_task(entry_array[0])
+                _ipsec = get_ipsec(entry_array[0])
+                _trace = get_trace(entry_array[1])
+                _core = get_core(entry_array[2])
+                _t = float(entry_array[3])
+                _avg_l = float(entry_array[4])
+                _tail_l = float(entry_array[5])
+                t_val[_type][_task][_ipsec][_trace][_core].append(float(_t))
+                avg_l_val[_type][_task][_ipsec][_trace][_core].append(float(_avg_l))
+                tail_l_val[_type][_task][_ipsec][_trace][_core].append(float(_tail_l))
+                raw_entry = f.readline()
+        # currently we only load the data of the first file
+        break 
 
 # then process data to get graph drawing data
 def process_draw_data():
-    for task in tasks:
-        for pktgen in pktgens:
-            for num_queue in num_queues:
-                t_val_min[task][pktgen][num_queue] = np.percentile(t_val[task][pktgen][num_queue], 5)
-                t_val_med[task][pktgen][num_queue] = np.median(t_val[task][pktgen][num_queue])
-                t_val_max[task][pktgen][num_queue] = np.percentile(t_val[task][pktgen][num_queue], 95)
+    for task in all_tasks:
+        for trace in all_traces:
+            for core in all_cores:
+                try:
+                    t_val_med["SmartNIC"][task]["w/ IPsec"][trace][core] = np.median(t_val["SmartNIC"][task]["w/ IPsec"][trace][core])
+                except IndexError:
+                    t_val_med["SmartNIC"][task]["w/ IPsec"][trace][core] = 0
+                
+                try:
+                    t_val_med["SmartNIC"][task]["w/o IPsec"][trace][core] = np.median(t_val["SmartNIC"][task]["w/o IPsec"][trace][core])
+                except IndexError:
+                    t_val_med["SmartNIC"][task]["w/o IPsec"][trace][core] = 0
+                
 
-    for task in tasks_ipsec:
-        for pktgen in pktgens_ipsec:
-            for num_queue in num_queues:
-                t_val_min[task][pktgen][num_queue] = np.percentile(t_val[task][pktgen][num_queue], 5)
-                t_val_med[task][pktgen][num_queue] = np.median(t_val[task][pktgen][num_queue])
-                t_val_max[task][pktgen][num_queue] = np.percentile(t_val[task][pktgen][num_queue], 95)
+# next, get throughput vector indexed by trace for specific task and core case
+# ipsec: with or without
+def get_draw_data_for_task_core(task, core, ipsec):
+    data_vec = list()
 
-# next, get throughput vector indexed by pktgen for specific task and num_queue case
-def get_draw_data_for_task_queue(task, num_queue, pktgens):
-    t_vec_min = list()
-    t_vec_med = list()
-    t_vec_max = list()
+    for trace in all_traces:
+        data_vec.append(t_val_med["SmartNIC"][task][ipsec][trace][core])
+    return data_vec
 
-    for pktgen in pktgens:
-        t_vec_min.append(t_val_min[task][pktgen][num_queue])
-        t_vec_med.append(t_val_med[task][pktgen][num_queue])
-        t_vec_max.append(t_val_max[task][pktgen][num_queue])
-    return t_vec_min, t_vec_med, t_vec_max
-
-# finally, draw graph by passing pktgen vector (index vector), and multiple throughput vector
-# def 
 
 if __name__ == '__main__':
-    load("../throughput-eva/throughput.txt_2019-07-28T15:07:46.722710")
-    load("../throughput-eva/throughput.txt_2019-07-28T23:28:11.178865")
-    load("../throughput-eva/throughput.txt_2019-07-29T12:23:21.557272")
-
+    data_load("./rawdata/nic")
     process_draw_data()
 
-    N = len(pktgens)
+    N = len(all_traces)
     ind = np.arange(N) * 10 + 10    # the x locations for the groups    
-    width = 6.0/len(num_queues)       # the width of the bars: can also be len(x) sequence
+    width = 6.0/len(all_cores)       # the width of the bars: can also be len(x) sequence
 
-    for task in tasks:
+    for task in all_tasks:
         cnt = 0
         legends = list()
-        for num_queue in num_queues:
-            t_vec_min, t_vec_med, t_vec_max = get_draw_data_for_task_queue(task, num_queue, pktgens)
-            yerr = np.zeros((2, len(t_vec_min)))
-            yerr[0, :] = np.array(t_vec_med) - np.array(t_vec_min)
-            yerr[1, :] = np.array(t_vec_max) - np.array(t_vec_med)
-            p1 = plt.bar(ind + width * (cnt - len(num_queues) / 2 + 0.5), t_vec_med, width, yerr=yerr, color=colors[cnt], edgecolor = 'k', ecolor='k', align="center")
+        for core in all_cores:
+            data_vec = get_draw_data_for_task_core(task, core, "w/o IPsec")
+            p1 = plt.bar(ind + width * (cnt - len(all_cores) / 2 + 0.5), data_vec, width, color=colors[cnt], edgecolor = 'k', align="center")
             legends.append(p1)
             cnt += 1
 
-        plt.legend(legends, map(lambda x: '# core = %s' % (x,), num_queues))
+        plt.legend(legends, map(lambda x: '# core = %s' % (x,), all_cores))
         plt.ylabel('Throughput (Mpps)')
-        plt.xticks(ind, pktgens)
-        plt.savefig('../figures/t_%s.pdf' % (task,))
+        plt.xticks(ind, all_traces)
+        plt.savefig('./figures/t_%s.pdf' % (task,))
         plt.clf()
 
-
-    for task in tasks_ipsec:
         cnt = 0
         legends = list()
-        for num_queue in num_queues:
-            t_vec_min, t_vec_med, t_vec_max = get_draw_data_for_task_queue(task, num_queue, pktgens_ipsec)
-            yerr = np.zeros((2, len(t_vec_min)))
-            yerr[0, :] = np.array(t_vec_med) - np.array(t_vec_min)
-            yerr[1, :] = np.array(t_vec_max) - np.array(t_vec_med)
-            p1 = plt.bar(ind + width * (cnt - len(num_queues) / 2 + 0.5), t_vec_med, width, yerr=yerr, color=colors[cnt], edgecolor = 'k', ecolor='k', align="center")
+        for core in all_cores:
+            data_vec = get_draw_data_for_task_core(task, core, "w/ IPsec")
+            p1 = plt.bar(ind + width * (cnt - len(all_cores) / 2 + 0.5), data_vec, width, color=colors[cnt], edgecolor = 'k', align="center")
             legends.append(p1)
             cnt += 1
 
-        plt.legend(legends, map(lambda x: '# core = %s' % (x,), num_queues))
+        plt.legend(legends, map(lambda x: '# core = %s' % (x,), all_cores))
         plt.ylabel('Throughput (Mpps)')
-        plt.xticks(ind, pktgens_ipsec)
-        plt.savefig('../figures/t_%s.pdf' % (task,))
+        plt.xticks(ind, all_traces)
+        plt.savefig('./figures/t_%s_ipsec.pdf' % (task,))
         plt.clf()
