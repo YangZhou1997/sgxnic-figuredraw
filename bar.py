@@ -133,19 +133,16 @@ def data_load(fileDir):
 
 # then process data to get graph drawing data
 def process_draw_data():
-    for task in all_tasks:
-        for trace in all_traces:
-            for core in all_cores:
-                try:
-                    t_val_med["SmartNIC"][task]["w/ IPsec"][trace][core] = np.median(t_val["SmartNIC"][task]["w/ IPsec"][trace][core])
-                except IndexError:
-                    t_val_med["SmartNIC"][task]["w/ IPsec"][trace][core] = 0
-                
-                try:
-                    t_val_med["SmartNIC"][task]["w/o IPsec"][trace][core] = np.median(t_val["SmartNIC"][task]["w/o IPsec"][trace][core])
-                except IndexError:
-                    t_val_med["SmartNIC"][task]["w/o IPsec"][trace][core] = 0
-                
+    for _type in all_types:
+        for _task in all_tasks:
+            for _ipsec in all_ipsecs:
+                for _trace in all_traces:
+                    for _core in all_cores:
+                        try:
+                            t_val_med[_type][_task][_ipsec][_trace][_core] = np.median(t_val[_type][_task][_ipsec][_trace][_core])
+                        except IndexError:
+                            t_val_med[_type][_task][_ipsec][_trace][_core] = 0
+                        
 
 # next, get throughput vector indexed by trace for specific task and core case
 # ipsec: with or without
@@ -156,8 +153,7 @@ def get_draw_data_for_task_core(task, core, ipsec):
         data_vec.append(t_val_med["SmartNIC"][task][ipsec][trace][core])
     return data_vec
 
-
-if __name__ == '__main__':
+def draw_smartnic():
     data_load("./rawdata/nic")
     process_draw_data()
 
@@ -193,3 +189,38 @@ if __name__ == '__main__':
         plt.xticks(ind, all_traces)
         plt.savefig('./figures/t_%s_ipsec.pdf' % (task,))
         plt.clf()
+
+def get_draw_data_vary_task(_type, _ipsec, _trace, _core):
+    data_vec = list()
+    for _task in all_tasks:
+        data_vec.append(t_val_med[_type][_task][_ipsec][_trace][_core])
+    return data_vec
+
+def draw_bar_for_core(_core):
+    data_load("./rawdata/nic")
+    data_load("./rawdata/nb")
+    data_load("./rawdata/sb")
+
+    process_draw_data()
+
+    N = len(all_tasks)
+    ind = np.arange(N) * 10 + 10    # the x locations for the groups    
+    width = 6.0/len(all_types)       # the width of the bars: can also be len(x) sequence
+
+    cnt = 0
+    legends = list()
+    for _type in all_types:
+        data_vec = get_draw_data_vary_task(_type, "w/ IPsec", "ICTF", _core)
+        p1 = plt.bar(ind + width * (cnt - len(all_types) / 2 + 0.5), data_vec, width, color=colors[cnt], edgecolor = 'k', align="center")
+        legends.append(p1)
+        cnt += 1
+
+    plt.legend(legends, all_types)
+    plt.ylabel('Throughput (Mpps)')
+    plt.xticks(ind, all_tasks)
+    plt.savefig('./figures/bar_%scores.pdf' % (_core,))
+    plt.clf()
+
+if __name__ == '__main__':
+    for _core in all_cores:
+        draw_bar_for_core(_core)

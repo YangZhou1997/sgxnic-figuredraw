@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import matplotlib
 matplotlib.use('Agg')
 import numpy as np
@@ -48,16 +50,16 @@ utli_ratio_max = defaultdict(float)
 # first load **all** files to the dict
 def load(fileDir):
     f_list = glob.glob(fileDir + '/*')
-    print f_list
+    print(f_list)
     for f_name in f_list:
         with open(f_name, 'r') as f:
             raw_entry = f.readline()
             while raw_entry:
                 key_array = raw_entry.rstrip("\n").split(",")
-                mem_array = map(lambda x: float(x), f.readline().strip("[").rstrip("]\n").split(","))
+                mem_array = list(map(lambda x: float(x), f.readline().strip("[").rstrip("]\n").split(",")))
                 max_mem = float(f.readline().rstrip("\n"))
 
-                # print entry_array
+                # print(entry_array)
                 mem_val[key_array[0]].append(max_mem)
                 utli_ratio[key_array[0]].append((max_mem - mem_array[-1]) / max_mem)
 
