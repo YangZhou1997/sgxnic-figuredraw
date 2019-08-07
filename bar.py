@@ -181,7 +181,7 @@ def process_draw_data():
 #             legends.append(p1)
 #             cnt += 1
 
-#         plt.legend(legends, map(lambda x: '# core = %s' % (x,), all_cores))
+#         plt.legend(legends, map(lambda x: '# cores = %s' % (x,), all_cores))
 #         plt.ylabel('Throughput (Mpps)')
 #         plt.xticks(ind, all_traces)
 #         plt.savefig('./figures/t_%s.pdf' % (task,))
@@ -195,7 +195,7 @@ def process_draw_data():
 #             legends.append(p1)
 #             cnt += 1
 
-#         plt.legend(legends, map(lambda x: '# core = %s' % (x,), all_cores))
+#         plt.legend(legends, map(lambda x: '# cores = %s' % (x,), all_cores))
 #         plt.ylabel('Throughput (Mpps)')
 #         plt.xticks(ind, all_traces)
 #         plt.savefig('./figures/t_%s_ipsec.pdf' % (task,))
