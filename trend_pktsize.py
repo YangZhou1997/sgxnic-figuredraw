@@ -189,7 +189,7 @@ def draw_t_trend_for_task_core(_task, _core):
     plt.ylabel('Throughput (Mpps)')
     plt.xlabel('Packet size')
     plt.xticks(ind, all_traces)
-    plt.savefig('./figures/trend_pktsize/t_trend_trace_%s_core_%s.pdf' % (_task, _core))
+    plt.savefig('./figures/trend_pktsize/t_trend_trace_%s_core_%s_ipsec.pdf' % (_task, _core))
     plt.clf()
 
 
@@ -229,7 +229,7 @@ def draw_l_trend_for_task_core(_task, _core):
     plt.ylabel('Avg. and 99th tail latency (microsecond)')
     plt.xlabel('Packet size')
     plt.xticks(ind, all_traces)
-    plt.savefig('./figures/trend_pktsize/l_trend_trace_%s_core_%s.pdf' % (_task, _core))
+    plt.savefig('./figures/trend_pktsize/l_trend_trace_%s_core_%s_ipsec.pdf' % (_task, _core))
     plt.clf()
 
     

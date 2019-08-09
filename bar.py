@@ -245,7 +245,7 @@ def draw_t_bar_for_core_ipsec(_core, _ipsec):
         legends.append(p1)
         cnt += 1
 
-    add_text(N, ind, width, ["1", "2", "3", "4"], plt, "SmartNIC", "DPI")
+    # add_text(N, ind, width, ["1", "2", "3", "4"], plt, "SmartNIC", "DPI")
     add_text(N, ind, width, ["1", "2", "3", "4", "5"], plt, "SafeBricks", None)
     add_text(N, ind, width, ["1", "2", "3", "4", "5", "6"], plt, "NetBricks", None)
     
@@ -285,7 +285,7 @@ def draw_l_bar_for_core_ipsec(_core, _ipsec):
         legends.append(p1)
         cnt += 1
 
-    add_text(N, ind, width, ["1", "2", "3", "4"], plt, "SmartNIC", "DPI")
+    # add_text(N, ind, width, ["1", "2", "3", "4"], plt, "SmartNIC", "DPI")
     add_text(N, ind, width, ["1", "2", "3", "4", "5"], plt, "SafeBricks", None)
     add_text(N, ind, width, ["1", "2", "3", "4", "5", "6"], plt, "NetBricks", None)
                 
