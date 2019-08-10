@@ -34,7 +34,7 @@ all_types = ["SmartNIC", "NetBricks", "SafeBricks"]
 all_tasks = ["Firewall", "DPI", "NAT", "Maglev", "LPM", "Monitor"]
 all_ipsecs = ["w/ IPsec", "w/o IPsec"]
 all_traces = ["ICTF", "64B", "256B", "512B", "1KB"]
-all_cores = ["1", "2", "3", "4", "5", "6", "7", "8", "12", "16"]
+all_cores = ["1", "2", "4", "8", "16"]
 
 tasks_nic = ["firewall", "lpm", "maglev", "monitor", "nat", "hfa-se-maxperf-check"]
 tasks_ipsec_nic = ["firewall-ipsec", "lpm-ipsec", "maglev-ipsec", "monitor-ipsec", "nat-ipsec", "hfa-se-maxperf-ipsec-check"]
@@ -189,6 +189,7 @@ def draw_t_trend_for_task_ipsec_trace(_task, _ipsec, _trace):
     plt.ylabel('Throughput (Mpps)')
     plt.xlabel('# cores')
     plt.xticks(ind, all_cores)
+    plt.axes().set_ylim(ymin=0)
     if _ipsec == "w/ IPsec":
         plt.savefig('./figures/trend_core/t_trend_core_%s_ipsec_%s.pdf' % (_task,_trace))
     else:
@@ -231,6 +232,7 @@ def draw_l_trend_for_task_ipsec_trace(_task, _ipsec, _trace):
     plt.ylabel('Avg. and 99th tail latency (microsecond)')
     plt.xlabel('# cores')
     plt.xticks(ind, all_cores)
+    plt.axes().set_ylim(ymin=0)
     if _ipsec == "w/ IPsec":
         plt.savefig('./figures/trend_core/l_trend_core_%s_ipsec_%s.pdf' % (_task,_trace))
     else:

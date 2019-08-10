@@ -3,7 +3,7 @@
 NIC=10.243.38.93
 NIC_PATH=/usr/local/Cavium_Networks/OCTEON-SDK/examples/throughput-eva
 
-NB=localhost
+NB=10.243.38.86
 NB_PATH=/home/yangz/NetBricks/examples/throughput-eva
 
 SB=localhost

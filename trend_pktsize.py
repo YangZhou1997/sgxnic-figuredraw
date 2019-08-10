@@ -35,7 +35,7 @@ all_tasks = ["Firewall", "DPI", "NAT", "Maglev", "LPM", "Monitor"]
 all_ipsecs = ["w/ IPsec", "w/o IPsec"]
 # all_traces = ["ICTF", "64B", "256B", "512B", "1KB"]
 all_traces = ["64B", "256B", "512B", "1KB"]
-all_cores = ["1", "2", "3", "4", "5", "6"]
+all_cores = ["1", "2", "4", "8", "16"]
 
 tasks_nic = ["firewall", "lpm", "maglev", "monitor", "nat", "hfa-se-maxperf-check"]
 tasks_ipsec_nic = ["firewall-ipsec", "lpm-ipsec", "maglev-ipsec", "monitor-ipsec", "nat-ipsec", "hfa-se-maxperf-ipsec-check"]
@@ -189,6 +189,7 @@ def draw_t_trend_for_task_core(_task, _core):
     plt.ylabel('Throughput (Mpps)')
     plt.xlabel('Packet size')
     plt.xticks(ind, all_traces)
+    plt.axes().set_ylim(ymin=0)
     plt.savefig('./figures/trend_pktsize/t_trend_trace_%s_core_%s_ipsec.pdf' % (_task, _core))
     plt.clf()
 
@@ -229,6 +230,7 @@ def draw_l_trend_for_task_core(_task, _core):
     plt.ylabel('Avg. and 99th tail latency (microsecond)')
     plt.xlabel('Packet size')
     plt.xticks(ind, all_traces)
+    plt.axes().set_ylim(ymin=0)
     plt.savefig('./figures/trend_pktsize/l_trend_trace_%s_core_%s_ipsec.pdf' % (_task, _core))
     plt.clf()
 
