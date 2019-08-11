@@ -32,7 +32,7 @@ markersizes = [15, 12, 12, 12]
 
 all_types = ["SmartNIC", "NetBricks", "SafeBricks"]
 all_tasks = ["Firewall", "DPI", "NAT", "Maglev", "LPM", "Monitor"]
-all_ipsecs = ["w/ IPsec", "w/o IPsec"]
+all_ipsecs = ["no_ipsec", "gcm_ipsec", "sha_ipsec"]
 all_traces = ["ICTF", "64B", "256B", "512B", "1KB"]
 all_cores = ["1", "2", "4", "8", "16"]
 
@@ -60,34 +60,36 @@ def get_type(ori_name):
 
 def get_task(ori_name):
     switcher = {
-        **dict.fromkeys(["firewall", "firewall-ipsec", "acl-fw", "acl-fw-ipsec"], "Firewall"), 
-        **dict.fromkeys(["hfa-se-maxperf-check", "hfa-se-maxperf-ipsec-check", "dpi", "dpi-ipsec"], "DPI"), 
-        **dict.fromkeys(["nat", "nat-ipsec", "nat-tcp-v4", "nat-tcp-v4-ipsec"], "NAT"), 
-        **dict.fromkeys(["maglev", "maglev-ipsec"], "Maglev"), 
-        **dict.fromkeys(["lpm", "lpm-ipsec"], "LPM"), 
-        **dict.fromkeys(["monitor", "monitor-ipsec", "monitoring", "monitoring-ipsec"], "Monitor")
+        **dict.fromkeys(["firewall", "firewall-ipsec", "firewall-ipsec-sha", "acl-fw", "acl-fw-ipsec", "acl-fw-ipsec-sha"], "Firewall"), 
+        **dict.fromkeys(["hfa-se-maxperf-check", "hfa-se-maxperf-ipsec-check", "hfa-se-maxperf-ipsec-check-sha", "dpi", "dpi-ipsec", "dpi-ipsec-sha"], "DPI"), 
+        **dict.fromkeys(["nat", "nat-ipsec", "nat-ipsec-sha", "nat-tcp-v4", "nat-tcp-v4-ipsec", "nat-tcp-v4-ipsec-sha"], "NAT"), 
+        **dict.fromkeys(["maglev", "maglev-ipsec", "maglev-ipsec-sha"], "Maglev"), 
+        **dict.fromkeys(["lpm", "lpm-ipsec", "lpm-ipsec-sha"], "LPM"), 
+        **dict.fromkeys(["monitor", "monitor-ipsec", "monitor-ipsec-sha", "monitoring", "monitoring-ipsec", "monitoring-ipsec-sha"], "Monitor")
     }
     return switcher.get(ori_name, "Invalid task name %s" % (ori_name,))
 
 def get_ipsec(ori_name):
-    without_ipsec_names = ["firewall", "acl-fw", "hfa-se-maxperf-check", "dpi", "nat", "nat-tcp-v4", "maglev", "lpm", "monitor", "monitoring"]
-    with_ipsec_names = ["firewall-ipsec", "acl-fw-ipsec", "hfa-se-maxperf-ipsec-check", "dpi-ipsec", "nat-ipsec", "nat-tcp-v4-ipsec", "maglev-ipsec", "lpm-ipsec", "monitor-ipsec", "monitoring-ipsec"]
+    no_ipsec_names = ["firewall", "acl-fw", "hfa-se-maxperf-check", "dpi", "nat", "nat-tcp-v4", "maglev", "lpm", "monitor", "monitoring"]
+    gcm_ipsec_names = ["firewall-ipsec", "acl-fw-ipsec", "hfa-se-maxperf-ipsec-check", "dpi-ipsec", "nat-ipsec", "nat-tcp-v4-ipsec", "maglev-ipsec", "lpm-ipsec", "monitor-ipsec", "monitoring-ipsec"]
+    sha_ipsec_names = ["firewall-ipsec-sha", "acl-fw-ipsec-sha", "hfa-se-maxperf-ipsec-check-sha", "dpi-ipsec-sha", "nat-ipsec-sha", "nat-tcp-v4-ipsec-sha", "maglev-ipsec-sha", "lpm-ipsec-sha", "monitor-ipsec-sha", "monitoring-ipsec-sha"]
+    
     switcher = {
-        **dict.fromkeys(without_ipsec_names, "w/o IPsec"), 
-        **dict.fromkeys(with_ipsec_names, "w/ IPsec")
+        **dict.fromkeys(no_ipsec_names, "no_ipsec"), 
+        **dict.fromkeys(gcm_ipsec_names, "gcm_ipsec"),
+        **dict.fromkeys(sha_ipsec_names, "sha_ipsec")
     }
     return switcher.get(ori_name, "Invalid task name %s" % (ori_name,))
 
 def get_trace(ori_name):
     switcher = {
-        **dict.fromkeys(["ICTF", "ICTF_ACL", "ICTF_IPSEC", "ICTF_IPSEC_ACL"], "ICTF"), 
-        **dict.fromkeys(["CAIDA64", "CAIDA64_ACL", "CAIDA64_IPSEC", "CAIDA64_IPSEC_ACL"], "64B"), 
-        **dict.fromkeys(["CAIDA256", "CAIDA256_ACL", "CAIDA256_IPSEC", "CAIDA256_IPSEC_ACL"], "256B"), 
-        **dict.fromkeys(["CAIDA512", "CAIDA512_ACL", "CAIDA512_IPSEC", "CAIDA512_IPSEC_ACL"], "512B"), 
-        **dict.fromkeys(["CAIDA1024", "CAIDA1024_ACL", "CAIDA1024_IPSEC", "CAIDA1024_IPSEC_ACL"], "1KB")
+        **dict.fromkeys(["ICTF", "ICTF_ACL", "ICTF_IPSEC", "ICTF_IPSEC_ACL", "ICTF_IPSEC_SHA", "ICTF_IPSEC_ACL_SHA"], "ICTF"), 
+        **dict.fromkeys(["CAIDA64", "CAIDA64_ACL", "CAIDA64_IPSEC", "CAIDA64_IPSEC_ACL", "CAIDA64_IPSEC_SHA", "CAIDA64_IPSEC_ACL_SHA"], "64B"), 
+        **dict.fromkeys(["CAIDA256", "CAIDA256_ACL", "CAIDA256_IPSEC", "CAIDA256_IPSEC_ACL", "CAIDA256_IPSEC_SHA", "CAIDA256_IPSEC_ACL_SHA"], "256B"), 
+        **dict.fromkeys(["CAIDA512", "CAIDA512_ACL", "CAIDA512_IPSEC", "CAIDA512_IPSEC_ACL", "CAIDA512_IPSEC_SHA", "CAIDA512_IPSEC_ACL_SHA"], "512B"), 
+        **dict.fromkeys(["CAIDA1024", "CAIDA1024_ACL", "CAIDA1024_IPSEC", "CAIDA1024_IPSEC_ACL", "CAIDA1024_IPSEC_SHA", "CAIDA1024_IPSEC_ACL_SHA"], "1KB")
     }
     return switcher.get(ori_name, "Invalid trace name %s" % (ori_name,))
-
 
 def get_core(ori_name):
     switcher = {
@@ -140,7 +142,7 @@ def data_load(fileDir):
                 tail_l_val[_type][_task][_ipsec][_trace][_core].append(float(_tail_l))
                 raw_entry = f.readline()
         # currently we only load the data of the first file
-        break 
+        # break 
 
 # then process data to get graph drawing data
 def process_draw_data():
@@ -184,16 +186,12 @@ def draw_t_trend_for_task_ipsec_trace(_task, _ipsec, _trace):
         legends.append(p1)
         cnt += 1
 
-
     plt.legend(legends, all_types)
     plt.ylabel('Throughput (Mpps)')
     plt.xlabel('# cores')
     plt.xticks(ind, all_cores)
     plt.axes().set_ylim(ymin=0)
-    if _ipsec == "w/ IPsec":
-        plt.savefig('./figures/trend_core/t_trend_core_%s_ipsec_%s.pdf' % (_task,_trace))
-    else:
-        plt.savefig('./figures/trend_core/t_trend_core_%s_%s.pdf' % (_task,_trace))
+    plt.savefig('./figures/trend_core/throughput/t_trend_core_%s_%s_%s.pdf' % (_task, _trace, _ipsec))
     plt.clf()
 
 
@@ -233,10 +231,7 @@ def draw_l_trend_for_task_ipsec_trace(_task, _ipsec, _trace):
     plt.xlabel('# cores')
     plt.xticks(ind, all_cores)
     plt.axes().set_ylim(ymin=0)
-    if _ipsec == "w/ IPsec":
-        plt.savefig('./figures/trend_core/l_trend_core_%s_ipsec_%s.pdf' % (_task,_trace))
-    else:
-        plt.savefig('./figures/trend_core/l_trend_core_%s_%s.pdf' % (_task,_trace))
+    plt.savefig('./figures/trend_core/latency/l_trend_core_%s_%s_%s.pdf' % (_task, _trace, _ipsec))
     plt.clf()
 
     
@@ -248,8 +243,8 @@ if __name__ == '__main__':
 
     process_draw_data()
 
-    for _trace in all_traces:
-        for _ipsec in all_ipsecs:
+    for _ipsec in all_ipsecs:
+        for _trace in all_traces:
             for _task in all_tasks:
                 draw_t_trend_for_task_ipsec_trace(_task, _ipsec, _trace)
                 draw_l_trend_for_task_ipsec_trace(_task, _ipsec, _trace)

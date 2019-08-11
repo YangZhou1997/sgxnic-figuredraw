@@ -29,7 +29,7 @@ rcParams.update(params)
 
 all_types = ["SmartNIC", "NetBricks", "SafeBricks"]
 all_tasks = ["Firewall", "DPI", "NAT", "Maglev", "LPM", "Monitor"]
-all_ipsecs = ["w/ IPsec", "w/o IPsec"]
+all_ipsecs = ["no_ipsec", "gcm_ipsec", "sha_ipsec"]
 all_traces = ["ICTF", "64B", "256B", "512B", "1KB"]
 all_cores = ["1", "2", "4", "8", "16"]
 
@@ -57,31 +57,34 @@ def get_type(ori_name):
 
 def get_task(ori_name):
     switcher = {
-        **dict.fromkeys(["firewall", "firewall-ipsec", "acl-fw", "acl-fw-ipsec"], "Firewall"), 
-        **dict.fromkeys(["hfa-se-maxperf-check", "hfa-se-maxperf-ipsec-check", "dpi", "dpi-ipsec"], "DPI"), 
-        **dict.fromkeys(["nat", "nat-ipsec", "nat-tcp-v4", "nat-tcp-v4-ipsec"], "NAT"), 
-        **dict.fromkeys(["maglev", "maglev-ipsec"], "Maglev"), 
-        **dict.fromkeys(["lpm", "lpm-ipsec"], "LPM"), 
-        **dict.fromkeys(["monitor", "monitor-ipsec", "monitoring", "monitoring-ipsec"], "Monitor")
+        **dict.fromkeys(["firewall", "firewall-ipsec", "firewall-ipsec-sha", "acl-fw", "acl-fw-ipsec", "acl-fw-ipsec-sha"], "Firewall"), 
+        **dict.fromkeys(["hfa-se-maxperf-check", "hfa-se-maxperf-ipsec-check", "hfa-se-maxperf-ipsec-check-sha", "dpi", "dpi-ipsec", "dpi-ipsec-sha"], "DPI"), 
+        **dict.fromkeys(["nat", "nat-ipsec", "nat-ipsec-sha", "nat-tcp-v4", "nat-tcp-v4-ipsec", "nat-tcp-v4-ipsec-sha"], "NAT"), 
+        **dict.fromkeys(["maglev", "maglev-ipsec", "maglev-ipsec-sha"], "Maglev"), 
+        **dict.fromkeys(["lpm", "lpm-ipsec", "lpm-ipsec-sha"], "LPM"), 
+        **dict.fromkeys(["monitor", "monitor-ipsec", "monitor-ipsec-sha", "monitoring", "monitoring-ipsec", "monitoring-ipsec-sha"], "Monitor")
     }
     return switcher.get(ori_name, "Invalid task name %s" % (ori_name,))
 
 def get_ipsec(ori_name):
-    without_ipsec_names = ["firewall", "acl-fw", "hfa-se-maxperf-check", "dpi", "nat", "nat-tcp-v4", "maglev", "lpm", "monitor", "monitoring"]
-    with_ipsec_names = ["firewall-ipsec", "acl-fw-ipsec", "hfa-se-maxperf-ipsec-check", "dpi-ipsec", "nat-ipsec", "nat-tcp-v4-ipsec", "maglev-ipsec", "lpm-ipsec", "monitor-ipsec", "monitoring-ipsec"]
+    no_ipsec_names = ["firewall", "acl-fw", "hfa-se-maxperf-check", "dpi", "nat", "nat-tcp-v4", "maglev", "lpm", "monitor", "monitoring"]
+    gcm_ipsec_names = ["firewall-ipsec", "acl-fw-ipsec", "hfa-se-maxperf-ipsec-check", "dpi-ipsec", "nat-ipsec", "nat-tcp-v4-ipsec", "maglev-ipsec", "lpm-ipsec", "monitor-ipsec", "monitoring-ipsec"]
+    sha_ipsec_names = ["firewall-ipsec-sha", "acl-fw-ipsec-sha", "hfa-se-maxperf-ipsec-check-sha", "dpi-ipsec-sha", "nat-ipsec-sha", "nat-tcp-v4-ipsec-sha", "maglev-ipsec-sha", "lpm-ipsec-sha", "monitor-ipsec-sha", "monitoring-ipsec-sha"]
+    
     switcher = {
-        **dict.fromkeys(without_ipsec_names, "w/o IPsec"), 
-        **dict.fromkeys(with_ipsec_names, "w/ IPsec")
+        **dict.fromkeys(no_ipsec_names, "no_ipsec"), 
+        **dict.fromkeys(gcm_ipsec_names, "gcm_ipsec"),
+        **dict.fromkeys(sha_ipsec_names, "sha_ipsec")
     }
     return switcher.get(ori_name, "Invalid task name %s" % (ori_name,))
 
 def get_trace(ori_name):
     switcher = {
-        **dict.fromkeys(["ICTF", "ICTF_ACL", "ICTF_IPSEC", "ICTF_IPSEC_ACL"], "ICTF"), 
-        **dict.fromkeys(["CAIDA64", "CAIDA64_ACL", "CAIDA64_IPSEC", "CAIDA64_IPSEC_ACL"], "64B"), 
-        **dict.fromkeys(["CAIDA256", "CAIDA256_ACL", "CAIDA256_IPSEC", "CAIDA256_IPSEC_ACL"], "256B"), 
-        **dict.fromkeys(["CAIDA512", "CAIDA512_ACL", "CAIDA512_IPSEC", "CAIDA512_IPSEC_ACL"], "512B"), 
-        **dict.fromkeys(["CAIDA1024", "CAIDA1024_ACL", "CAIDA1024_IPSEC", "CAIDA1024_IPSEC_ACL"], "1KB")
+        **dict.fromkeys(["ICTF", "ICTF_ACL", "ICTF_IPSEC", "ICTF_IPSEC_ACL", "ICTF_IPSEC_SHA", "ICTF_IPSEC_ACL_SHA"], "ICTF"), 
+        **dict.fromkeys(["CAIDA64", "CAIDA64_ACL", "CAIDA64_IPSEC", "CAIDA64_IPSEC_ACL", "CAIDA64_IPSEC_SHA", "CAIDA64_IPSEC_ACL_SHA"], "64B"), 
+        **dict.fromkeys(["CAIDA256", "CAIDA256_ACL", "CAIDA256_IPSEC", "CAIDA256_IPSEC_ACL", "CAIDA256_IPSEC_SHA", "CAIDA256_IPSEC_ACL_SHA"], "256B"), 
+        **dict.fromkeys(["CAIDA512", "CAIDA512_ACL", "CAIDA512_IPSEC", "CAIDA512_IPSEC_ACL", "CAIDA512_IPSEC_SHA", "CAIDA512_IPSEC_ACL_SHA"], "512B"), 
+        **dict.fromkeys(["CAIDA1024", "CAIDA1024_ACL", "CAIDA1024_IPSEC", "CAIDA1024_IPSEC_ACL", "CAIDA1024_IPSEC_SHA", "CAIDA1024_IPSEC_ACL_SHA"], "1KB")
     }
     return switcher.get(ori_name, "Invalid trace name %s" % (ori_name,))
 
@@ -136,7 +139,7 @@ def data_load(fileDir):
                 tail_l_val[_type][_task][_ipsec][_trace][_core].append(float(_tail_l))
                 raw_entry = f.readline()
         # currently we only load the data of the first file
-        break 
+        # break 
 
 # then process data to get graph drawing data
 def process_draw_data():
@@ -182,7 +185,7 @@ def process_draw_data():
 #         cnt = 0
 #         legends = list()
 #         for core in all_cores:
-#             data_vec = get_draw_data_for_task_core(task, core, "w/o IPsec")
+#             data_vec = get_draw_data_for_task_core(task, core, "gcm_ipsec")
 #             p1 = plt.bar(ind + width * (cnt - len(all_cores) / 2 + 0.5), data_vec, width, color=colors[cnt], edgecolor = 'k', align="center")
 #             legends.append(p1)
 #             cnt += 1
@@ -196,7 +199,7 @@ def process_draw_data():
 #         cnt = 0
 #         legends = list()
 #         for core in all_cores:
-#             data_vec = get_draw_data_for_task_core(task, core, "w/ IPsec")
+#             data_vec = get_draw_data_for_task_core(task, core, "no_ipsec")
 #             p1 = plt.bar(ind + width * (cnt - len(all_cores) / 2 + 0.5), data_vec, width, color=colors[cnt], edgecolor = 'k', align="center")
 #             legends.append(p1)
 #             cnt += 1
@@ -252,10 +255,7 @@ def draw_t_bar_for_core_ipsec(_core, _ipsec):
     plt.legend(legends, all_types)
     plt.ylabel('Throughput (Mpps)')
     plt.xticks(ind, all_tasks)
-    if _ipsec == "w/ IPsec":
-        plt.savefig('./figures/bar/t_bar_%scores_ipsec.pdf' % (_core,))
-    else:
-        plt.savefig('./figures/bar/t_bar_%scores.pdf' % (_core,))
+    plt.savefig('./figures/bar/throughput/t_bar_%scores_%s.pdf' % (_core, _ipsec))
     plt.clf()
 
 
@@ -290,15 +290,13 @@ def draw_l_bar_for_core_ipsec(_core, _ipsec):
     # add_text(N, ind, width, ["1", "2", "3", "4", "5", "6"], plt, "NetBricks", None)
                 
     plt.legend(legends, all_types)
-    plt.ylabel('Average and 99th tail latency (microsecond)')
+    plt.ylabel('Avg. and 99th tail latency (microsecond)')
     plt.xticks(ind, all_tasks)
-    if _ipsec == "w/ IPsec":
-        plt.savefig('./figures/bar/l_bar_%scores_ipsec.pdf' % (_core,))
-    else:
-        plt.savefig('./figures/bar/l_bar_%scores.pdf' % (_core,))
+    plt.savefig('./figures/bar/latency/l_bar_%scores_%s.pdf' % (_core, _ipsec))
     plt.clf()
 
 
+    
 # NB&SB -> 1core, NIC -> 16cores
 def get_t_draw_data_vary_task_16_1(_type, _ipsec, _trace):
     _core = "1"
@@ -328,10 +326,46 @@ def draw_t_bar_for_core_ipsec_16_1(_ipsec):
     plt.legend(legends, ["SmartNIC (16 cores)", "NetBricks (1 core)", "SafeBricks (1 core)"])
     plt.ylabel('Throughput (Mpps)')
     plt.xticks(ind, all_tasks)
-    if _ipsec == "w/ IPsec":
-        plt.savefig('./figures/bar/t_bar_16_1cores_ipsec.pdf')
-    else:
-        plt.savefig('./figures/bar/t_bar_16_1cores.pdf')
+    plt.savefig('./figures/bar/nic16-nb1/t_bar_16_1cores_%s.pdf' % (_ipsec,))
+    plt.clf()
+
+
+
+# NB&SB -> 1core, NIC -> 16cores
+def get_l_draw_data_vary_task_16_1(_type, _ipsec, _trace):
+    _core = "1"
+    if _type == "SmartNIC":
+        _core = "16"
+
+    data_vec_avg = list()
+    data_vec_tail = list()
+    for _task in all_tasks:
+        data_vec_avg.append(avg_l_val_med[_type][_task][_ipsec][_trace][_core])
+        data_vec_tail.append(tail_l_val_med[_type][_task][_ipsec][_trace][_core])
+    return data_vec_avg, data_vec_tail
+    
+# NB&SB -> 1core, NIC -> 16cores
+def draw_l_bar_for_core_ipsec_16_1(_ipsec):
+    N = len(all_tasks)
+    ind = np.arange(N) * 10 + 10    # the x locations for the groups    
+    width = 6.0/len(all_types)       # the width of the bars: can also be len(x) sequence
+
+    cnt = 0
+    legends = list()
+    for _type in all_types:
+        data_vec_avg, data_vec_tail = get_l_draw_data_vary_task_16_1(_type, _ipsec, "64B")
+        yerr = np.zeros((2, len(data_vec_avg)))
+        yerr[0, :] = np.array(data_vec_avg) - np.array(data_vec_avg)
+        yerr[1, :] = np.array(data_vec_tail) - np.array(data_vec_avg)
+        
+        p1 = plt.bar(ind + width * (cnt - len(all_types) / 2.0 + 0.5), data_vec_avg, width, yerr=yerr, color=colors[cnt], edgecolor = 'k', ecolor='k', align="center")
+        legends.append(p1)
+        cnt += 1
+    
+    plt.legend(legends, ["SmartNIC (16 cores)", "NetBricks (1 core)", "SafeBricks (1 core)"])
+    plt.ylabel('Avg. and 99th tail latency (microsecond)')
+    plt.xticks(ind, all_tasks)
+    plt.savefig('./figures/bar/nic16-nb1/l_bar_16_1cores_%s.pdf' % (_ipsec,))
     plt.clf()
 
 
@@ -344,6 +378,7 @@ if __name__ == '__main__':
     process_draw_data()
 
     for _ipsec in all_ipsecs:
+        draw_l_bar_for_core_ipsec_16_1(_ipsec)
         draw_t_bar_for_core_ipsec_16_1(_ipsec)
         for _core in all_cores:
             draw_t_bar_for_core_ipsec(_core, _ipsec)
