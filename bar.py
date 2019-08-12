@@ -21,7 +21,7 @@ params = {
     'xtick.labelsize': 18,
     'ytick.labelsize': 18,
     'text.usetex': False,
-    'figure.figsize': [20, 8],
+    'figure.figsize': [10, 6],
     'legend.loc': 'best'
 }
 rcParams.update(params)
