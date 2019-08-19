@@ -12,6 +12,9 @@ import glob
  # brewer2mpl.get_map args: set name  set type  number of colors
 bmap = brewer2mpl.get_map('Paired', 'qualitative', 12)
 colors = bmap.mpl_colors
+linestyles = ['--', '-.', '-', ':']
+markers = ['*', '^', 'o', 's']
+markersizes = [15, 12, 12, 12]
 
 params = {
     'axes.labelsize': 18,
@@ -20,7 +23,7 @@ params = {
     'xtick.labelsize': 18,
     'ytick.labelsize': 18,
     'text.usetex': False,
-    'figure.figsize': [20, 8],
+    'figure.figsize': [10, 6],
     'legend.loc': 'best'
 }
 rcParams.update(params)
@@ -34,6 +37,9 @@ tasks_mon = ["monitoring-ipsec"]
 pktgen_types_mon = map(lambda x: "chunck%d_ipsec.dat" % (x,), range(12))
 
 num_queues = ["1", "2", "3", "4", "5", "6"]
+
+# per-task mem time series
+mem_time_all = defaultdict(list)
 
 # per-task mem_val vector
 mem_val = defaultdict(list)
@@ -59,6 +65,7 @@ def load(fileDir):
                 mem_array = list(map(lambda x: float(x), f.readline().strip("[").rstrip("]\n").split(",")))
                 max_mem = float(f.readline().rstrip("\n"))
 
+                mem_time_all[key_array[0]].append(mem_array)
                 # print(entry_array)
                 mem_val[key_array[0]].append(max_mem)
                 utli_ratio[key_array[0]].append((max_mem - mem_array[-1]) / max_mem)
@@ -141,5 +148,21 @@ if __name__ == '__main__':
     plt.xticks(ind, all_tasks)
     plt.savefig('./figures/mem/memratio.pdf')
     plt.clf()
+
+
+    mem_time = mem_time_all["monitoring-ipsec"][0]
+    length_mem_time = len(mem_time)
+    # print mem_time
+    ind = np.arange(length_mem_time)
+    p1, = plt.plot(ind, mem_time, marker = None, color='b', linewidth=2)
+
+    # plt.legend([p1], ["Memory usage vs. time"])
+    plt.ylabel("Memory usage (MB)")
+    plt.xticks(ind[::1500], ind[::1500] / 100)
+    plt.xlabel("Time (s)")
+    plt.savefig('./figures/mem/mem_time_%s_%s.pdf' % ("monitoring-ipsec", "caida_chunk0"))
+    plt.clf()
+
+
 
     file_out.close()
