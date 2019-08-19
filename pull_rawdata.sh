@@ -9,7 +9,7 @@ NB_PATH=/home/yangz/NetBricks/examples/throughput-eva
 SB=localhost
 SB_PATH=/home/yangz/SafeBricks/examples/throughput-eva
 
-CG=localhost
+CG=$NB
 CG_PATH=/home/yangz/NetBricks/examples/memory-profiling/cgroup-log
 
 scp yangz@$NIC:$NIC_PATH/* ./rawdata/nic/
