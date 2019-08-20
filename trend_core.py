@@ -14,20 +14,21 @@ bmap = brewer2mpl.get_map('Dark2', 'qualitative', 6)
 colors = bmap.mpl_colors
 
 params = {
-    'axes.labelsize': 18,
-    'font.size': 18,
-    'legend.fontsize': 18,
-    'xtick.labelsize': 18,
-    'ytick.labelsize': 18,
+    'axes.labelsize': 36,
+    'font.size': 36,
+    'legend.fontsize': 36,
+    'xtick.labelsize': 36,
+    'ytick.labelsize': 36,
     'text.usetex': False,
-    'figure.figsize': [10, 6],
+    'figure.figsize': [12, 10],
     'legend.loc': 'best'
 }
 rcParams.update(params)
 
 linestyles = ['--', '-.', '-', ':']
 markers = ['*', '^', 'o', 's']
-markersizes = [15, 12, 12, 12]
+# markersizes = [15, 12, 12, 12]
+markersizes = [30, 24, 24, 24]
 
 
 all_types = ["SmartNIC", "NetBricks", "SafeBricks"]
