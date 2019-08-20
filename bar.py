@@ -370,6 +370,90 @@ def draw_l_bar_for_core_ipsec_16_1(_ipsec):
 
 
 
+
+# NB&SB -> 1core, NIC -> 8cores and 1core
+def get_t_draw_data_vary_task_1811(_type, _ipsec, _trace, _core):
+    data_vec = list()
+    for _task in all_tasks:
+        data_vec.append(t_val_med[_type][_task][_ipsec][_trace][_core])
+    # print(data_vec)
+    return data_vec
+
+# NB&SB -> 1core, NIC -> 8cores and 1core    
+def draw_t_bar_for_core_ipsec_1811(_ipsec):
+    N = len(all_tasks)
+    ind = np.arange(N) * 10 + 10    # the x locations for the groups    
+    width = 6.0/len(all_types)       # the width of the bars: can also be len(x) sequence
+
+    cnt = 0
+    legends = list()
+    for _type in all_types:
+        data_vec = get_t_draw_data_vary_task_1811(_type, _ipsec, "64B", "1")
+        p1 = plt.bar(ind + width * (cnt - (len(all_types) + 1) / 2.0 + 0.5), data_vec, width, color=colors[cnt], edgecolor = 'k', align="center")
+        legends.append(p1)
+        cnt += 1
+    
+        if _type == "SmartNIC":
+            data_vec = get_t_draw_data_vary_task_1811(_type, _ipsec, "64B", "8")
+            p1 = plt.bar(ind + width * (cnt - (len(all_types) + 1) / 2.0 + 0.5), data_vec, width, color=colors[cnt], edgecolor = 'k', align="center")
+            legends.append(p1)
+            cnt += 1
+    
+    plt.legend(legends, ["SmartNIC - 1 core", "SmartNIC - 8 core", "NetBricks - 1 core", "SafeBricks - 1 core"])
+    plt.ylabel('Throughput (Mpps)')
+    plt.xticks(ind, all_tasks)
+    plt.savefig('./figures/bar/nic1_8-nb1/t_bar_1811_cores_%s.pdf' % (_ipsec,))
+    plt.clf()
+
+
+
+# NB&SB -> 1core, NIC -> 8cores and 1core
+def get_l_draw_data_vary_task_1811(_type, _ipsec, _trace, _core):
+    data_vec_avg = list()
+    data_vec_tail = list()
+    for _task in all_tasks:
+        data_vec_avg.append(avg_l_val_med[_type][_task][_ipsec][_trace][_core])
+        data_vec_tail.append(tail_l_val_med[_type][_task][_ipsec][_trace][_core])
+    return data_vec_avg, data_vec_tail
+
+# NB&SB -> 1core, NIC -> 8cores and 1core    
+def draw_l_bar_for_core_ipsec_1811(_ipsec):
+    N = len(all_tasks)
+    ind = np.arange(N) * 10 + 10    # the x locations for the groups    
+    width = 6.0/len(all_types)       # the width of the bars: can also be len(x) sequence
+
+    cnt = 0
+    legends = list()
+    for _type in all_types:
+        data_vec_avg, data_vec_tail = get_l_draw_data_vary_task_1811(_type, _ipsec, "64B", "1")
+        yerr = np.zeros((2, len(data_vec_avg)))
+        yerr[0, :] = np.array(data_vec_avg) - np.array(data_vec_avg)
+        yerr[1, :] = np.array(data_vec_tail) - np.array(data_vec_avg)
+        
+        p1 = plt.bar(ind + width * (cnt - (len(all_types) + 1) / 2.0 + 0.5), data_vec_avg, width, yerr=yerr, color=colors[cnt], edgecolor = 'k', ecolor='k', align="center")
+        legends.append(p1)
+        cnt += 1
+
+        if _type == "SmartNIC":
+            data_vec_avg, data_vec_tail = get_l_draw_data_vary_task_1811(_type, _ipsec, "64B", "8")
+            yerr = np.zeros((2, len(data_vec_avg)))
+            yerr[0, :] = np.array(data_vec_avg) - np.array(data_vec_avg)
+            yerr[1, :] = np.array(data_vec_tail) - np.array(data_vec_avg)
+            
+            p1 = plt.bar(ind + width * (cnt - (len(all_types) + 1) / 2.0 + 0.5), data_vec_avg, width, yerr=yerr, color=colors[cnt], edgecolor = 'k', ecolor='k', align="center")
+            legends.append(p1)
+            cnt += 1
+
+    
+    plt.legend(legends, ["SmartNIC - 1 core", "SmartNIC - 8 core", "NetBricks - 1 core", "SafeBricks - 1 core"])
+    plt.ylabel('Avg. and 99th tail latency (microsecond)')
+    plt.xticks(ind, all_tasks)
+    plt.savefig('./figures/bar/nic1_8-nb1/l_bar_1811_cores_%s.pdf' % (_ipsec,))
+    plt.clf()
+
+
+
+
 if __name__ == '__main__':
     data_load("./rawdata/nic")
     data_load("./rawdata/nb")
@@ -380,6 +464,8 @@ if __name__ == '__main__':
     for _ipsec in all_ipsecs:
         draw_l_bar_for_core_ipsec_16_1(_ipsec)
         draw_t_bar_for_core_ipsec_16_1(_ipsec)
+        draw_l_bar_for_core_ipsec_1811(_ipsec)
+        draw_t_bar_for_core_ipsec_1811(_ipsec)
         for _core in all_cores:
             draw_t_bar_for_core_ipsec(_core, _ipsec)
             draw_l_bar_for_core_ipsec(_core, _ipsec)
