@@ -15,13 +15,13 @@ bmap = brewer2mpl.get_map('Dark2', 'qualitative', 6)
 colors = bmap.mpl_colors
  
 params = {
-    'axes.labelsize': 18,
-    'font.size': 18,
-    'legend.fontsize': 18,
-    'xtick.labelsize': 18,
-    'ytick.labelsize': 18,
+    'axes.labelsize': 36,
+    'font.size': 36,
+    'legend.fontsize': 36,
+    'xtick.labelsize': 36,
+    'ytick.labelsize': 36,
     'text.usetex': False,
-    'figure.figsize': [10, 6],
+    'figure.figsize': [12, 10],
     'legend.loc': 'best'
 }
 rcParams.update(params)
@@ -29,6 +29,7 @@ rcParams.update(params)
 
 all_types = ["SmartNIC", "NetBricks", "SafeBricks"]
 all_tasks = ["Firewall", "DPI", "NAT", "Maglev", "LPM", "Monitor"]
+all_tasks_figure = ["FW", "DPI", "NAT", "Mag.", "LPM", "Mon."]
 all_ipsecs = ["no_ipsec", "gcm_ipsec", "sha_ipsec"]
 all_traces = ["ICTF", "64B", "256B", "512B", "1KB"]
 all_cores = ["1", "2", "4", "8", "16"]
@@ -254,7 +255,7 @@ def draw_t_bar_for_core_ipsec(_core, _ipsec):
     
     plt.legend(legends, all_types)
     plt.ylabel('Throughput (Mpps)')
-    plt.xticks(ind, all_tasks)
+    plt.xticks(ind, all_tasks_figure)
     plt.savefig('./figures/bar/throughput/t_bar_%scores_%s.pdf' % (_core, _ipsec))
     plt.clf()
 
@@ -291,7 +292,7 @@ def draw_l_bar_for_core_ipsec(_core, _ipsec):
                 
     plt.legend(legends, all_types)
     plt.ylabel('Avg. and 99th tail latency (microsecond)')
-    plt.xticks(ind, all_tasks)
+    plt.xticks(ind, all_tasks_figure)
     plt.savefig('./figures/bar/latency/l_bar_%scores_%s.pdf' % (_core, _ipsec))
     plt.clf()
 
@@ -323,9 +324,9 @@ def draw_t_bar_for_core_ipsec_16_1(_ipsec):
         legends.append(p1)
         cnt += 1
     
-    plt.legend(legends, ["SmartNIC (16 cores)", "NetBricks (1 core)", "SafeBricks (1 core)"])
+    plt.legend(legends, ["NIC-16C", "NB-1C", "SB-1C"])
     plt.ylabel('Throughput (Mpps)')
-    plt.xticks(ind, all_tasks)
+    plt.xticks(ind, all_tasks_figure)
     plt.savefig('./figures/bar/nic16-nb1/t_bar_16_1cores_%s.pdf' % (_ipsec,))
     plt.clf()
 
@@ -362,9 +363,9 @@ def draw_l_bar_for_core_ipsec_16_1(_ipsec):
         legends.append(p1)
         cnt += 1
     
-    plt.legend(legends, ["SmartNIC (16 cores)", "NetBricks (1 core)", "SafeBricks (1 core)"])
+    plt.legend(legends, ["NIC-16C", "NB-1C", "SB-1C"])
     plt.ylabel('Avg. and 99th tail latency (microsecond)')
-    plt.xticks(ind, all_tasks)
+    plt.xticks(ind, all_tasks_figure)
     plt.savefig('./figures/bar/nic16-nb1/l_bar_16_1cores_%s.pdf' % (_ipsec,))
     plt.clf()
 
@@ -383,7 +384,7 @@ def get_t_draw_data_vary_task_1811(_type, _ipsec, _trace, _core):
 def draw_t_bar_for_core_ipsec_1811(_ipsec, _trace):
     N = len(all_tasks)
     ind = np.arange(N) * 10 + 10    # the x locations for the groups    
-    width = 6.0/len(all_types)       # the width of the bars: can also be len(x) sequence
+    width = 5.0/len(all_types)       # the width of the bars: can also be len(x) sequence
 
     cnt = 0
     legends = list()
@@ -399,9 +400,9 @@ def draw_t_bar_for_core_ipsec_1811(_ipsec, _trace):
             legends.append(p1)
             cnt += 1
     
-    plt.legend(legends, ["SmartNIC - 1 core", "SmartNIC - 8 core", "NetBricks - 1 core", "SafeBricks - 1 core"])
+    plt.legend(legends, ["NIC-1C", "NIC-8C", "NB-1C", "SB-1C"])
     plt.ylabel('Throughput (Mpps)')
-    plt.xticks(ind, all_tasks)
+    plt.xticks(ind, all_tasks_figure)
     plt.savefig('./figures/bar/nic1_8-nb1/t_bar_1811_%s_cores_%s.pdf' % (_trace, _ipsec))
     plt.clf()
 
@@ -420,7 +421,7 @@ def get_l_draw_data_vary_task_1811(_type, _ipsec, _trace, _core):
 def draw_l_bar_for_core_ipsec_1811(_ipsec, _trace):
     N = len(all_tasks)
     ind = np.arange(N) * 10 + 10    # the x locations for the groups    
-    width = 6.0/len(all_types)       # the width of the bars: can also be len(x) sequence
+    width = 5.0/len(all_types)       # the width of the bars: can also be len(x) sequence
 
     cnt = 0
     legends = list()
@@ -445,9 +446,9 @@ def draw_l_bar_for_core_ipsec_1811(_ipsec, _trace):
             cnt += 1
 
     
-    plt.legend(legends, ["SmartNIC - 1 core", "SmartNIC - 8 core", "NetBricks - 1 core", "SafeBricks - 1 core"])
+    plt.legend(legends, ["NIC-1C", "NIC-8C", "NB-1C", "SB-1C"])
     plt.ylabel('Avg. and 99th tail latency (microsecond)')
-    plt.xticks(ind, all_tasks)
+    plt.xticks(ind, all_tasks_figure)
     plt.savefig('./figures/bar/nic1_8-nb1/l_bar_1811_%s_cores_%s.pdf' % (_trace, _ipsec))
     plt.clf()
 
