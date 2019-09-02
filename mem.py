@@ -23,7 +23,7 @@ params = {
     'xtick.labelsize': 18,
     'ytick.labelsize': 18,
     'text.usetex': False,
-    'figure.figsize': [10, 6],
+    'figure.figsize': [12, 4],
     'legend.loc': 'best'
 }
 rcParams.update(params)
@@ -172,6 +172,7 @@ if __name__ == '__main__':
     plt.ylabel("Memory usage (MB)")
     plt.xticks(ind[::1500], ind[::1500] / 100)
     plt.xlabel("Time (s)")
+    plt.tight_layout()
     plt.savefig('./figures/mem/mem_time_%s_%s.pdf' % ("monitoring-ipsec", "caida_chunk0"))
     plt.clf()
 
