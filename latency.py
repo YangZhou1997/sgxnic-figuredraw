@@ -30,7 +30,7 @@ params = {
 }
 rcParams.update(params)
 
-legends = ["Accessing TLBs\&Configs", "Blacklist/Whitelist", "SHA256 Digest", "Memory Scrub"]
+legends = ["Reading TLB\&Config.", "Blacklist/Whitelist", "SHA-256 Digesting", "Memory Scrubing"]
 nfs = ["FW", "DPI", "NAT", "Mag.", "LPM", "Mon."]
 def format_func(value, tick_number):
     return nfs[tick_number]
@@ -88,8 +88,8 @@ if __name__ == '__main__':
     
 
     ax2 = plt.subplot(122)
-    p1 = ax2.bar(ind, latencies[:, 0][1::2], width, bottom=latencies[:, 1][1::2]+latencies[:, 2][1::2], color=colors[0], align="center")
-    p2 = ax2.bar(ind, latencies[:, 1][1::2], width, bottom=latencies[:, 2][1::2], color=colors[1], align="center")
+    p1 = ax2.bar(ind, latencies[:, 0][1::2], width, label=legends[0], bottom=latencies[:, 1][1::2]+latencies[:, 2][1::2], color=colors[0], align="center")
+    p2 = ax2.bar(ind, latencies[:, 1][1::2], width, label=legends[1], bottom=latencies[:, 2][1::2], color=colors[1], align="center")
     p4 = ax2.bar(ind, latencies[:, 2][1::2], width, label=legends[3], color=colors[3], align="center")
     
     ax2.set_title(r"\textsf{nf\_destroy}")
@@ -104,9 +104,14 @@ if __name__ == '__main__':
     # ax2.xticks(rotation = 35, ha="right", rotation_mode="anchor")
     
     
-    lines_labels = [ax1.get_legend_handles_labels(), ax2.get_legend_handles_labels()]
+    lines_labels = [ax1.get_legend_handles_labels()]
     lines, labels = [sum(lol, []) for lol in zip(*lines_labels)]
     ax1.legend(lines, labels)
+
+    lines_labels = [ax2.get_legend_handles_labels()]
+    lines, labels = [sum(lol, []) for lol in zip(*lines_labels)]
+    ax2.legend(lines, labels)
+
     plt.tight_layout()
 
     plt.savefig('figures/ins_latency/ins_latency.pdf')
