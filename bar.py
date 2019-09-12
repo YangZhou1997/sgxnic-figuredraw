@@ -27,6 +27,8 @@ params = {
 }
 rcParams.update(params)
 
+dx = 0/72.; dy = -15/72. 
+offset = matplotlib.transforms.ScaledTranslation(dx, dy, plt.gcf().dpi_scale_trans)
 
 all_types = ["SmartNIC", "NetBricks", "SafeBricks"]
 all_tasks = ["Firewall", "DPI", "NAT", "Maglev", "LPM", "Monitor"]
@@ -257,6 +259,11 @@ def draw_t_bar_for_core_ipsec(_core, _ipsec):
     plt.legend(legends, all_types)
     plt.ylabel('Throughput (Mpps)')
     plt.xticks(ind, all_tasks_figure)
+    # apply offset transform to all x ticklabels.
+    for label in plt.axes().xaxis.get_majorticklabels():
+        label.set_transform(label.get_transform() + offset)
+
+    plt.tight_layout()
     plt.savefig('./figures/bar/throughput/t_bar_%scores_%s.pdf' % (_core, _ipsec))
     plt.clf()
 
@@ -294,6 +301,12 @@ def draw_l_bar_for_core_ipsec(_core, _ipsec):
     plt.legend(legends, all_types)
     plt.ylabel('Avg. and 99th tail latency (microsecond)')
     plt.xticks(ind, all_tasks_figure)
+        
+    # apply offset transform to all x ticklabels.
+    for label in plt.axes().xaxis.get_majorticklabels():
+        label.set_transform(label.get_transform() + offset)
+
+    plt.tight_layout()
     plt.savefig('./figures/bar/latency/l_bar_%scores_%s.pdf' % (_core, _ipsec))
     plt.clf()
 
@@ -328,6 +341,12 @@ def draw_t_bar_for_core_ipsec_16_1(_ipsec):
     plt.legend(legends, ["NIC-16C", "NB-1C", "SB-1C"])
     plt.ylabel('Throughput (Mpps)')
     plt.xticks(ind, all_tasks_figure)
+        
+    # apply offset transform to all x ticklabels.
+    for label in plt.axes().xaxis.get_majorticklabels():
+        label.set_transform(label.get_transform() + offset)
+
+    plt.tight_layout()
     plt.savefig('./figures/bar/nic16-nb1/t_bar_16_1cores_%s.pdf' % (_ipsec,))
     plt.clf()
 
@@ -367,6 +386,12 @@ def draw_l_bar_for_core_ipsec_16_1(_ipsec):
     plt.legend(legends, ["NIC-16C", "NB-1C", "SB-1C"])
     plt.ylabel('Avg. and 99th tail latency (microsecond)')
     plt.xticks(ind, all_tasks_figure)
+        
+    # apply offset transform to all x ticklabels.
+    for label in plt.axes().xaxis.get_majorticklabels():
+        label.set_transform(label.get_transform() + offset)
+
+    plt.tight_layout()
     plt.savefig('./figures/bar/nic16-nb1/l_bar_16_1cores_%s.pdf' % (_ipsec,))
     plt.clf()
 
@@ -404,6 +429,12 @@ def draw_t_bar_for_core_ipsec_1811(_ipsec, _trace):
     plt.legend(legends, ["NIC-1C", "NIC-8C", "NB-1C", "SB-1C"])
     plt.ylabel('Throughput (Mpps)')
     plt.xticks(ind, all_tasks_figure)
+        
+    # apply offset transform to all x ticklabels.
+    for label in plt.axes().xaxis.get_majorticklabels():
+        label.set_transform(label.get_transform() + offset)
+
+    plt.tight_layout()
     plt.savefig('./figures/bar/nic1_8-nb1/t_bar_1811_%s_cores_%s.pdf' % (_trace, _ipsec))
     plt.clf()
 
@@ -450,6 +481,11 @@ def draw_l_bar_for_core_ipsec_1811(_ipsec, _trace):
     plt.legend(legends, ["NIC-1C", "NIC-8C", "NB-1C", "SB-1C"])
     plt.ylabel('Avg. and 99th tail latency (microsecond)')
     plt.xticks(ind, all_tasks_figure)
+        
+    # apply offset transform to all x ticklabels.
+    for label in plt.axes().xaxis.get_majorticklabels():
+        label.set_transform(label.get_transform() + offset)
+    plt.tight_layout()
     plt.savefig('./figures/bar/nic1_8-nb1/l_bar_1811_%s_cores_%s.pdf' % (_trace, _ipsec))
     plt.clf()
 

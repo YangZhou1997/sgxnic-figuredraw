@@ -177,11 +177,16 @@ if __name__ == '__main__':
     # plt.legend([p1], ["Memory usage vs. time"])
     plt.ylabel("Memory usage (MB)")
     plt.xticks(ind[::1500], ind[::1500] / 100)
+
+    dx = 0/72.; dy = -5/72. 
+    offset = matplotlib.transforms.ScaledTranslation(dx, dy, plt.gcf().dpi_scale_trans)    
+    # apply offset transform to all x ticklabels.
+    for label in plt.axes().xaxis.get_majorticklabels():
+        label.set_transform(label.get_transform() + offset)
+
     plt.xlabel("Time (s)")
     plt.tight_layout()
     plt.savefig('./figures/mem/mem_time_%s_%s.pdf' % ("monitoring-ipsec", "caida_chunk0"))
     plt.clf()
-
-
 
     file_out.close()

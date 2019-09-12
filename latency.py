@@ -76,6 +76,13 @@ if __name__ == '__main__':
     ax1.set_ylabel('Latency (ms)')
     ax1.set_xticks(ind)
     ax1.xaxis.set_major_formatter(plt.FuncFormatter(format_func))
+
+    dx = 0/72.; dy = -5/72. 
+    offset = matplotlib.transforms.ScaledTranslation(dx, dy, plt.gcf().dpi_scale_trans)    
+    # apply offset transform to all x ticklabels.
+    for label in ax1.xaxis.get_majorticklabels():
+        label.set_transform(label.get_transform() + offset)
+
     # plt.yticks(np.arange(0, 81, 10))
     # ax1.xticks(rotation = 35, ha="right", rotation_mode="anchor")
     
@@ -89,6 +96,10 @@ if __name__ == '__main__':
     ax2.set_ylabel('Latency (ms)')
     ax2.set_xticks(ind)
     ax2.xaxis.set_major_formatter(plt.FuncFormatter(format_func))
+
+    for label in ax2.xaxis.get_majorticklabels():
+        label.set_transform(label.get_transform() + offset)
+
     # ax2.yticks(np.arange(0, 81, 10))
     # ax2.xticks(rotation = 35, ha="right", rotation_mode="anchor")
     

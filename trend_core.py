@@ -31,6 +31,8 @@ markers = ['*', '^', 'o', 's']
 # markersizes = [15, 12, 12, 12]
 markersizes = [30, 24, 24, 24]
 
+dx = 0/72.; dy = -15/72. 
+offset = matplotlib.transforms.ScaledTranslation(dx, dy, plt.gcf().dpi_scale_trans)
 
 all_types = ["SmartNIC", "NetBricks", "SafeBricks"]
 all_tasks = ["Firewall", "DPI", "NAT", "Maglev", "LPM", "Monitor"]
@@ -192,7 +194,12 @@ def draw_t_trend_for_task_ipsec_trace(_task, _ipsec, _trace):
     plt.ylabel('Throughput (Mpps)')
     plt.xlabel('\# cores')
     plt.xticks(ind, all_cores)
+    # apply offset transform to all x ticklabels.
+    for label in plt.axes().xaxis.get_majorticklabels():
+        label.set_transform(label.get_transform() + offset)
+
     plt.axes().set_ylim(ymin=0)
+    plt.tight_layout()
     plt.savefig('./figures/trend_core/throughput/t_trend_core_%s_%s_%s.pdf' % (_task, _trace, _ipsec))
     plt.clf()
 
@@ -232,7 +239,12 @@ def draw_l_trend_for_task_ipsec_trace(_task, _ipsec, _trace):
     plt.ylabel('Avg. and 99th tail latency (microsecond)')
     plt.xlabel('\# cores')
     plt.xticks(ind, all_cores)
+    # apply offset transform to all x ticklabels.
+    for label in plt.axes().xaxis.get_majorticklabels():
+        label.set_transform(label.get_transform() + offset)
+
     plt.axes().set_ylim(ymin=0)
+    plt.tight_layout()
     plt.savefig('./figures/trend_core/latency/l_trend_core_%s_%s_%s.pdf' % (_task, _trace, _ipsec))
     plt.clf()
 
