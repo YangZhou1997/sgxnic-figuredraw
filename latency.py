@@ -107,6 +107,7 @@ if __name__ == '__main__':
     lines_labels = [ax1.get_legend_handles_labels(), ax2.get_legend_handles_labels()]
     lines, labels = [sum(lol, []) for lol in zip(*lines_labels)]
     ax1.legend(lines, labels)
+    plt.tight_layout()
 
     plt.savefig('figures/ins_latency/ins_latency.pdf')
     plt.clf()
