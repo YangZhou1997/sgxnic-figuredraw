@@ -4,6 +4,7 @@ import matplotlib
 matplotlib.use('Agg')
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
 from matplotlib import rcParams
 from collections import defaultdict
 import brewer2mpl
@@ -239,6 +240,11 @@ def draw_l_trend_for_task_core(_task, _core, _ipsec):
     
 
 if __name__ == '__main__':
+    plt.rc('text', usetex=True)
+    font = fm.FontProperties(
+       family = 'Gill Sans',
+       fname = '/usr/share/fonts/truetype/adf/GilliusADF-Regular.otf')
+
     data_load("./rawdata/nic")
     data_load("./rawdata/nb")
     data_load("./rawdata/sb")

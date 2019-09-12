@@ -4,6 +4,7 @@ import matplotlib
 matplotlib.use('Agg')
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
 from matplotlib import rcParams
 from collections import defaultdict
 import brewer2mpl
@@ -111,6 +112,11 @@ def get_draw_data_for_utli():
 # def
 
 if __name__ == '__main__':
+    plt.rc('text', usetex=True)
+    font = fm.FontProperties(
+       family = 'Gill Sans',
+       fname = '/usr/share/fonts/truetype/adf/GilliusADF-Regular.otf')
+
     load("./rawdata/mem")
 
     process_draw_data()

@@ -4,6 +4,7 @@ import matplotlib
 matplotlib.use('Agg')
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
 from matplotlib import rcParams
 from collections import defaultdict
 import brewer2mpl
@@ -189,7 +190,7 @@ def draw_t_trend_for_task_ipsec_trace(_task, _ipsec, _trace):
 
     plt.legend(legends, all_types)
     plt.ylabel('Throughput (Mpps)')
-    plt.xlabel('# cores')
+    plt.xlabel('\# cores')
     plt.xticks(ind, all_cores)
     plt.axes().set_ylim(ymin=0)
     plt.savefig('./figures/trend_core/throughput/t_trend_core_%s_%s_%s.pdf' % (_task, _trace, _ipsec))
@@ -229,7 +230,7 @@ def draw_l_trend_for_task_ipsec_trace(_task, _ipsec, _trace):
 
     plt.legend(legends, all_types)
     plt.ylabel('Avg. and 99th tail latency (microsecond)')
-    plt.xlabel('# cores')
+    plt.xlabel('\# cores')
     plt.xticks(ind, all_cores)
     plt.axes().set_ylim(ymin=0)
     plt.savefig('./figures/trend_core/latency/l_trend_core_%s_%s_%s.pdf' % (_task, _trace, _ipsec))
@@ -238,6 +239,11 @@ def draw_l_trend_for_task_ipsec_trace(_task, _ipsec, _trace):
     
 
 if __name__ == '__main__':
+    plt.rc('text', usetex=True)
+    font = fm.FontProperties(
+       family = 'Gill Sans',
+       fname = '/usr/share/fonts/truetype/adf/GilliusADF-Regular.otf')
+
     data_load("./rawdata/nic")
     data_load("./rawdata/nb")
     data_load("./rawdata/sb")
