@@ -277,7 +277,7 @@ def draw_t_trend_for_task_core_6nfs(_ipsec, _trace):
         cnt += 1
 
 
-    plt.legend(legends, all_tasks, ncol=2)
+    plt.legend(legends, all_tasks_legend, ncol=2)
     plt.ylabel('Throughput (Mpps)')
     plt.xlabel('Packet size')
     plt.xticks(ind, all_traces)
