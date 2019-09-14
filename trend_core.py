@@ -22,20 +22,21 @@ params = {
     'ytick.labelsize': 36,
     'text.usetex': False,
     'figure.figsize': [12, 8],
-    'legend.loc': 'best'
+    'legend.loc': 'best', 
+    'legend.columnspacing': 1
 }
 rcParams.update(params)
 
-linestyles = ['--', '-.', '-', ':']
-markers = ['*', '^', 'o', 's']
-# markersizes = [15, 12, 12, 12]
-markersizes = [30, 24, 24, 24]
+linestyles = ['--', '-.', '-', ':', (0, (3, 5, 1, 5, 1, 5)), (0, (3, 1, 1, 1))]
+markers = ['*', '^', 'o', 'P', 'p', 'v']
+markersizes = [30, 24, 24, 24, 24, 24]
 
 dx = 0/72.; dy = -15/72. 
 offset = matplotlib.transforms.ScaledTranslation(dx, dy, plt.gcf().dpi_scale_trans)
 
 all_types = ["SmartNIC", "NetBricks", "SafeBricks"]
 all_tasks = ["Firewall", "DPI", "NAT", "Maglev", "LPM", "Monitor"]
+all_tasks_legend = ["FW", "DPI", "NAT", "Mag.", "LPM", "Mon."]
 all_ipsecs = ["no_ipsec", "gcm_ipsec", "sha_ipsec"]
 all_traces = ["ICTF", "64B", "256B", "512B", "1KB"]
 all_cores = ["1", "2", "4", "8", "16"]
@@ -250,6 +251,43 @@ def draw_l_trend_for_task_ipsec_trace(_task, _ipsec, _trace):
 
     
 
+
+def get_t_draw_data_vary_core_6nfs(_type, _task, _ipsec, _trace):
+    data_vec = list()
+    for _core in all_cores:
+        data_vec.append(t_val_med[_type][_task][_ipsec][_trace][_core])
+    return data_vec
+
+def draw_t_trend_for_ipsec_trace_6nfs(_ipsec, _trace):
+    N = len(all_cores)
+    ind = np.arange(N) * 10 + 10    # the x locations for the groups    
+    width = 6.0/len(all_tasks)       # the width of the bars: can also be len(x) sequence
+
+    cnt = 0
+    legends = list()
+    for _task in all_tasks:
+        data_vec = get_t_draw_data_vary_core_6nfs("SmartNIC", _task, _ipsec, _trace)
+        p1, = plt.plot(ind, data_vec, linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt],
+            color=colors[cnt], linewidth=3)
+
+        legends.append(p1)
+        cnt += 1
+
+    plt.legend(legends, all_tasks_legend, ncol=2)
+    plt.ylabel('Throughput (Mpps)')
+    plt.xlabel('\# cores')
+    plt.xticks(ind, all_cores)
+    # apply offset transform to all x ticklabels.
+    for label in plt.axes().xaxis.get_majorticklabels():
+        label.set_transform(label.get_transform() + offset)
+    # plt.yscale('log')
+
+    plt.axes().set_ylim(ymin=0)
+    plt.tight_layout()
+    plt.savefig('./figures/trend_core/sixnfs/t_trend_core_%s_%s.pdf' % (_trace, _ipsec))
+    plt.clf()
+
+
 if __name__ == '__main__':
     plt.rc('text', usetex=True)
     font = fm.FontProperties(
@@ -262,8 +300,11 @@ if __name__ == '__main__':
 
     process_draw_data()
 
-    for _ipsec in all_ipsecs:
-        for _trace in all_traces:
-            for _task in all_tasks:
-                draw_t_trend_for_task_ipsec_trace(_task, _ipsec, _trace)
-                draw_l_trend_for_task_ipsec_trace(_task, _ipsec, _trace)
+    # for _ipsec in all_ipsecs:
+    #     for _trace in all_traces:
+    #         for _task in all_tasks:
+    #             draw_t_trend_for_task_ipsec_trace(_task, _ipsec, _trace)
+    #             draw_l_trend_for_task_ipsec_trace(_task, _ipsec, _trace)
+
+
+    draw_t_trend_for_ipsec_trace_6nfs("gcm_ipsec", "64B")
