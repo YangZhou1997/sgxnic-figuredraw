@@ -36,7 +36,7 @@ offset = matplotlib.transforms.ScaledTranslation(dx, dy, plt.gcf().dpi_scale_tra
 
 all_types = ["SmartNIC", "NetBricks", "SafeBricks"]
 all_tasks = ["Firewall", "DPI", "NAT", "Maglev", "LPM", "Monitor"]
-all_tasks_legend = ["FW", "DPI", "NAT", "Mag.", "LPM", "Mon."]
+all_tasks_legend = ["FW", "DPI", "NAT", "LB", "LPM", "Mon."]
 all_ipsecs = ["no_ipsec", "gcm_ipsec", "sha_ipsec"]
 all_traces = ["ICTF", "64B", "256B", "512B", "1KB"]
 all_cores = ["1", "2", "4", "8", "16"]

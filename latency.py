@@ -31,7 +31,7 @@ params = {
 rcParams.update(params)
 
 legends = ["Reading TLB\&Config.", "Blacklist/Whitelist", "SHA-256 Digesting", "Memory Scrubing"]
-nfs = ["FW", "DPI", "NAT", "Mag.", "LPM", "Mon."]
+nfs = ["FW", "DPI", "NAT", "LB", "LPM", "Mon."]
 def format_func(value, tick_number):
     return nfs[tick_number]
     
