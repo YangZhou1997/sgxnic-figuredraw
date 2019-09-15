@@ -272,6 +272,7 @@ def draw_t_trend_for_task_core_6nfs(_ipsec, _trace):
         data_vec = get_t_draw_data_vary_trace_6nfs("SmartNIC", _task, _ipsec, "1")
         p1, = plt.plot(ind, data_vec, linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt],
             color=colors[cnt], linewidth=3)
+        print(str(all_tasks_legend[cnt]) + ": " + str(data_vec))        
 
         legends.append(p1)
         cnt += 1

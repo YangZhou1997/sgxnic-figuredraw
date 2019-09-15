@@ -516,10 +516,12 @@ def draw_t_bar_for_core_ipsec_811(_ipsec, _trace):
             data_vec = get_t_draw_data_vary_task_811(_type, _ipsec, _trace, "1")
         p1 = plt.bar(ind + width * (cnt - (len(all_types)) / 2.0 + 0.5), data_vec, width, color=colors[cnt], edgecolor = 'k', align="center")
         legends.append(p1)
+        if _ipsec != "no_ipsec":
+            print(str(all_types[cnt]) + " " + _trace + " " + _ipsec + ": " + str(data_vec))
         cnt += 1
     
         
-    plt.legend(legends, ["SmartNIC", "NetBricks", "SafeBricks"])
+    plt.legend(legends, all_types)
     plt.ylabel('Throughput (Mpps)')
     plt.xticks(ind, all_tasks_figure)
         
