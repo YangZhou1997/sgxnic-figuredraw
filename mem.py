@@ -165,9 +165,9 @@ if __name__ == '__main__':
     max_mem_usage = max(mem_time)
     max_mem_time = mem_time.index(max_mem_usage)
 
-    plt.axes().annotate('The minimum size of\n statically allocated memory', xy=(max_mem_time, max_mem_usage), xytext=(max_mem_time - 3500, max_mem_usage - 100), 
+    plt.axes().annotate('The minimum size of\n preallocated memory', xy=(max_mem_time, max_mem_usage), xytext=(max_mem_time - 3500, max_mem_usage - 100), 
             arrowprops=dict(facecolor='black', shrink=0.05), horizontalalignment='right', verticalalignment='bottom',)
-
+    
     last_mem_usage = mem_time[-1]
     last_mem_time = len(mem_time) - 1
 
