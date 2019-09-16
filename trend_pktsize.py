@@ -312,3 +312,4 @@ if __name__ == '__main__':
     #             draw_l_trend_for_task_core(_task, _core, _ipsec)
 
     draw_t_trend_for_task_core_6nfs("gcm_ipsec", "64B")
+    draw_t_trend_for_task_core_6nfs("sha_ipsec", "64B")

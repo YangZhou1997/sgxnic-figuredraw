@@ -309,3 +309,4 @@ if __name__ == '__main__':
 
 
     draw_t_trend_for_ipsec_trace_6nfs("gcm_ipsec", "64B")
+    draw_t_trend_for_ipsec_trace_6nfs("sha_ipsec", "64B")
