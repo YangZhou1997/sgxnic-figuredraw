@@ -29,9 +29,9 @@ params = {
 }
 rcParams.update(params)
 
-all_tasks = ["acl-fw-ipsec", "dpi-ipsec", "lpm-ipsec", "maglev-ipsec", "monitoring-ipsec", "nat-tcp-v4-ipsec"]
+all_tasks = ["acl-fw-ipsec", "dpi-ipsec", "nat-tcp-v4-ipsec", "maglev-ipsec", "lpm-ipsec", "monitoring-ipsec"]
 
-tasks = ["acl-fw-ipsec", "dpi-ipsec", "lpm-ipsec", "maglev-ipsec", "nat-tcp-v4-ipsec"]
+tasks = ["acl-fw-ipsec", "dpi-ipsec", "nat-tcp-v4-ipsec", "maglev-ipsec", "lpm-ipsec"]
 pktgen_types = ["ICTF_IPSEC", "CAIDA64_IPSEC", "CAIDA256_IPSEC", "CAIDA512_IPSEC", "CAIDA1024_IPSEC"]
 
 tasks_mon = ["monitoring-ipsec"]
@@ -77,13 +77,16 @@ def load(fileDir):
 # then process data to get graph drawing data
 def process_draw_data():
     for task in all_tasks:
+
         mem_val_min[task] = np.percentile(mem_val[task], 5)
         mem_val_med[task] = np.median(mem_val[task])
-        mem_val_max[task] = np.percentile(mem_val[task], 95)
+        mem_val_max[task] = max(mem_val[task])
+        # mem_val_max[task] = np.percentile(mem_val[task], 95)
 
         utli_ratio_min[task] = np.percentile(utli_ratio[task], 5)
         utli_ratio_med[task] = np.median(utli_ratio[task])
-        utli_ratio_max[task] = np.percentile(utli_ratio[task], 95)
+        utli_ratio_max[task] = utli_ratio[task][mem_val[task].index(mem_val_max[task])]
+        # utli_ratio_max[task] = np.percentile(utli_ratio[task], 95)
 
 # next, get maxmem vector indexed by task
 def get_draw_data_for_maxmem():
@@ -141,6 +144,7 @@ if __name__ == '__main__':
     plt.savefig('./figures/mem/maxmem.pdf')
     plt.clf()
 
+    t_vec_min_temp, t_vec_med_temp, t_vec_max_temp = t_vec_min, t_vec_med, t_vec_max
 
     t_vec_min, t_vec_med, t_vec_max = get_draw_data_for_utli()
     yerr = np.zeros((2, len(t_vec_min)))
@@ -155,8 +159,14 @@ if __name__ == '__main__':
     plt.savefig('./figures/mem/memratio.pdf')
     plt.clf()
 
+    for i in range(len(t_vec_max_temp)):
+        print(t_vec_max_temp[i] * (1 - t_vec_max[i]), t_vec_max_temp[i], 1 - t_vec_max[i])
 
-    mem_time = mem_time_all["monitoring-ipsec"][0]
+    mem_val_max_dpi = max(mem_val["monitoring-ipsec"])
+    mem_val_max_dpi_index = mem_val["monitoring-ipsec"].index(mem_val_max_dpi)
+    print(mem_val_max_dpi_index)
+
+    mem_time = mem_time_all["monitoring-ipsec"][mem_val_max_dpi_index]
     length_mem_time = len(mem_time)
     # print mem_time
     ind = np.arange(length_mem_time)
