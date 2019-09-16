@@ -505,7 +505,7 @@ def get_t_draw_data_vary_task_811(_type, _ipsec, _trace, _core):
     return data_vec
 
 # NB&SB -> 1core, NIC -> 8cores and 1core    
-def draw_t_bar_for_core_ipsec_811(_ipsec, _trace):
+def draw_t_bar_for_core_ipsec_811(_ipsec, _trace, _nic_core_num):
     N = len(all_tasks)
     ind = np.arange(N) * 10 + 10    # the x locations for the groups    
     width = 5.0/len(all_types)       # the width of the bars: can also be len(x) sequence
@@ -516,7 +516,7 @@ def draw_t_bar_for_core_ipsec_811(_ipsec, _trace):
     legends = list()
     for _type in all_types:
         if _type == "SmartNIC":
-            data_vec = get_t_draw_data_vary_task_811(_type, _ipsec, _trace, "8")
+            data_vec = get_t_draw_data_vary_task_811(_type, _ipsec, _trace, _nic_core_num)
         else:
             data_vec = get_t_draw_data_vary_task_811(_type, _ipsec, _trace, "1")
         max_y_val = max(max_y_val, max(data_vec))
@@ -539,7 +539,7 @@ def draw_t_bar_for_core_ipsec_811(_ipsec, _trace):
         label.set_transform(label.get_transform() + offset)
 
     plt.tight_layout()
-    plt.savefig('./figures/bar/nic8-nb1/t_bar_811_%s_cores_%s.pdf' % (_trace, _ipsec))
+    plt.savefig('./figures/bar/nic8-nb1/t_bar_%s11_%s_cores_%s.pdf' % (_nic_core_num, _trace, _ipsec))
     plt.clf()
 
 
@@ -554,7 +554,7 @@ def get_l_draw_data_vary_task_811(_type, _ipsec, _trace, _core):
     return data_vec_avg, data_vec_tail
 
 # NB&SB -> 1core, NIC -> 8cores    
-def draw_l_bar_for_core_ipsec_811(_ipsec, _trace):
+def draw_l_bar_for_core_ipsec_811(_ipsec, _trace, _nic_core_num):
     N = len(all_tasks)
     ind = np.arange(N) * 10 + 10    # the x locations for the groups    
     width = 5.0/len(all_types)       # the width of the bars: can also be len(x) sequence
@@ -563,7 +563,7 @@ def draw_l_bar_for_core_ipsec_811(_ipsec, _trace):
     legends = list()
     for _type in all_types:
         if _type == "SmartNIC":
-            data_vec_avg, data_vec_tail = get_l_draw_data_vary_task_811(_type, _ipsec, _trace, "8")
+            data_vec_avg, data_vec_tail = get_l_draw_data_vary_task_811(_type, _ipsec, _trace, _nic_core_num)
         else:
             data_vec_avg, data_vec_tail = get_l_draw_data_vary_task_811(_type, _ipsec, _trace, "1")
         yerr = np.zeros((2, len(data_vec_avg)))
@@ -583,7 +583,7 @@ def draw_l_bar_for_core_ipsec_811(_ipsec, _trace):
     for label in plt.axes().xaxis.get_majorticklabels():
         label.set_transform(label.get_transform() + offset)
     plt.tight_layout()
-    plt.savefig('./figures/bar/nic8-nb1/l_bar_811_%s_cores_%s.pdf' % (_trace, _ipsec))
+    plt.savefig('./figures/bar/nic8-nb1/l_bar_%s11_%s_cores_%s.pdf' % (_nic_core_num, _trace, _ipsec))
     plt.clf()
 
 
@@ -608,10 +608,13 @@ if __name__ == '__main__':
         # draw_t_bar_for_core_ipsec_1811(_ipsec, "64B")
         # draw_l_bar_for_core_ipsec_1811(_ipsec, "ICTF")
         # draw_t_bar_for_core_ipsec_1811(_ipsec, "ICTF")
-        # draw_l_bar_for_core_ipsec_811(_ipsec, "64B")
-        draw_t_bar_for_core_ipsec_811(_ipsec, "64B")
-        # draw_l_bar_for_core_ipsec_811(_ipsec, "ICTF")
-        draw_t_bar_for_core_ipsec_811(_ipsec, "ICTF")
+
+        draw_t_bar_for_core_ipsec_811(_ipsec, "64B", "1")
+        draw_t_bar_for_core_ipsec_811(_ipsec, "ICTF", "1")
+
+        draw_t_bar_for_core_ipsec_811(_ipsec, "64B", "8")
+        draw_t_bar_for_core_ipsec_811(_ipsec, "ICTF", "8")
+        
         # for _core in all_cores:
         #     draw_t_bar_for_core_ipsec(_core, _ipsec)
         #     draw_l_bar_for_core_ipsec(_core, _ipsec)
