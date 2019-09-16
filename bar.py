@@ -23,7 +23,10 @@ params = {
     'ytick.labelsize': 36,
     'text.usetex': False,
     'figure.figsize': [12, 8],
-    'legend.loc': 'upper right'
+    'legend.loc': 'upper center',
+    'legend.columnspacing': 0.8,
+    'legend.handlelength'  : 1.0,
+    'legend.handletextpad' : 0.4
 }
 rcParams.update(params)
 
@@ -507,6 +510,8 @@ def draw_t_bar_for_core_ipsec_811(_ipsec, _trace):
     ind = np.arange(N) * 10 + 10    # the x locations for the groups    
     width = 5.0/len(all_types)       # the width of the bars: can also be len(x) sequence
 
+    max_y_val = 0
+
     cnt = 0
     legends = list()
     for _type in all_types:
@@ -514,6 +519,7 @@ def draw_t_bar_for_core_ipsec_811(_ipsec, _trace):
             data_vec = get_t_draw_data_vary_task_811(_type, _ipsec, _trace, "8")
         else:
             data_vec = get_t_draw_data_vary_task_811(_type, _ipsec, _trace, "1")
+        max_y_val = max(max_y_val, max(data_vec))
         p1 = plt.bar(ind + width * (cnt - (len(all_types)) / 2.0 + 0.5), data_vec, width, color=colors[cnt], edgecolor = 'k', align="center")
         legends.append(p1)
         if _ipsec != "no_ipsec":
@@ -521,10 +527,13 @@ def draw_t_bar_for_core_ipsec_811(_ipsec, _trace):
         cnt += 1
     
         
-    plt.legend(legends, all_types)
+    plt.legend(legends, all_types, ncol=3)
     plt.ylabel('Throughput (Mpps)')
     plt.xticks(ind, all_tasks_figure)
         
+    plt.axes().set_ylim(ymin=0, ymax=max_y_val * 1.25)
+
+
     # apply offset transform to all x ticklabels.
     for label in plt.axes().xaxis.get_majorticklabels():
         label.set_transform(label.get_transform() + offset)
@@ -599,9 +608,9 @@ if __name__ == '__main__':
         # draw_t_bar_for_core_ipsec_1811(_ipsec, "64B")
         # draw_l_bar_for_core_ipsec_1811(_ipsec, "ICTF")
         # draw_t_bar_for_core_ipsec_1811(_ipsec, "ICTF")
-        draw_l_bar_for_core_ipsec_811(_ipsec, "64B")
+        # draw_l_bar_for_core_ipsec_811(_ipsec, "64B")
         draw_t_bar_for_core_ipsec_811(_ipsec, "64B")
-        draw_l_bar_for_core_ipsec_811(_ipsec, "ICTF")
+        # draw_l_bar_for_core_ipsec_811(_ipsec, "ICTF")
         draw_t_bar_for_core_ipsec_811(_ipsec, "ICTF")
         # for _core in all_cores:
         #     draw_t_bar_for_core_ipsec(_core, _ipsec)

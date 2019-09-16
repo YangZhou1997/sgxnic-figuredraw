@@ -286,7 +286,7 @@ def draw_t_trend_for_task_core_6nfs(_ipsec, _trace):
     for label in plt.axes().xaxis.get_majorticklabels():
         label.set_transform(label.get_transform() + offset)
 
-    plt.axes().set_ylim(ymin=0, ymax=0.8)
+    plt.axes().set_ylim(ymin=0)
     plt.tight_layout()
     plt.savefig('./figures/trend_pktsize/sixnfs/t_trend_pktsize_%s_%s.pdf' % (_trace, _ipsec))
     plt.clf()
