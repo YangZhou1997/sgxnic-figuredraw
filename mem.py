@@ -18,11 +18,11 @@ markers = ['*', '^', 'o', 's']
 markersizes = [15, 12, 12, 12]
 
 params = {
-    'axes.labelsize': 18,
-    'font.size': 18,
-    'legend.fontsize': 18,
-    'xtick.labelsize': 18,
-    'ytick.labelsize': 18,
+    'axes.labelsize': 22,
+    'font.size': 22,
+    'legend.fontsize': 22,
+    'xtick.labelsize': 22,
+    'ytick.labelsize': 22,
     'text.usetex': False,
     'figure.figsize': [12, 4],
     'legend.loc': 'best'
@@ -175,13 +175,13 @@ if __name__ == '__main__':
     max_mem_usage = max(mem_time)
     max_mem_time = mem_time.index(max_mem_usage)
 
-    plt.axes().annotate('The minimum size of\n preallocated memory', xy=(max_mem_time, max_mem_usage), xytext=(max_mem_time - 3500, max_mem_usage - 100), 
+    plt.axes().annotate('The minimum size of\n preallocated memory', xy=(max_mem_time, max_mem_usage), xytext=(max_mem_time - 2500, max_mem_usage - 120), 
             arrowprops=dict(facecolor='black', shrink=0.05), horizontalalignment='right', verticalalignment='bottom',)
     
     last_mem_usage = mem_time[-1]
     last_mem_time = len(mem_time) - 1
 
-    plt.axes().annotate('The size of memory\n actually used by the NF', xy=(last_mem_time, last_mem_usage), xytext=(last_mem_time - 1000, last_mem_usage - 200), 
+    plt.axes().annotate('The size of memory\n actually used by the NF', xy=(last_mem_time, last_mem_usage), xytext=(last_mem_time - 1000, last_mem_usage - 235), 
             arrowprops=dict(facecolor='black', shrink=0.05), horizontalalignment='right', verticalalignment='bottom',)
 
     # plt.legend([p1], ["Memory usage vs. time"])

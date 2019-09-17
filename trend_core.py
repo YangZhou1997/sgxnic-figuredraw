@@ -276,7 +276,7 @@ def draw_t_trend_for_ipsec_trace_6nfs(_ipsec, _trace):
 
     plt.legend(legends, all_tasks_legend, ncol=2)
     plt.ylabel('Throughput (Mpps)')
-    plt.xlabel('\# cores')
+    plt.xlabel('\# of cores')
     plt.xticks(ind, all_cores)
     # apply offset transform to all x ticklabels.
     for label in plt.axes().xaxis.get_majorticklabels():
