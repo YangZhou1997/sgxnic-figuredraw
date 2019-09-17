@@ -100,7 +100,7 @@ def draw_t_trend_for_dpi_threads():
     for _framesize in all_framesizes:
         data_vec = get_t_draw_data_vary_thread(_framesize)
         p1, = plt.plot(ind, data_vec, linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt],
-            color=colors[cnt], linewidth=3)
+            color=colors[cnt], linewidth=2)
         print(str(all_framesizes[cnt]) + ": " + str(data_vec))        
 
         legends.append(p1)
