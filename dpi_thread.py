@@ -16,17 +16,17 @@ bmap = brewer2mpl.get_map('Paired', 'qualitative', 12)
 colors = bmap.mpl_colors
 
 params = {
-    'axes.labelsize': 36,
-    'font.size': 36,
-    'legend.fontsize': 36,
-    'xtick.labelsize': 36,
-    'ytick.labelsize': 36,
+    'axes.labelsize': 22,
+    'font.size': 22,
+    'legend.fontsize': 22,
+    'xtick.labelsize': 22,
+    'ytick.labelsize': 22,
     'text.usetex': False,
-    'figure.figsize': [12, 8],
-    'legend.loc': 'center',
-    'legend.columnspacing': 0.8,
-    'legend.handlelength'  : 1.0,
-    'legend.handletextpad' : 0.4
+    'figure.figsize': [12, 5],
+    'legend.loc': 'center'
+    # 'legend.columnspacing': 0.8,
+    # 'legend.handlelength'  : 1.0,
+    # 'legend.handletextpad' : 0.4
 }
 rcParams.update(params)
 
@@ -106,7 +106,7 @@ def draw_t_trend_for_dpi_threads():
         legends.append(p1)
         cnt += 1
 
-    plt.legend(legends, all_legends, ncol=1, bbox_to_anchor=(1.2, 0.5))
+    plt.legend(legends, all_legends, ncol=1, bbox_to_anchor=(1.14, 0.5))
     plt.ylabel('Throughput (Mpps)')
     plt.xticks(ind, all_threads)
     plt.xlabel('\# of hardware threads')
