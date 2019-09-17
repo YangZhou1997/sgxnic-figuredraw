@@ -22,10 +22,10 @@ params = {
     'ytick.labelsize': 22,
     'text.usetex': False,
     'figure.figsize': [12, 4],
-    'legend.loc': 'best', 
-    'legend.columnspacing': 0.8,
-    'legend.handlelength'  : 1.0,
-    'legend.handletextpad' : 0.4
+    'legend.loc': 'best'
+    # 'legend.columnspacing': 0.8,
+    # 'legend.handlelength'  : 1.0,
+    # 'legend.handletextpad' : 0.4
 }
 rcParams.update(params)
 
