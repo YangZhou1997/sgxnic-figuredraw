@@ -11,8 +11,8 @@ import brewer2mpl
 import glob
 
  # brewer2mpl.get_map args: set name  set type  number of colors
-# bmap = brewer2mpl.get_map('Dark2', 'qualitative', 6)
-bmap = brewer2mpl.get_map('Paired', 'qualitative', 12)
+bmap = brewer2mpl.get_map('Dark2', 'qualitative', 8)
+# bmap = brewer2mpl.get_map('Paired', 'qualitative', 12)
 colors = bmap.mpl_colors
 
 params = {
