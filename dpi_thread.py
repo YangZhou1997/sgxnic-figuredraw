@@ -11,62 +11,102 @@ import brewer2mpl
 import glob
 
  # brewer2mpl.get_map args: set name  set type  number of colors
-bmap = brewer2mpl.get_map('Dark2', 'qualitative', 6)
+# bmap = brewer2mpl.get_map('Dark2', 'qualitative', 6)
+bmap = brewer2mpl.get_map('Paired', 'qualitative', 12)
 colors = bmap.mpl_colors
 
 params = {
-    'axes.labelsize': 22,
-    'font.size': 22,
-    'legend.fontsize': 22,
-    'xtick.labelsize': 22,
-    'ytick.labelsize': 22,
+    'axes.labelsize': 36,
+    'font.size': 36,
+    'legend.fontsize': 36,
+    'xtick.labelsize': 36,
+    'ytick.labelsize': 36,
     'text.usetex': False,
-    'figure.figsize': [12, 4],
-    'legend.loc': 'best'
-    # 'legend.columnspacing': 0.8,
-    # 'legend.handlelength'  : 1.0,
-    # 'legend.handletextpad' : 0.4
+    'figure.figsize': [12, 8],
+    'legend.loc': 'center',
+    'legend.columnspacing': 0.8,
+    'legend.handlelength'  : 1.0,
+    'legend.handletextpad' : 0.4
 }
 rcParams.update(params)
 
-linestyles = ['--', '-.', '-', ':', (0, (3, 5, 1, 5, 1, 5)), (0, (3, 1, 1, 1))]
-markers = ['*', '^', 'o', 'P', 'p', 'v']
-markersizes = [30, 24, 24, 24, 24, 24]
+# linestyles = ['--', '-.', '-', ':', (0, (3, 10, 1, 10)), (0, (3, 5, 1, 5, 1, 5)), (0, (3, 1, 1, 1)), (0, (3, 1, 1, 1, 1, 1))]
+linestyles = ['-', '-', '-', '-', '-', '-', '-', '-']
+markers = ['*', '^', 'o', 'P', 'p', 'v', 'X', 'd']
+markersizes = [30, 24, 24, 24, 24, 24, 24, 24]
 
 dx = 0/72.; dy = -0/72. 
 offset = matplotlib.transforms.ScaledTranslation(dx, dy, plt.gcf().dpi_scale_trans)
 
+def get_thread(ori_name):
+    switcher = {
+        **dict.fromkeys(["1"], "16"), 
+        **dict.fromkeys(["3"], "32"), 
+        **dict.fromkeys(["7"], "48")
+    }
+    return switcher.get(ori_name, "Invalid core name %s" % (ori_name,))
 
-all_framesizes = ["1500B", "6000B", "9000B"]
+all_framesizes = ["64", "256", "512", "1024", "1500", "6000", "9000", "2000000"]
+all_legends = ["64B", "256B", "512B", "1KB", "1.5KB", "6KB", "9KB", "2MB"]
 all_threads = ["16", "32", "48"]
-curvers = [[0.7584, 1.2416, 1.3397], [0.7008, 1.175, 1.3138], [0.6975, 1.1739, 1.3105]]
 
-# 1500,0x1,0.7584,
-# 1500,0x3,1.2416,
-# 1500,0x7,1.3397,
-# 6000,0x1,0.7008,
-# 6000,0x3,1.175,
-# 6000,0x7,1.3138,
-# 9000,0x1,0.6975,
-# 9000,0x3,1.1739,
-# 9000,0x7,1.3105,
+t_val = defaultdict(lambda: defaultdict(list))
+t_val_med = defaultdict(lambda: defaultdict(float))
+
+# first load **all** files to the dict
+def data_load(fileDir):
+    f_list = glob.glob(fileDir + '/*')
+    print(f_list)
+    for f_name in f_list:
+        with open(f_name, 'r') as f:
+            raw_entry = f.readline()
+            while raw_entry:
+                entry_array = raw_entry.rstrip("\n").split(",")
+                # print(entry_array)
+                _framesize = entry_array[3]
+                _thread = get_thread(entry_array[4])
+                _t = float(entry_array[5])
+                t_val[_framesize][_thread].append(float(_t))
+                raw_entry = f.readline()
+        # currently we only load the data of the first file
+        # break 
+
+# then process data to get graph drawing data
+def process_draw_data():
+    for _framesize in all_framesizes:
+        for _thread in all_threads:
+            try:
+                t_val_med[_framesize][_thread] = np.median(t_val[_framesize][_thread])
+            except IndexError:
+                t_val_med[_framesize][_thread] = 0
+            
+def get_t_draw_data_vary_thread(_framesize):
+    data_vec = list()
+    for _thread in all_threads:
+        data_vec.append(t_val_med[_framesize][_thread])
+    # print(data_vec)
+    return data_vec
+
 
 def draw_t_trend_for_dpi_threads():
+    data_load("./rawdata/dpi")
+    process_draw_data()
 
     N = len(all_threads)
     ind = np.arange(N) * 10 + 10    # the x locations for the groups    
 
     cnt = 0
     legends = list()
-    for _curve in curvers:
-        p1, = plt.plot(ind, _curve, linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt],
+    for _framesize in all_framesizes:
+        data_vec = get_t_draw_data_vary_thread(_framesize)
+        p1, = plt.plot(ind, data_vec, linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt],
             color=colors[cnt], linewidth=3)
-        print(str(all_framesizes[cnt]) + ": " + str(_curve))        
+        print(str(all_framesizes[cnt]) + ": " + str(data_vec))        
 
         legends.append(p1)
         cnt += 1
 
-    plt.legend(legends, all_framesizes, ncol=3)
+    plt.legend(legends, all_legends, ncol=1, bbox_to_anchor=(1.2, 0.5))
     plt.ylabel('Throughput (Mpps)')
     plt.xticks(ind, all_threads)
     plt.xlabel('\# of hardware threads')
@@ -75,7 +115,7 @@ def draw_t_trend_for_dpi_threads():
     for label in plt.axes().xaxis.get_majorticklabels():
         label.set_transform(label.get_transform() + offset)
 
-    plt.axes().set_ylim(ymin=0, ymax=1.5)
+    plt.axes().set_ylim(ymin=0)
 
     plt.tight_layout()
     plt.savefig('./figures/dpi_thread/t_trend_dpithread.pdf')
