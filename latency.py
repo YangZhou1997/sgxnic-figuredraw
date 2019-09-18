@@ -30,7 +30,9 @@ params = {
 }
 rcParams.update(params)
 
-legends = ["Reading TLB\&Config.", "Blacklist/Whitelist", "SHA-256 Digesting", "Memory Scrubing"]
+legends_launch = ["TLB setup \&config. reading", "Blacklisting", "SHA-256 digesting"]
+legends_destroy = ["Whitelisting", "Memory scrubing"]
+
 nfs = ["FW", "DPI", "NAT", "LB", "LPM", "Mon."]
 def format_func(value, tick_number):
     return nfs[tick_number]
@@ -39,17 +41,17 @@ def format_func(value, tick_number):
 # nf_destroy
 latencies = np.array([
             [0.019615, 0.004425, 38.082837], 
-            [0.016517, 0.003783, 2.704083], 
+            [0.003783, 2.704083, 0], 
             [0.019615, 0.004425, 323.602302], 
-            [0.016517, 0.003783, 22.983011], 
+            [0.003783, 22.983011, 0], 
             [0.019616, 0.004425, 145.944469], 
-            [0.016517, 0.003783, 10.364937], 
+            [0.003783, 10.364937, 0], 
             [0.019616, 0.004425, 29.622514], 
-            [0.016517, 0.003783, 2.103230], 
+            [0.003783, 2.103230, 0], 
             [0.019615, 0.004425, 95.187180], 
-            [0.016517, 0.003783, 6.759915], 
+            [0.003783, 6.759915, 0], 
             [0.019615, 0.004425, 763.517971], 
-            [0.016517, 0.003783, 54.227230]], np.float64)
+            [0.003783, 54.227230, 0]], np.float64)
 
 
 
@@ -68,9 +70,9 @@ if __name__ == '__main__':
     width = 3.5       # the width of the bars: can also be len(x) sequence
     
     ax1 = plt.subplot(121)
-    p1 = ax1.bar(ind, latencies[:, 0][::2], width, label=legends[0], bottom=latencies[:, 1][::2]+latencies[:, 2][::2], color=colors[0], align="center")
-    p2 = ax1.bar(ind, latencies[:, 1][::2], width, label=legends[1], bottom=latencies[:, 2][::2], color=colors[1], align="center")
-    p3 = ax1.bar(ind, latencies[:, 2][::2], width, label=legends[2], color=colors[2], align="center")
+    p1 = ax1.bar(ind, latencies[:, 0][::2], width, label=legends_launch[0], bottom=latencies[:, 1][::2]+latencies[:, 2][::2], color=colors[0], align="center")
+    p2 = ax1.bar(ind, latencies[:, 1][::2], width, label=legends_launch[1], bottom=latencies[:, 2][::2], color=colors[1], align="center")
+    p3 = ax1.bar(ind, latencies[:, 2][::2], width, label=legends_launch[2], color=colors[2], align="center")
     
     # ax1.set_title(r"\textsf{nf\_launch}")
     ax1.set_ylabel('Latency (ms)')
@@ -88,9 +90,8 @@ if __name__ == '__main__':
     
 
     ax2 = plt.subplot(122)
-    p1 = ax2.bar(ind, latencies[:, 0][1::2], width, label=legends[0], bottom=latencies[:, 1][1::2]+latencies[:, 2][1::2], color=colors[0], align="center")
-    p2 = ax2.bar(ind, latencies[:, 1][1::2], width, label=legends[1], bottom=latencies[:, 2][1::2], color=colors[1], align="center")
-    p4 = ax2.bar(ind, latencies[:, 2][1::2], width, label=legends[3], color=colors[3], align="center")
+    p1 = ax2.bar(ind, latencies[:, 0][1::2], width, label=legends_destroy[0], bottom=latencies[:, 1][1::2], color=colors[3], align="center")
+    p4 = ax2.bar(ind, latencies[:, 1][1::2], width, label=legends_destroy[1], color=colors[4], align="center")
     
     # ax2.set_title(r"\textsf{nf\_destroy}")
     ax2.set_ylabel('Latency (ms)')
