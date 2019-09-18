@@ -45,7 +45,7 @@ y_val_nat = list()
 x_val_mag = list()
 y_val_mag = list()
 
-x_low = 339399072 * 2
+x_low = 339399072 * 10
 x_high = x_low + 339399072/10
 
 
@@ -79,6 +79,8 @@ def data_load(filename):
         # currently we only load the data of the first file
         # break 
 
+# 0x, 1x, 3x, 5x. in %
+pkt_loss_rate = [0.0079, 0.0746, 0.2510, 0.4387]
 
 def draw_nat_maglev(filename):
     x_val_nat.clear()
@@ -97,29 +99,38 @@ def draw_nat_maglev(filename):
     y_val_mag_ad = y_val_mag
 
 
-    p1, = plt.plot(x_val_nat_ad, y_val_nat_ad, linestyle = linestyles[cnt], marker = None, color=colors[cnt], linewidth=1)
+    p1, = plt.plot(x_val_nat_ad, y_val_nat_ad, linestyle = linestyles[cnt], color=colors[cnt], linewidth=1)
     cnt += 1
-    p2, = plt.plot(x_val_mag_ad, y_val_mag_ad, linestyle = linestyles[cnt], marker = None, color=colors[cnt], linewidth=1)
-    cnt += 1
+    # p2, = plt.plot(x_val_mag_ad, y_val_mag_ad, linestyle = linestyles[cnt], marker = None, color=colors[cnt], linewidth=1)
+    # cnt += 1
 
     legends.append(p1)
-    legends.append(p2)
+    # legends.append(p2)
 
 
     plt.legend(legends, ["NAT", "LB"])
-    plt.ylabel('Per packet latency (ms)')
+    plt.ylabel('Per packet latency (us)')
     plt.xlabel('Time in CPU cycles')
 
     # apply offset transform to all x ticklabels.
     for label in plt.axes().xaxis.get_majorticklabels():
         label.set_transform(label.get_transform() + offset)
 
-    plt.axes().set_ylim(ymin=0)
+    plt.axes().set_ylim(ymin=0,ymax=100)
 
     plt.tight_layout()
 
     sufix_index = filename.find(".dat")
     sufix = filename[sufix_index - 2:sufix_index]
+    if sufix == "0x":
+        plt.title("0.25Mpps NAT")
+    elif sufix == "1x":
+        plt.title("0.25Mpps NAT vs. 0.25Mpps Maglev")
+    elif sufix == "3x":
+        plt.title("0.25Mpps NAT vs. 0.75Mpps Maglev")
+    elif sufix == "5x":
+        plt.title("0.25Mpps NAT vs. 1.25Mpps Maglev")
+
     # How maglev influces nat
     plt.savefig('./figures/two/%s_nat_maglev.png' % (sufix,))
     plt.clf()
