@@ -18,16 +18,19 @@ markers = ['*', '^', 'o', 's']
 markersizes = [15, 12, 12, 12]
 
 params = {
-    'axes.labelsize': 22,
-    'font.size': 22,
-    'legend.fontsize': 22,
-    'xtick.labelsize': 22,
-    'ytick.labelsize': 22,
+    'axes.labelsize': 36,
+    'font.size': 36,
+    'legend.fontsize': 36,
+    'xtick.labelsize': 36,
+    'ytick.labelsize': 36,
     'text.usetex': False,
-    'figure.figsize': [12, 4],
+    'figure.figsize': [12, 8],
     'legend.loc': 'best'
 }
 rcParams.update(params)
+
+dx = 0/72.; dy = -15/72. 
+offset = matplotlib.transforms.ScaledTranslation(dx, dy, plt.gcf().dpi_scale_trans)
 
 all_tasks = ["acl-fw-ipsec", "dpi-ipsec", "nat-tcp-v4-ipsec", "maglev-ipsec", "lpm-ipsec", "monitoring-ipsec"]
 
@@ -181,15 +184,13 @@ if __name__ == '__main__':
     last_mem_usage = mem_time[-1]
     last_mem_time = len(mem_time) - 1
 
-    plt.axes().annotate('The size of memory\n actually used by the NF', xy=(last_mem_time, last_mem_usage), xytext=(last_mem_time - 1000, last_mem_usage - 235), 
+    plt.axes().annotate('The size of memory\n actually used by the NF', xy=(last_mem_time, last_mem_usage), xytext=(last_mem_time - 500, last_mem_usage - 235), 
             arrowprops=dict(facecolor='black', shrink=0.05), horizontalalignment='right', verticalalignment='bottom',)
 
     # plt.legend([p1], ["Memory usage vs. time"])
     plt.ylabel("Memory usage (MB)")
-    plt.xticks(ind[::1500], ind[::1500] / 100)
+    plt.xticks(ind[::3000], ind[::3000] / 100)
 
-    dx = 0/72.; dy = -5/72. 
-    offset = matplotlib.transforms.ScaledTranslation(dx, dy, plt.gcf().dpi_scale_trans)    
     # apply offset transform to all x ticklabels.
     for label in plt.axes().xaxis.get_majorticklabels():
         label.set_transform(label.get_transform() + offset)

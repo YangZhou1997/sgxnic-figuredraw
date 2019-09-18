@@ -16,14 +16,14 @@ bmap = brewer2mpl.get_map('Dark2', 'qualitative', 8)
 colors = bmap.mpl_colors
 
 params = {
-    'axes.labelsize': 22,
-    'font.size': 22,
-    'legend.fontsize': 22,
-    'xtick.labelsize': 22,
-    'ytick.labelsize': 22,
+    'axes.labelsize': 36,
+    'font.size': 36,
+    'legend.fontsize': 36,
+    'xtick.labelsize': 36,
+    'ytick.labelsize': 36,
     'text.usetex': False,
-    'figure.figsize': [12, 5],
-    'legend.loc': 'center'
+    'figure.figsize': [12, 8],
+    'legend.loc': 'lower center'
     # 'legend.columnspacing': 0.8,
     # 'legend.handlelength'  : 1.0,
     # 'legend.handletextpad' : 0.4
@@ -35,7 +35,7 @@ linestyles = ['-', '-', '-', '-', '-', '-', '-', '-']
 markers = ['*', '^', 'o', 'P', 'p', 'v', 'X', 'd']
 markersizes = [30, 24, 24, 24, 24, 24, 24, 24]
 
-dx = 0/72.; dy = -0/72. 
+dx = 0/72.; dy = -15/72. 
 offset = matplotlib.transforms.ScaledTranslation(dx, dy, plt.gcf().dpi_scale_trans)
 
 def get_thread(ori_name):
@@ -46,8 +46,10 @@ def get_thread(ori_name):
     }
     return switcher.get(ori_name, "Invalid core name %s" % (ori_name,))
 
-all_framesizes = ["64", "256", "512", "1024", "1500", "6000", "9000", "2000000"]
-all_legends = ["64B", "256B", "512B", "1KB", "1.5KB", "6KB", "9KB", "2MB"]
+# all_framesizes = ["64", "256", "512", "1024", "1500", "6000", "9000", "2000000"]
+# all_legends = ["64B", "256B", "512B", "1KB", "1.5KB", "6KB", "9KB", "2MB"]
+all_framesizes = ["64", "512", "1500", "9000"]
+all_legends = ["64B", "512B", "1.5KB", "9KB"]
 all_threads = ["16", "32", "48"]
 
 t_val = defaultdict(lambda: defaultdict(list))
@@ -106,7 +108,7 @@ def draw_t_trend_for_dpi_threads():
         legends.append(p1)
         cnt += 1
 
-    plt.legend(legends, all_legends, ncol=1, bbox_to_anchor=(1.14, 0.5))
+    plt.legend(legends, all_legends, ncol=2)
     plt.ylabel('Throughput (Mpps)')
     plt.xticks(ind, all_threads)
     plt.xlabel('\# of hardware threads')
