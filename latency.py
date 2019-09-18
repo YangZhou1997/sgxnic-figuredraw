@@ -72,7 +72,7 @@ if __name__ == '__main__':
     p2 = ax1.bar(ind, latencies[:, 1][::2], width, label=legends[1], bottom=latencies[:, 2][::2], color=colors[1], align="center")
     p3 = ax1.bar(ind, latencies[:, 2][::2], width, label=legends[2], color=colors[2], align="center")
     
-    ax1.set_title(r"\textsf{nf\_launch}")
+    # ax1.set_title(r"\textsf{nf\_launch}")
     ax1.set_ylabel('Latency (ms)')
     ax1.set_xticks(ind)
     ax1.xaxis.set_major_formatter(plt.FuncFormatter(format_func))
@@ -92,7 +92,7 @@ if __name__ == '__main__':
     p2 = ax2.bar(ind, latencies[:, 1][1::2], width, label=legends[1], bottom=latencies[:, 2][1::2], color=colors[1], align="center")
     p4 = ax2.bar(ind, latencies[:, 2][1::2], width, label=legends[3], color=colors[3], align="center")
     
-    ax2.set_title(r"\textsf{nf\_destroy}")
+    # ax2.set_title(r"\textsf{nf\_destroy}")
     ax2.set_ylabel('Latency (ms)')
     ax2.set_xticks(ind)
     ax2.xaxis.set_major_formatter(plt.FuncFormatter(format_func))
@@ -106,11 +106,11 @@ if __name__ == '__main__':
     
     lines_labels = [ax1.get_legend_handles_labels()]
     lines, labels = [sum(lol, []) for lol in zip(*lines_labels)]
-    ax1.legend(lines, labels)
+    ax1.legend(lines, labels, title=r"\textsf{nf\_launch}")
 
     lines_labels = [ax2.get_legend_handles_labels()]
     lines, labels = [sum(lol, []) for lol in zip(*lines_labels)]
-    ax2.legend(lines, labels)
+    ax2.legend(lines, labels, title=r"\textsf{nf\_destroy}")
 
     plt.tight_layout()
 

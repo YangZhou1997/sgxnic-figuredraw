@@ -308,5 +308,5 @@ if __name__ == '__main__':
     #             draw_l_trend_for_task_ipsec_trace(_task, _ipsec, _trace)
 
 
-    draw_t_trend_for_ipsec_trace_6nfs("gcm_ipsec", "64B")
+    # draw_t_trend_for_ipsec_trace_6nfs("gcm_ipsec", "64B")
     draw_t_trend_for_ipsec_trace_6nfs("sha_ipsec", "64B")

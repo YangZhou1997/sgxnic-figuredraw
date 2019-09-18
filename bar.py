@@ -512,6 +512,8 @@ def draw_t_bar_for_core_ipsec_811(_ipsec, _trace, _nic_core_num):
 
     max_y_val = 0
 
+    data_vecs = list()
+
     cnt = 0
     legends = list()
     for _type in all_types:
@@ -524,8 +526,11 @@ def draw_t_bar_for_core_ipsec_811(_ipsec, _trace, _nic_core_num):
         legends.append(p1)
         if _ipsec != "no_ipsec":
             print(str(all_types[cnt]) + " " + _trace + " " + _ipsec + ": " + str(data_vec))
+        data_vecs.append(data_vec)        
         cnt += 1
     
+    for i in range(len(data_vecs[0])):
+        print("{0:.2f}, {1:.2f}".format(data_vecs[0][i]/data_vecs[1][i], data_vecs[0][i]/data_vecs[2][i]))
         
     plt.legend(legends, all_types, ncol=3)
     plt.ylabel('Throughput (Mpps)')
@@ -601,7 +606,7 @@ if __name__ == '__main__':
 
     process_draw_data()
 
-    for _ipsec in all_ipsecs:
+    # for _ipsec in all_ipsecs:
         # draw_l_bar_for_core_ipsec_16_1(_ipsec)
         # draw_t_bar_for_core_ipsec_16_1(_ipsec)
         # draw_l_bar_for_core_ipsec_1811(_ipsec, "64B")
@@ -609,11 +614,11 @@ if __name__ == '__main__':
         # draw_l_bar_for_core_ipsec_1811(_ipsec, "ICTF")
         # draw_t_bar_for_core_ipsec_1811(_ipsec, "ICTF")
 
-        draw_t_bar_for_core_ipsec_811(_ipsec, "64B", "1")
-        draw_t_bar_for_core_ipsec_811(_ipsec, "ICTF", "1")
+    draw_t_bar_for_core_ipsec_811("sha_ipsec", "64B", "1")
+    draw_t_bar_for_core_ipsec_811("sha_ipsec", "ICTF", "1")
 
-        draw_t_bar_for_core_ipsec_811(_ipsec, "64B", "8")
-        draw_t_bar_for_core_ipsec_811(_ipsec, "ICTF", "8")
+        # draw_t_bar_for_core_ipsec_811(_ipsec, "64B", "8")
+        # draw_t_bar_for_core_ipsec_811(_ipsec, "ICTF", "8")
         
         # for _core in all_cores:
         #     draw_t_bar_for_core_ipsec(_core, _ipsec)
