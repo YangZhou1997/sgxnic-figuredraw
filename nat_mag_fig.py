@@ -121,7 +121,7 @@ def draw_nat_maglev(filename):
     plt.tight_layout()
 
     sufix_index = filename.find(".dat")
-    sufix = filename[sufix_index - 2:sufix_index]
+    sufix = filename[sufix_index - 3:sufix_index]
     if sufix == "0x":
         plt.title("0.25Mpps NAT")
     elif sufix == "1x":
