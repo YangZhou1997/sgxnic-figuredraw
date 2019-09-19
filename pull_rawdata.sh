@@ -13,12 +13,13 @@ CG=10.243.38.86
 CG_PATH=/home/yangz/NetBricks/examples/memory-profiling/cgroup-log
 
 TWO=$NIC
-TWO_PATH=/home/yangz/pktgen/dpdk_zeroloss_dyn_two_apps/latency.dat
+TWO_PATH=/home/yangz/pktgen/dpdk_zeroloss_dyn_two_apps/*.dat
 
 # scp yangz@$NIC:$NIC_PATH/* ./rawdata/nic/
 # scp yangz@$NB:$NB_PATH/* ./rawdata/nb/
 # scp yangz@$SB:$SB_PATH/* ./rawdata/sb/
 # scp yangz@$CG:$CG_PATH/* ./rawdata/mem/
 # scp yangz@$NIC:$NIC_PATH/* ./rawdata/dpi/
-scp yangz@$TWO:$TWO_PATH ./rawdata/two/
+scp yangz@$TWO:$TWO_PATH ./rawdata/two_latency/
+scp yangz@$NIC:$NIC_PATH/* ./rawdata/two_loss/
 
