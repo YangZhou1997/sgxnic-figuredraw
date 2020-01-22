@@ -56,9 +56,9 @@ cores_nb = ["1", "2", "3", "4", "5", "6"]
 
 def get_type(ori_name):
     switcher = {
-        **dict.fromkeys(["./rawdata/nic"], "SmartNIC"), 
-        **dict.fromkeys(["./rawdata/nb"], "NetBricks"), 
-        **dict.fromkeys(["./rawdata/sb"], "SafeBricks"), 
+        **dict.fromkeys(["./rawdata/nic/sixnfs.dat"], "SmartNIC"), 
+        **dict.fromkeys(["./rawdata/nb/sixnfs.dat"], "NetBricks"), 
+        **dict.fromkeys(["./rawdata/sb/sixnfs.dat"], "SafeBricks"), 
     }
     return switcher.get(ori_name, "Invalid path name %s" % (ori_name,))
 
@@ -124,98 +124,57 @@ avg_l_val_med = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defa
 tail_l_val_med = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(float)))))
 
 # first load **all** files to the dict
-def data_load(fileDir):
-    f_list = glob.glob(fileDir + '/*')
-    print(f_list)
-    for f_name in f_list:
-        with open(f_name, 'r') as f:
+def data_load(f_name):
+    with open(f_name, 'r') as f:
+        raw_entry = f.readline()
+        while raw_entry:
+            entry_array = raw_entry.rstrip("\n").split(",")
+            # print(entry_array)
+            _type = get_type(f_name)
+            _task = get_task(entry_array[0])
+            _ipsec = get_ipsec(entry_array[0])
+            _trace = get_trace(entry_array[1])
+            _core = get_core(entry_array[2])
+            _t = float(entry_array[3])
+            _avg_l = float(entry_array[4])
+            _tail_l = float(entry_array[5])
+            t_val[_type][_task][_ipsec][_trace][_core].append(float(_t))
+            avg_l_val[_type][_task][_ipsec][_trace][_core].append(float(_avg_l))
+            tail_l_val[_type][_task][_ipsec][_trace][_core].append(float(_tail_l))
             raw_entry = f.readline()
-            while raw_entry:
-                entry_array = raw_entry.rstrip("\n").split(",")
-                # print(entry_array)
-                _type = get_type(fileDir)
-                _task = get_task(entry_array[0])
-                _ipsec = get_ipsec(entry_array[0])
-                _trace = get_trace(entry_array[1])
-                _core = get_core(entry_array[2])
-                _t = float(entry_array[3])
-                _avg_l = float(entry_array[4])
-                _tail_l = float(entry_array[5])
-                t_val[_type][_task][_ipsec][_trace][_core].append(float(_t))
-                avg_l_val[_type][_task][_ipsec][_trace][_core].append(float(_avg_l))
-                tail_l_val[_type][_task][_ipsec][_trace][_core].append(float(_tail_l))
-                raw_entry = f.readline()
-        # currently we only load the data of the first file
-        # break 
+    # currently we only load the data of the first file
+    # break 
+
+smartnic_percore_price = (745 - 230)/16
+cpu_percore_price = 379/6
+print(f'smartnic_percore_price: {smartnic_percore_price} vs. cpu_percore_price: {cpu_percore_price}')
 
 # then process data to get graph drawing data
-def process_draw_data():
+def process_draw_data(norm_flag=False):
     for _type in all_types:
+        norm_base = 1
+        if norm_flag:
+            if _type == "SmartNIC":
+                norm_base = smartnic_percore_price
+            else:
+                norm_base = cpu_percore_price
         for _task in all_tasks:
             for _ipsec in all_ipsecs:
                 for _trace in all_traces:
                     for _core in all_cores:
                         try:
-                            t_val_med[_type][_task][_ipsec][_trace][_core] = np.median(t_val[_type][_task][_ipsec][_trace][_core])
+                            t_val_med[_type][_task][_ipsec][_trace][_core] = np.median(t_val[_type][_task][_ipsec][_trace][_core])/norm_base
                         except IndexError:
                             t_val_med[_type][_task][_ipsec][_trace][_core] = 0
                         try:
-                            avg_l_val_med[_type][_task][_ipsec][_trace][_core] = np.median(avg_l_val[_type][_task][_ipsec][_trace][_core])
+                            avg_l_val_med[_type][_task][_ipsec][_trace][_core] = np.median(avg_l_val[_type][_task][_ipsec][_trace][_core])/norm_base
                         except IndexError:
                             avg_l_val_med[_type][_task][_ipsec][_trace][_core] = 0
                         try:
-                            tail_l_val_med[_type][_task][_ipsec][_trace][_core] = np.median(tail_l_val[_type][_task][_ipsec][_trace][_core])
+                            tail_l_val_med[_type][_task][_ipsec][_trace][_core] = np.median(tail_l_val[_type][_task][_ipsec][_trace][_core])/norm_base
                         except IndexError:
                             tail_l_val_med[_type][_task][_ipsec][_trace][_core] = 0
-                        
 
-
-
-# # next, get throughput vector indexed by trace for specific task and core case
-# # ipsec: with or without
-# def get_draw_data_for_task_core(task, core, ipsec):
-#     data_vec = list()
-
-#     for trace in all_traces:
-#         data_vec.append(t_val_med["SmartNIC"][task][ipsec][trace][core])
-#     return data_vec
-
-# def draw_smartnic():
-#     data_load("./rawdata/nic")
-#     process_draw_data()
-
-#     N = len(all_traces)
-#     ind = np.arange(N) * 10 + 10    # the x locations for the groups    
-#     width = 6.0/len(all_cores)       # the width of the bars: can also be len(x) sequence
-
-#     for task in all_tasks:
-#         cnt = 0
-#         legends = list()
-#         for core in all_cores:
-#             data_vec = get_draw_data_for_task_core(task, core, "gcm_ipsec")
-#             p1 = plt.bar(ind + width * (cnt - len(all_cores) / 2 + 0.5), data_vec, width, color=colors[cnt], edgecolor = 'k', align="center")
-#             legends.append(p1)
-#             cnt += 1
-
-#         plt.legend(legends, map(lambda x: '# cores = %s' % (x,), all_cores))
-#         plt.ylabel('Throughput (Mpps)')
-#         plt.xticks(ind, all_traces)
-#         plt.savefig('./figures/t_%s.pdf' % (task,))
-#         plt.clf()
-
-#         cnt = 0
-#         legends = list()
-#         for core in all_cores:
-#             data_vec = get_draw_data_for_task_core(task, core, "no_ipsec")
-#             p1 = plt.bar(ind + width * (cnt - len(all_cores) / 2 + 0.5), data_vec, width, color=colors[cnt], edgecolor = 'k', align="center")
-#             legends.append(p1)
-#             cnt += 1
-
-#         plt.legend(legends, map(lambda x: '# cores = %s' % (x,), all_cores))
-#         plt.ylabel('Throughput (Mpps)')
-#         plt.xticks(ind, all_traces)
-#         plt.savefig('./figures/t_%s_ipsec.pdf' % (task,))
-#         plt.clf()
 
 def add_text(N, ind, _core, width, core_list, plt, type_s, task=None):
     if _core not in list(core_list):
@@ -233,8 +192,6 @@ def add_text(N, ind, _core, width, core_list, plt, type_s, task=None):
                         plt.text(x, y, "Not Applied", fontsize=18, rotation=90, horizontalalignment='center', verticalalignment='center', transform=plt.axes().transAxes)
                     cnt += 1
 
-    
-
 
 def get_t_draw_data_vary_task(_type, _ipsec, _trace, _core):
     data_vec = list()
@@ -242,7 +199,7 @@ def get_t_draw_data_vary_task(_type, _ipsec, _trace, _core):
         data_vec.append(t_val_med[_type][_task][_ipsec][_trace][_core])
     return data_vec
 
-def draw_t_bar_for_core_ipsec(_core, _ipsec):
+def draw_t_bar_for_core_ipsec_trace(_core, _ipsec, _trace, norm_flag=False):
     N = len(all_tasks)
     ind = np.arange(N) * 10 + 10    # the x locations for the groups    
     width = 6.0/len(all_types)       # the width of the bars: can also be len(x) sequence
@@ -250,349 +207,27 @@ def draw_t_bar_for_core_ipsec(_core, _ipsec):
     cnt = 0
     legends = list()
     for _type in all_types:
-        data_vec = get_t_draw_data_vary_task(_type, _ipsec, "64B", _core)
-        p1 = plt.bar(ind + width * (cnt - len(all_types) / 2.0 + 0.5), data_vec, width, color=colors[cnt], edgecolor = 'k', align="center")
-        legends.append(p1)
-        cnt += 1
-
-    # add_text(N, ind, width, ["1", "2", "3", "4"], plt, "SmartNIC", "DPI")
-    add_text(N, ind, _core, width, ["1", "2", "3", "4", "5"], plt, "SafeBricks", None)
-    # add_text(N, ind, width, ["1", "2", "3", "4", "5", "6"], plt, "NetBricks", None)
-    
-    plt.legend(legends, all_types)
-    plt.ylabel('Throughput (Mpps)')
-    plt.xticks(ind, all_tasks_figure)
-    # apply offset transform to all x ticklabels.
-    for label in plt.axes().xaxis.get_majorticklabels():
-        label.set_transform(label.get_transform() + offset)
-
-    plt.tight_layout()
-    plt.savefig('./figures/bar/throughput/t_bar_%scores_%s.pdf' % (_core, _ipsec))
-    plt.clf()
-
-
-
-def get_l_draw_data_vary_task(_type, _ipsec, _trace, _core):
-    data_vec_avg = list()
-    data_vec_tail = list()
-    for _task in all_tasks:
-        data_vec_avg.append(avg_l_val_med[_type][_task][_ipsec][_trace][_core])
-        data_vec_tail.append(tail_l_val_med[_type][_task][_ipsec][_trace][_core])
-    return data_vec_avg, data_vec_tail
-
-def draw_l_bar_for_core_ipsec(_core, _ipsec):
-    N = len(all_tasks)
-    ind = np.arange(N) * 10 + 10    # the x locations for the groups    
-    width = 6.0/len(all_types)       # the width of the bars: can also be len(x) sequence
-
-    cnt = 0
-    legends = list()
-    for _type in all_types:
-        data_vec_avg, data_vec_tail = get_l_draw_data_vary_task(_type, _ipsec, "64B", _core)
-        yerr = np.zeros((2, len(data_vec_avg)))
-        yerr[0, :] = np.array(data_vec_avg) - np.array(data_vec_avg)
-        yerr[1, :] = np.array(data_vec_tail) - np.array(data_vec_avg)
-        
-        p1 = plt.bar(ind + width * (cnt - len(all_types) / 2.0 + 0.5), data_vec_avg, width, yerr=yerr, color=colors[cnt], edgecolor = 'k', ecolor='k', align="center")
-        legends.append(p1)
-        cnt += 1
-
-    # add_text(N, ind, width, ["1", "2", "3", "4"], plt, "SmartNIC", "DPI")
-    add_text(N, ind, _core, width, ["1", "2", "3", "4", "5"], plt, "SafeBricks", None)
-    # add_text(N, ind, width, ["1", "2", "3", "4", "5", "6"], plt, "NetBricks", None)
-                
-    plt.legend(legends, all_types)
-    plt.ylabel('Avg. and 99th tail latency (microsecond)')
-    plt.xticks(ind, all_tasks_figure)
-        
-    # apply offset transform to all x ticklabels.
-    for label in plt.axes().xaxis.get_majorticklabels():
-        label.set_transform(label.get_transform() + offset)
-
-    plt.tight_layout()
-    plt.savefig('./figures/bar/latency/l_bar_%scores_%s.pdf' % (_core, _ipsec))
-    plt.clf()
-
-
-    
-# NB&SB -> 1core, NIC -> 16cores
-def get_t_draw_data_vary_task_16_1(_type, _ipsec, _trace):
-    _core = "1"
-    if _type == "SmartNIC":
-        _core = "16"
-
-    data_vec = list()
-    for _task in all_tasks:
-        data_vec.append(t_val_med[_type][_task][_ipsec][_trace][_core])
-    # print(data_vec)
-    return data_vec
-
-# NB&SB -> 1core, NIC -> 16cores
-def draw_t_bar_for_core_ipsec_16_1(_ipsec):
-    N = len(all_tasks)
-    ind = np.arange(N) * 10 + 10    # the x locations for the groups    
-    width = 6.0/len(all_types)       # the width of the bars: can also be len(x) sequence
-
-    cnt = 0
-    legends = list()
-    for _type in all_types:
-        data_vec = get_t_draw_data_vary_task_16_1(_type, _ipsec, "64B")
+        data_vec = get_t_draw_data_vary_task(_type, _ipsec, _trace, _core)
         p1 = plt.bar(ind + width * (cnt - len(all_types) / 2.0 + 0.5), data_vec, width, color=colors[cnt], edgecolor = 'k', align="center")
         legends.append(p1)
         cnt += 1
     
-    plt.legend(legends, ["NIC-16C", "NB-1C", "SB-1C"])
-    plt.ylabel('Throughput (Mpps)')
+    plt.legend(legends, all_types)
+    if norm_flag:
+        plt.ylabel('Throughput per dollar (Mpps/\$)')
+    else:
+        plt.ylabel('Throughput (Mpps)')
     plt.xticks(ind, all_tasks_figure)
-        
     # apply offset transform to all x ticklabels.
     for label in plt.axes().xaxis.get_majorticklabels():
         label.set_transform(label.get_transform() + offset)
 
     plt.tight_layout()
-    plt.savefig('./figures/bar/nic16-nb1/t_bar_16_1cores_%s.pdf' % (_ipsec,))
+    if norm_flag:
+        plt.savefig('./figures/bar/throughput/t_bar_%scores_%s_%s_norm.pdf' % (_core, _ipsec, _trace))
+    else:
+        plt.savefig('./figures/bar/throughput/t_bar_%scores_%s_%s.pdf' % (_core, _ipsec, _trace))
     plt.clf()
-
-
-
-# NB&SB -> 1core, NIC -> 16cores
-def get_l_draw_data_vary_task_16_1(_type, _ipsec, _trace):
-    _core = "1"
-    if _type == "SmartNIC":
-        _core = "16"
-
-    data_vec_avg = list()
-    data_vec_tail = list()
-    for _task in all_tasks:
-        data_vec_avg.append(avg_l_val_med[_type][_task][_ipsec][_trace][_core])
-        data_vec_tail.append(tail_l_val_med[_type][_task][_ipsec][_trace][_core])
-    return data_vec_avg, data_vec_tail
-    
-# NB&SB -> 1core, NIC -> 16cores
-def draw_l_bar_for_core_ipsec_16_1(_ipsec):
-    N = len(all_tasks)
-    ind = np.arange(N) * 10 + 10    # the x locations for the groups    
-    width = 6.0/len(all_types)       # the width of the bars: can also be len(x) sequence
-
-    cnt = 0
-    legends = list()
-    for _type in all_types:
-        data_vec_avg, data_vec_tail = get_l_draw_data_vary_task_16_1(_type, _ipsec, "64B")
-        yerr = np.zeros((2, len(data_vec_avg)))
-        yerr[0, :] = np.array(data_vec_avg) - np.array(data_vec_avg)
-        yerr[1, :] = np.array(data_vec_tail) - np.array(data_vec_avg)
-        
-        p1 = plt.bar(ind + width * (cnt - len(all_types) / 2.0 + 0.5), data_vec_avg, width, yerr=yerr, color=colors[cnt], edgecolor = 'k', ecolor='k', align="center")
-        legends.append(p1)
-        cnt += 1
-    
-    plt.legend(legends, ["NIC-16C", "NB-1C", "SB-1C"])
-    plt.ylabel('Avg. and 99th tail latency (microsecond)')
-    plt.xticks(ind, all_tasks_figure)
-        
-    # apply offset transform to all x ticklabels.
-    for label in plt.axes().xaxis.get_majorticklabels():
-        label.set_transform(label.get_transform() + offset)
-
-    plt.tight_layout()
-    plt.savefig('./figures/bar/nic16-nb1/l_bar_16_1cores_%s.pdf' % (_ipsec,))
-    plt.clf()
-
-
-
-
-# NB&SB -> 1core, NIC -> 8cores and 1core
-def get_t_draw_data_vary_task_1811(_type, _ipsec, _trace, _core):
-    data_vec = list()
-    for _task in all_tasks:
-        data_vec.append(t_val_med[_type][_task][_ipsec][_trace][_core])
-    # print(data_vec)
-    return data_vec
-
-# NB&SB -> 1core, NIC -> 8cores and 1core    
-def draw_t_bar_for_core_ipsec_1811(_ipsec, _trace):
-    N = len(all_tasks)
-    ind = np.arange(N) * 10 + 10    # the x locations for the groups    
-    width = 5.0/len(all_types)       # the width of the bars: can also be len(x) sequence
-
-    cnt = 0
-    legends = list()
-    for _type in all_types:
-        data_vec = get_t_draw_data_vary_task_1811(_type, _ipsec, _trace, "1")
-        p1 = plt.bar(ind + width * (cnt - (len(all_types) + 1) / 2.0 + 0.5), data_vec, width, color=colors[cnt], edgecolor = 'k', align="center")
-        legends.append(p1)
-        cnt += 1
-    
-        if _type == "SmartNIC":
-            data_vec = get_t_draw_data_vary_task_1811(_type, _ipsec, _trace, "8")
-            p1 = plt.bar(ind + width * (cnt - (len(all_types) + 1) / 2.0 + 0.5), data_vec, width, color=colors[cnt], edgecolor = 'k', align="center")
-            legends.append(p1)
-            cnt += 1
-    
-    plt.legend(legends, ["NIC-1C", "NIC-8C", "NB-1C", "SB-1C"])
-    plt.ylabel('Throughput (Mpps)')
-    plt.xticks(ind, all_tasks_figure)
-        
-    # apply offset transform to all x ticklabels.
-    for label in plt.axes().xaxis.get_majorticklabels():
-        label.set_transform(label.get_transform() + offset)
-
-    plt.tight_layout()
-    plt.savefig('./figures/bar/nic1_8-nb1/t_bar_1811_%s_cores_%s.pdf' % (_trace, _ipsec))
-    plt.clf()
-
-
-
-# NB&SB -> 1core, NIC -> 8cores and 1core
-def get_l_draw_data_vary_task_1811(_type, _ipsec, _trace, _core):
-    data_vec_avg = list()
-    data_vec_tail = list()
-    for _task in all_tasks:
-        data_vec_avg.append(avg_l_val_med[_type][_task][_ipsec][_trace][_core])
-        data_vec_tail.append(tail_l_val_med[_type][_task][_ipsec][_trace][_core])
-    return data_vec_avg, data_vec_tail
-
-# NB&SB -> 1core, NIC -> 8cores and 1core    
-def draw_l_bar_for_core_ipsec_1811(_ipsec, _trace):
-    N = len(all_tasks)
-    ind = np.arange(N) * 10 + 10    # the x locations for the groups    
-    width = 5.0/len(all_types)       # the width of the bars: can also be len(x) sequence
-
-    cnt = 0
-    legends = list()
-    for _type in all_types:
-        data_vec_avg, data_vec_tail = get_l_draw_data_vary_task_1811(_type, _ipsec, _trace, "1")
-        yerr = np.zeros((2, len(data_vec_avg)))
-        yerr[0, :] = np.array(data_vec_avg) - np.array(data_vec_avg)
-        yerr[1, :] = np.array(data_vec_tail) - np.array(data_vec_avg)
-        
-        p1 = plt.bar(ind + width * (cnt - (len(all_types) + 1) / 2.0 + 0.5), data_vec_avg, width, yerr=yerr, color=colors[cnt], edgecolor = 'k', ecolor='k', align="center")
-        legends.append(p1)
-        cnt += 1
-
-        if _type == "SmartNIC":
-            data_vec_avg, data_vec_tail = get_l_draw_data_vary_task_1811(_type, _ipsec, _trace, "8")
-            yerr = np.zeros((2, len(data_vec_avg)))
-            yerr[0, :] = np.array(data_vec_avg) - np.array(data_vec_avg)
-            yerr[1, :] = np.array(data_vec_tail) - np.array(data_vec_avg)
-            
-            p1 = plt.bar(ind + width * (cnt - (len(all_types) + 1) / 2.0 + 0.5), data_vec_avg, width, yerr=yerr, color=colors[cnt], edgecolor = 'k', ecolor='k', align="center")
-            legends.append(p1)
-            cnt += 1
-
-    
-    plt.legend(legends, ["NIC-1C", "NIC-8C", "NB-1C", "SB-1C"])
-    plt.ylabel('Avg. and 99th tail latency (microsecond)')
-    plt.xticks(ind, all_tasks_figure)
-        
-    # apply offset transform to all x ticklabels.
-    for label in plt.axes().xaxis.get_majorticklabels():
-        label.set_transform(label.get_transform() + offset)
-    plt.tight_layout()
-    plt.savefig('./figures/bar/nic1_8-nb1/l_bar_1811_%s_cores_%s.pdf' % (_trace, _ipsec))
-    plt.clf()
-
-
-
-
-
-# NB&SB -> 1core, NIC -> 8cores
-def get_t_draw_data_vary_task_811(_type, _ipsec, _trace, _core):
-    data_vec = list()
-    for _task in all_tasks:
-        data_vec.append(t_val_med[_type][_task][_ipsec][_trace][_core])
-    # print(data_vec)
-    return data_vec
-
-# NB&SB -> 1core, NIC -> 8cores and 1core    
-def draw_t_bar_for_core_ipsec_811(_ipsec, _trace, _nic_core_num):
-    N = len(all_tasks)
-    ind = np.arange(N) * 10 + 10    # the x locations for the groups    
-    width = 5.0/len(all_types)       # the width of the bars: can also be len(x) sequence
-
-    max_y_val = 0
-
-    data_vecs = list()
-
-    cnt = 0
-    legends = list()
-    for _type in all_types:
-        if _type == "SmartNIC":
-            data_vec = get_t_draw_data_vary_task_811(_type, _ipsec, _trace, _nic_core_num)
-        else:
-            data_vec = get_t_draw_data_vary_task_811(_type, _ipsec, _trace, "1")
-        max_y_val = max(max_y_val, max(data_vec))
-        p1 = plt.bar(ind + width * (cnt - (len(all_types)) / 2.0 + 0.5), data_vec, width, color=colors[cnt], edgecolor = 'k', align="center")
-        legends.append(p1)
-        if _ipsec != "no_ipsec":
-            print(str(all_types[cnt]) + " " + _trace + " " + _ipsec + ": " + str(data_vec))
-        data_vecs.append(data_vec)        
-        cnt += 1
-    
-    for i in range(len(data_vecs[0])):
-        print("{0:.2f}, {1:.2f}".format(data_vecs[0][i]/data_vecs[1][i], data_vecs[0][i]/data_vecs[2][i]))
-        
-    plt.legend(legends, all_types, ncol=3)
-    plt.ylabel('Throughput (Mpps)')
-    plt.xticks(ind, all_tasks_figure)
-        
-    plt.axes().set_ylim(ymin=0, ymax=max_y_val * 1.25)
-
-
-    # apply offset transform to all x ticklabels.
-    for label in plt.axes().xaxis.get_majorticklabels():
-        label.set_transform(label.get_transform() + offset)
-
-    plt.tight_layout()
-    plt.savefig('./figures/bar/nic8-nb1/t_bar_%s11_%s_cores_%s.pdf' % (_nic_core_num, _trace, _ipsec))
-    plt.clf()
-
-
-
-# NB&SB -> 1core, NIC -> 8cores
-def get_l_draw_data_vary_task_811(_type, _ipsec, _trace, _core):
-    data_vec_avg = list()
-    data_vec_tail = list()
-    for _task in all_tasks:
-        data_vec_avg.append(avg_l_val_med[_type][_task][_ipsec][_trace][_core])
-        data_vec_tail.append(tail_l_val_med[_type][_task][_ipsec][_trace][_core])
-    return data_vec_avg, data_vec_tail
-
-# NB&SB -> 1core, NIC -> 8cores    
-def draw_l_bar_for_core_ipsec_811(_ipsec, _trace, _nic_core_num):
-    N = len(all_tasks)
-    ind = np.arange(N) * 10 + 10    # the x locations for the groups    
-    width = 5.0/len(all_types)       # the width of the bars: can also be len(x) sequence
-
-    cnt = 0
-    legends = list()
-    for _type in all_types:
-        if _type == "SmartNIC":
-            data_vec_avg, data_vec_tail = get_l_draw_data_vary_task_811(_type, _ipsec, _trace, _nic_core_num)
-        else:
-            data_vec_avg, data_vec_tail = get_l_draw_data_vary_task_811(_type, _ipsec, _trace, "1")
-        yerr = np.zeros((2, len(data_vec_avg)))
-        yerr[0, :] = np.array(data_vec_avg) - np.array(data_vec_avg)
-        yerr[1, :] = np.array(data_vec_tail) - np.array(data_vec_avg)
-        
-        p1 = plt.bar(ind + width * (cnt - (len(all_types)) / 2.0 + 0.5), data_vec_avg, width, yerr=yerr, color=colors[cnt], edgecolor = 'k', ecolor='k', align="center")
-        legends.append(p1)
-        cnt += 1
-
-    
-    plt.legend(legends, ["SmartNIC", "NetBricks", "SafeBricks"])
-    plt.ylabel('Avg. and 99th tail latency (microsecond)')
-    plt.xticks(ind, all_tasks_figure)
-        
-    # apply offset transform to all x ticklabels.
-    for label in plt.axes().xaxis.get_majorticklabels():
-        label.set_transform(label.get_transform() + offset)
-    plt.tight_layout()
-    plt.savefig('./figures/bar/nic8-nb1/l_bar_%s11_%s_cores_%s.pdf' % (_nic_core_num, _trace, _ipsec))
-    plt.clf()
-
-
-
 
 if __name__ == '__main__':
     plt.rc('text', usetex=True)
@@ -600,26 +235,23 @@ if __name__ == '__main__':
        family = 'Gill Sans',
        fname = '/usr/share/fonts/truetype/adf/GilliusADF-Regular.otf')
 
-    data_load("./rawdata/nic")
-    data_load("./rawdata/nb")
-    data_load("./rawdata/sb")
+    data_load("./rawdata/nic/sixnfs.dat")
+    data_load("./rawdata/nb/sixnfs.dat")
+    data_load("./rawdata/sb/sixnfs.dat")
 
     process_draw_data()
 
-    # for _ipsec in all_ipsecs:
-        # draw_l_bar_for_core_ipsec_16_1(_ipsec)
-        # draw_t_bar_for_core_ipsec_16_1(_ipsec)
-        # draw_l_bar_for_core_ipsec_1811(_ipsec, "64B")
-        # draw_t_bar_for_core_ipsec_1811(_ipsec, "64B")
-        # draw_l_bar_for_core_ipsec_1811(_ipsec, "ICTF")
-        # draw_t_bar_for_core_ipsec_1811(_ipsec, "ICTF")
+    all_cores_wecare = ["1"]
+    for _ipsec in all_ipsecs:
+        for _core in all_cores_wecare:
+            draw_t_bar_for_core_ipsec_trace(_core, _ipsec, "64B")
+            draw_t_bar_for_core_ipsec_trace(_core, _ipsec, "ICTF")
 
-    draw_t_bar_for_core_ipsec_811("sha_ipsec", "64B", "1")
-    draw_t_bar_for_core_ipsec_811("sha_ipsec", "ICTF", "1")
 
-        # draw_t_bar_for_core_ipsec_811(_ipsec, "64B", "8")
-        # draw_t_bar_for_core_ipsec_811(_ipsec, "ICTF", "8")
-        
-        # for _core in all_cores:
-        #     draw_t_bar_for_core_ipsec(_core, _ipsec)
-        #     draw_l_bar_for_core_ipsec(_core, _ipsec)
+    process_draw_data(norm_flag=True)
+
+    all_cores_wecare = ["1"]
+    for _ipsec in all_ipsecs:
+        for _core in all_cores_wecare:
+            draw_t_bar_for_core_ipsec_trace(_core, _ipsec, "64B", norm_flag=True)
+            draw_t_bar_for_core_ipsec_trace(_core, _ipsec, "ICTF", norm_flag=True)
