@@ -56,9 +56,9 @@ cores_nb = ["1", "2", "3", "4", "5", "6"]
 
 def get_type(ori_name):
     switcher = {
-        **dict.fromkeys(["./rawdata/nic/sixnfs.dat"], "SmartNIC"), 
-        **dict.fromkeys(["./rawdata/nb/sixnfs.dat"], "NetBricks"), 
-        **dict.fromkeys(["./rawdata/sb/sixnfs.dat"], "SafeBricks"), 
+        **dict.fromkeys(["./rawdata/nic/sixnfs.res"], "SmartNIC"), 
+        **dict.fromkeys(["./rawdata/nb/sixnfs.res"], "NetBricks"), 
+        **dict.fromkeys(["./rawdata/sb/sixnfs.res"], "SafeBricks"), 
     }
     return switcher.get(ori_name, "Invalid path name %s" % (ori_name,))
 
@@ -235,9 +235,9 @@ if __name__ == '__main__':
        family = 'Gill Sans',
        fname = '/usr/share/fonts/truetype/adf/GilliusADF-Regular.otf')
 
-    data_load("./rawdata/nic/sixnfs.dat")
-    data_load("./rawdata/nb/sixnfs.dat")
-    data_load("./rawdata/sb/sixnfs.dat")
+    data_load("./rawdata/nic/sixnfs.res")
+    data_load("./rawdata/nb/sixnfs.res")
+    data_load("./rawdata/sb/sixnfs.res")
 
     process_draw_data()
 

@@ -223,8 +223,8 @@ if __name__ == "__main__":
        family = 'Gill Sans',
        fname = '/usr/share/fonts/truetype/adf/GilliusADF-Regular.otf')
 
-    data_load("./rawdata/nic/ac-hs.dat")
-    data_load("./rawdata/nb/ac-hs.dat")
+    data_load("./rawdata/nic/ac-hs.res")
+    data_load("./rawdata/nb/ac-hs.res")
     process_draw_data()
     draw_t_bar_for_rule("no_ipsec", "ICTF", "1")
     draw_t_bar_for_trace("no_ipsec", "1", "33.5k")
