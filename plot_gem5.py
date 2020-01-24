@@ -42,6 +42,7 @@ offset = matplotlib.transforms.ScaledTranslation(dx, dy, plt.gcf().dpi_scale_tra
 nfinvoke = ['acl-fw', 'dpi-queue', 'nat-tcp-v4', 'maglev', 'lpm', 'monitoring']
 cpus = ['TimingSimpleCPU', 'DerivO3CPU']
 l2_size = ['4MB', '2MB', '1MB', '512kB', '256kB']
+datadir = 'gem5data2'
 
 singleprog = nfinvoke
 multiprog = []
@@ -69,10 +70,6 @@ rawdata = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdic
 
 def extract_stdout(f_name):
     found = re.search('stdout_(.+?)\.out', f_name).group(1)
-    return found
-
-def extract_m5out(f_name):
-    found = re.search('m5out\/(.+?)\/', f_name).group(1)
     return found
 
 ticks_base = 1000000000000 # one second
@@ -105,17 +102,10 @@ def extract_packet_num(contents, nf):
             break
     return end_num - start_num        
 
-def extract_miss_rate(contents):
-    lines = contents.split('\n')
-    for line in lines:
-        if 'system.l2.overall_miss_rate::total' in line:
-            return float(line.split()[1])
-    return 0        
-
-def load_data():
-    f_list = glob.glob('./gem5data2/results/*.out')
+def load_data_cache():
+    f_list = glob.glob(f'./{datadir}/results/*.out')
     for f_name in f_list:
-        # print(f_name)
+        print(f_name)
         splits = extract_stdout(f_name).split('_')
         cpu = splits[0]
         nfs_str = splits[1].replace('dpi-queue', 'dpi')
@@ -140,9 +130,84 @@ def load_data():
             
             rawdata['throughput'][cpu][nf][corun_nfs][cachesize] = th_value
 
-            # print('throughput', cpu, nf, corun_nfs, cachesize, th_value)
+            print('throughput', cpu, nf, corun_nfs, cachesize, th_value)
 
-    f_list = glob.glob('./gem5data2/m5out/*')
+
+def extract_m5out(f_name):
+    found = re.search('m5out\/(.+?)\/', f_name).group(1)
+    return found
+
+def extract_miss_rate(contents, cpu_ids):
+    overall_accesses = 0
+    overall_hits = 0
+    overall_misses = 0
+    # print(cpu_ids)
+    for cpu_id in cpu_ids:
+        lines = contents.split('\n')
+        # system.l2.[overall_accesses|overall_hits|overall_misses]::.switch_cpus[cpu_id].data|inst
+        for line in lines:
+            if f'system.l2.overall_accesses::.switch_cpus{cpu_id}.data' in line:
+                overall_accesses += int(line.split()[1])
+            if f'system.l2.overall_accesses::.switch_cpus{cpu_id}.inst' in line:
+                overall_accesses += int(line.split()[1])
+
+            if f'system.l2.overall_hits::.switch_cpus{cpu_id}.data' in line:
+                overall_hits += int(line.split()[1])
+            if f'system.l2.overall_hits::.switch_cpus{cpu_id}.inst' in line:
+                overall_hits += int(line.split()[1])
+
+            if f'system.l2.overall_misses::.switch_cpus{cpu_id}.data' in line:
+                overall_misses += int(line.split()[1])
+            if f'system.l2.overall_misses::.switch_cpus{cpu_id}.inst' in line:
+                overall_misses += int(line.split()[1])
+
+    if overall_accesses == 0:
+        print('Error: overall_accesses is zero')
+        return 1
+    if overall_hits != 0:
+        return 1- overall_hits * 1.0 / overall_accesses
+    if overall_misses != 0:
+        return overall_misses * 1.0 / overall_accesses
+    print('Error: no overall_hits and overall_misses')
+    return 1
+
+# system.l2.demand_hits::.switch_cpus0.data
+def get_cpuids_from_name(nfs_str):
+    nf_cpu_ids = defaultdict(lambda : [])
+    nfs = nfs_str.split('.')
+    nf_num = len(nfs)
+    if 'dpi' in nfs:
+        nf_num += 16
+
+    if nf_num == 1:
+        nf_cpu_ids[nfs[0]] = ['']
+    elif nf_num < 10:
+        idx = 0
+        for nf in nfs:
+            if nf == 'dpi':
+                nf_cpu_ids[nf] = [f'{i}' for i in range(idx, idx + 16 + 1)]
+                idx += 16
+            else:
+                nf_cpu_ids[nf] = [f'{i}' for i in range(idx, idx + 1)]
+                idx += 1
+    else:
+        idx = 0
+        for nf in nfs:
+            if nf == 'dpi':
+                nf_cpu_ids[nf] = ['{:0>2d}'.format(i) for i in range(idx, idx + 16 + 1)]
+                idx += 16
+            else:
+                nf_cpu_ids[nf] = ['{:0>2d}'.format(i) for i in range(idx, idx + 1)]
+                idx += 1
+                            
+    # print(nfs)
+    # for nf in nfs:
+    #     print(nf_cpu_ids[nf])
+    return nf_cpu_ids    
+
+
+def load_data_bus():
+    f_list = glob.glob(f'./{datadir}/m5out/*')
     for f_name in f_list:
         dir_name = extract_m5out(f_name + '/')
         
@@ -151,22 +216,30 @@ def load_data():
         nfs_str = splits[1].replace('dpi-queue', 'dpi')
         cachesize = splits[2]
 
-        # this is a standalone nf
-        if '.' not in nfs_str:
-            nf = nfs_str
-            corun_nfs = 'standalone'
+        f_name = f'{f_name}/{dir_name}_stats.txt'
+        # print(f_name)
+        contents = open(f_name).read()
 
-            f_name = f'{f_name}/{dir_name}_stats.txt'
-            print(f_name)
-            contents = open(f_name).read()
-            miss_rate = extract_miss_rate(contents)
+        nf_cpu_ids = get_cpuids_from_name(nfs_str)
+        nfs = nfs_str.split('.')
+
+        for nf in nfs:
+            corun_nfs_list = nfs.copy()
+            corun_nfs_list.remove(nf)
+            corun_nfs = prog_set_to_cmd(corun_nfs_list)
+            if corun_nfs == '':
+                corun_nfs = 'standalone'
+
+            cpu_ids = nf_cpu_ids[nf]
+            # print(nf)
+            # print(cpu_ids)
+
+            miss_rate = extract_miss_rate(contents, cpu_ids)
 
             rawdata['l2missrate'][cpu][nf][corun_nfs][cachesize] = miss_rate
-            print('throughput', cpu, nf, corun_nfs, cachesize, miss_rate)
-        else:
-            pass # not sure if we can extract the l2 cache miss rate for individual nf
-
-
+            print('l2missrate', cpu, nf, corun_nfs, cachesize, miss_rate)
+            
+        # print('')
 
 
 if __name__ == '__main__':
@@ -175,4 +248,5 @@ if __name__ == '__main__':
        family = 'Gill Sans',
        fname = '/usr/share/fonts/truetype/adf/GilliusADF-Regular.otf')
 
-    load_data()
+    # load_data_cache()
+    load_data_bus()
