@@ -10,6 +10,8 @@ from collections import defaultdict
 import brewer2mpl
 import glob
 import re
+from termcolor import colored
+
 
  # brewer2mpl.get_map args: set name  set type  number of colors
 # bmap = brewer2mpl.get_map('Paired', 'qualitative', 12)
@@ -74,6 +76,10 @@ def extract_stdout(f_name):
 
 ticks_base = 1000000000000 # one second
 def extract_lasting_times(contents):
+    if contents == '':
+        print(colored('Error: stdout content null', 'red'))
+        return 1
+        
     r = re.search('Switched\ CPUS\ \@\ tick\ (.+?)\n', contents)
     if r: 
         start_ticks = int(r.group(1))
@@ -133,17 +139,22 @@ def load_data_cache():
             print('throughput', cpu, nf, corun_nfs, cachesize, th_value)
 
 
+
 def extract_m5out(f_name):
     found = re.search('m5out\/(.+?)\/', f_name).group(1)
     return found
 
 def extract_miss_rate(contents, cpu_ids):
+    if contents == '':
+        print(colored('Error: m5out content null', 'red'))
+        return 1
+
+    lines = contents.split('\n')
     overall_accesses = 0
     overall_hits = 0
     overall_misses = 0
     # print(cpu_ids)
     for cpu_id in cpu_ids:
-        lines = contents.split('\n')
         # system.l2.[overall_accesses|overall_hits|overall_misses]::.switch_cpus[cpu_id].data|inst
         for line in lines:
             if f'system.l2.overall_accesses::.switch_cpus{cpu_id}.data' in line:
@@ -162,13 +173,14 @@ def extract_miss_rate(contents, cpu_ids):
                 overall_misses += int(line.split()[1])
 
     if overall_accesses == 0:
-        print('Error: overall_accesses is zero')
+        print(colored('Error: m5out overall_accesses is zero', 'red'))
         return 1
     if overall_hits != 0:
         return 1- overall_hits * 1.0 / overall_accesses
     if overall_misses != 0:
         return overall_misses * 1.0 / overall_accesses
-    print('Error: no overall_hits and overall_misses')
+    
+    print(colored('Error: m5out no overall_hits and overall_misses', 'red'))
     return 1
 
 # system.l2.demand_hits::.switch_cpus0.data
@@ -186,7 +198,7 @@ def get_cpuids_from_name(nfs_str):
         for nf in nfs:
             if nf == 'dpi':
                 nf_cpu_ids[nf] = [f'{i}' for i in range(idx, idx + 16 + 1)]
-                idx += 16
+                idx += 16 + 1
             else:
                 nf_cpu_ids[nf] = [f'{i}' for i in range(idx, idx + 1)]
                 idx += 1
@@ -195,7 +207,7 @@ def get_cpuids_from_name(nfs_str):
         for nf in nfs:
             if nf == 'dpi':
                 nf_cpu_ids[nf] = ['{:0>2d}'.format(i) for i in range(idx, idx + 16 + 1)]
-                idx += 16
+                idx += 16 + 1
             else:
                 nf_cpu_ids[nf] = ['{:0>2d}'.format(i) for i in range(idx, idx + 1)]
                 idx += 1
