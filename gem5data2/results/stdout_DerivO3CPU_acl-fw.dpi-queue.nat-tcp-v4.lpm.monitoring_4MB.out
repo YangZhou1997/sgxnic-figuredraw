@@ -1,0 +1,250 @@
+gem5 Simulator System.  http://gem5.org
+gem5 is copyrighted software; use the --copyright option for details.
+
+gem5 compiled Jan 22 2020 23:27:30
+gem5 started Jan 22 2020 23:34:15
+gem5 executing on node-1.yangzhou-qv63708.lambda-mpi-pg0.clemson.cloudlab.us, pid 144750
+command line: build/ARM/gem5.fast --remote-gdb-port=0 --outdir=/users/yangzhou/gem5/sgx_nic/m5out/DerivO3CPU_acl-fw.dpi-queue.nat-tcp-v4.lpm.monitoring_4MB --stats-file=DerivO3CPU_acl-fw.dpi-queue.nat-tcp-v4.lpm.monitoring_4MB_stats.txt configs/example/se_nic.py --interp-dir /usr/aarch64-linux-gnu --redirects /lib=/usr/aarch64-linux-gnu/lib -c 'acl-fw;dpi-queue;nat-tcp-v4;lpm;monitoring' --cpu-type=DerivO3CPU --cpu-clock=2.4GHz --asic-clock=0.56GHz --cacheline_size=128 --caches --l2cache --l2_size=4MB --l2_assoc=16 --mem-size=128GB --mem-type=DDR3_1600_8x8 --mem-channels=2 --mem-ranks=2 --fast-forward=2000000000 --rel-max-tick=5000000000000
+
+['acl-fw', 'dpi-queue', 'nat-tcp-v4', 'lpm', 'monitoring']
+{'monitoring': [20], 'dpi-queue': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 'nat-tcp-v4': [18], 'lpm': [19], 'acl-fw': [0]} 5 21
+Setting the interpreter path to: /usr/aarch64-linux-gnu 
+For dynamically linked applications you might still need to setup the --redirects so that libraries are found
+
+Global frequency set at 1000000000000 ticks per second
+Switch at instruction count:2000000000
+Receiving started
+Receiving started
+Receiving started
+Receiving port Simulate queue
+Running 1 pipelines
+Running 1 pipelines
+Running 1 pipelines
+trying to open file /users/yangzhou/ictf2010.dat
+trying to open file /users/yangzhou/ictf2010.dat
+opening succeeds
+opening succeeds
+trying to open file /users/yangzhou/ictf2010.dat
+opening succeeds
+Receiving port Simulate queue
+Running 1 pipelines
+trying to open file /users/yangzhou/ictf2010.dat
+opening succeeds
+pkt_num: 1048576
+dpi rules length: 33471
+number of rules in acls: 643
+monitoring packets processed: 65536
+dpi AhoCorasick graph built up!
+trying to open file /users/yangzhou/ictf2010.dat
+opening succeeds
+nat-tcp-v4 packets processed: 65536
+monitoring packets processed: 131072
+nat-tcp-v4 packets processed: 131072
+acl-fw packets processed: 65536
+monitoring packets processed: 196608
+lpm packets processed: 65536
+lpm packets processed: 131072
+nat-tcp-v4 packets processed: 196608
+acl-fw packets processed: 131072
+monitoring packets processed: 262144
+lpm packets processed: 196608
+nat-tcp-v4 packets processed: 262144
+lpm packets processed: 262144
+acl-fw packets processed: 196608
+monitoring packets processed: 327680
+nat-tcp-v4 packets processed: 327680
+lpm packets processed: 327680
+acl-fw packets processed: 262144
+nat-tcp-v4 packets processed: 393216
+lpm packets processed: 393216
+monitoring packets processed: 393216
+lpm packets processed: 458752
+nat-tcp-v4 packets processed: 458752
+acl-fw packets processed: 327680
+lpm packets processed: 524288
+monitoring packets processed: 458752
+nat-tcp-v4 packets processed: 524288
+acl-fw packets processed: 393216
+lpm packets processed: 589824
+nat-tcp-v4 packets processed: 589824
+monitoring packets processed: 524288
+lpm packets processed: 655360
+acl-fw packets processed: 458752
+nat-tcp-v4 packets processed: 655360
+lpm packets processed: 720896
+monitoring packets processed: 589824
+lpm packets processed: 786432
+acl-fw packets processed: 524288
+nat-tcp-v4 packets processed: 720896
+lpm packets processed: 851968
+nat-tcp-v4 packets processed: 786432
+monitoring packets processed: 655360
+acl-fw packets processed: 589824
+dpi packets processed: 65536
+lpm packets processed: 917504
+nat-tcp-v4 packets processed: 851968
+dpi packets processed: 131072
+lpm packets processed: 983040
+monitoring packets processed: 720896
+acl-fw packets processed: 655360
+dpi packets processed: 196608
+nat-tcp-v4 packets processed: 917504
+lpm packets processed: 1048576
+dpi packets processed: 262144
+lpm packets processed: 1114112
+acl-fw packets processed: 720896
+monitoring packets processed: 786432
+nat-tcp-v4 packets processed: 983040
+dpi packets processed: 327680
+lpm packets processed: 1179648
+nat-tcp-v4 packets processed: 1048576
+acl-fw packets processed: 786432
+monitoring packets processed: 851968
+dpi packets processed: 393216
+lpm packets processed: 1245184
+nat-tcp-v4 packets processed: 1114112
+dpi packets processed: 458752
+lpm packets processed: 1310720
+acl-fw packets processed: 851968
+monitoring packets processed: 917504
+dpi packets processed: 524288
+lpm packets processed: 1376256
+nat-tcp-v4 packets processed: 1179648
+acl-fw packets processed: 917504
+dpi packets processed: 589824
+lpm packets processed: 1441792
+nat-tcp-v4 packets processed: 1245184
+monitoring packets processed: 983040
+dpi packets processed: 655360
+lpm packets processed: 1507328
+acl-fw packets processed: 983040
+nat-tcp-v4 packets processed: 1310720
+dpi packets processed: 720896
+lpm packets processed: 1572864
+monitoring packets processed: 1048576
+nat-tcp-v4 packets processed: 1376256
+dpi packets processed: 786432
+lpm packets processed: 1638400
+acl-fw packets processed: 1048576
+dpi packets processed: 851968
+lpm packets processed: 1703936
+monitoring packets processed: 1114112
+nat-tcp-v4 packets processed: 1441792
+acl-fw packets processed: 1114112
+dpi packets processed: 917504
+lpm packets processed: 1769472
+nat-tcp-v4 packets processed: 1507328
+monitoring packets processed: 1179648
+dpi packets processed: 983040
+lpm packets processed: 1835008
+acl-fw packets processed: 1179648
+nat-tcp-v4 packets processed: 1572864
+dpi packets processed: 1048576
+lpm packets processed: 1900544
+monitoring packets processed: 1245184
+nat-tcp-v4 packets processed: 1638400
+dpi packets processed: 1114112
+lpm packets processed: 1966080
+acl-fw packets processed: 1245184
+dpi packets processed: 1179648
+lpm packets processed: 2031616
+nat-tcp-v4 packets processed: 1703936
+monitoring packets processed: 1310720
+acl-fw packets processed: 1310720
+dpi packets processed: 1245184
+lpm packets processed: 2097152
+nat-tcp-v4 packets processed: 1769472
+dpi packets processed: 1310720
+lpm packets processed: 2162688
+monitoring packets processed: 1376256
+acl-fw packets processed: 1376256
+nat-tcp-v4 packets processed: 1835008
+dpi packets processed: 1376256
+lpm packets processed: 2228224
+acl-fw packets processed: 1441792
+nat-tcp-v4 packets processed: 1900544
+dpi packets processed: 1441792
+monitoring packets processed: 1441792
+lpm packets processed: 2293760
+dpi packets processed: 1507328
+lpm packets processed: 2359296
+nat-tcp-v4 packets processed: 1966080
+acl-fw packets processed: 1507328
+monitoring packets processed: 1507328
+dpi packets processed: 1572864
+lpm packets processed: 2424832
+nat-tcp-v4 packets processed: 2031616
+dpi packets processed: 1638400
+lpm packets processed: 2490368
+acl-fw packets processed: 1572864
+monitoring packets processed: 1572864
+nat-tcp-v4 packets processed: 2097152
+dpi packets processed: 1703936
+lpm packets processed: 2555904
+acl-fw packets processed: 1638400
+dpi packets processed: 1769472
+nat-tcp-v4 packets processed: 2162688
+lpm packets processed: 2621440
+monitoring packets processed: 1638400
+dpi packets processed: 1835008
+lpm packets processed: 2686976
+nat-tcp-v4 packets processed: 2228224
+acl-fw packets processed: 1703936
+dpi packets processed: 1900544
+lpm packets processed: 2752512
+monitoring packets processed: 1703936
+nat-tcp-v4 packets processed: 2293760
+dpi packets processed: 1966080
+acl-fw packets processed: 1769472
+lpm packets processed: 2818048
+nat-tcp-v4 packets processed: 2359296
+dpi packets processed: 2031616
+monitoring packets processed: 1769472
+lpm packets processed: 2883584
+Switched CPUS @ tick 957954543534
+switching cpus
+**** REAL SIMULATION ****
+acl-fw packets processed: 1835008
+nat-tcp-v4 packets processed: 2424832
+lpm packets processed: 2949120
+dpi packets processed: 2097152
+monitoring packets processed: 1835008
+lpm packets processed: 3014656
+acl-fw packets processed: 1900544
+nat-tcp-v4 packets processed: 2490368
+dpi packets processed: 2162688
+lpm packets processed: 3080192
+monitoring packets processed: 1900544
+nat-tcp-v4 packets processed: 2555904
+acl-fw packets processed: 1966080
+dpi packets processed: 2228224
+lpm packets processed: 3145728
+monitoring packets processed: 1966080
+nat-tcp-v4 packets processed: 2621440
+lpm packets processed: 3211264
+acl-fw packets processed: 2031616
+dpi packets processed: 2293760
+lpm packets processed: 3276800
+nat-tcp-v4 packets processed: 2686976
+monitoring packets processed: 2031616
+acl-fw packets processed: 2097152
+dpi packets processed: 2359296
+lpm packets processed: 3342336
+nat-tcp-v4 packets processed: 2752512
+monitoring packets processed: 2097152
+lpm packets processed: 3407872
+acl-fw packets processed: 2162688
+dpi packets processed: 2424832
+nat-tcp-v4 packets processed: 2818048
+lpm packets processed: 3473408
+monitoring packets processed: 2162688
+dpi packets processed: 2490368
+acl-fw packets processed: 2228224
+nat-tcp-v4 packets processed: 2883584
+lpm packets processed: 3538944
+monitoring packets processed: 2228224
+dpi packets processed: 2555904
+lpm packets processed: 3604480
+acl-fw packets processed: 2293760
+nat-tcp-v4 packets processed: 2949120
+Exiting @ tick 1069730848098 because user interrupt received

@@ -1,0 +1,234 @@
+gem5 Simulator System.  http://gem5.org
+gem5 is copyrighted software; use the --copyright option for details.
+
+gem5 compiled Jan 22 2020 23:32:40
+gem5 started Jan 22 2020 23:34:09
+gem5 executing on node-1.yangzhou-qv63200.lambda-mpi-pg0.clemson.cloudlab.us, pid 104136
+command line: build/ARM/gem5.fast --remote-gdb-port=0 --outdir=/users/yangzhou/gem5/sgx_nic/m5out/TimingSimpleCPU_nat-tcp-v4.maglev_4MB --stats-file=TimingSimpleCPU_nat-tcp-v4.maglev_4MB_stats.txt configs/example/se_nic.py --interp-dir /usr/aarch64-linux-gnu --redirects /lib=/usr/aarch64-linux-gnu/lib -c 'nat-tcp-v4;maglev' --cpu-type=TimingSimpleCPU --cpu-clock=2.4GHz --asic-clock=0.56GHz --cacheline_size=128 --caches --l2cache --l2_size=4MB --l2_assoc=16 --mem-size=128GB --mem-type=DDR3_1600_8x8 --mem-channels=2 --mem-ranks=2 --fast-forward=2000000000 --rel-max-tick=5000000000000
+
+['nat-tcp-v4', 'maglev']
+{'maglev': [1], 'nat-tcp-v4': [0]} 2 2
+Setting the interpreter path to: /usr/aarch64-linux-gnu 
+For dynamically linked applications you might still need to setup the --redirects so that libraries are found
+
+Global frequency set at 1000000000000 ticks per second
+Switch at instruction count:2000000000
+Receiving started
+Receiving started
+Running 1 pipelines
+Running 1 pipelines
+trying to open file /users/yangzhou/ictf2010.dat
+trying to open file /users/yangzhou/ictf2010.dat
+opening succeeds
+opening succeeds
+Generating permutations
+Generating LUT
+Done Generating LUT
+maglev packets processed: 65536
+nat-tcp-v4 packets processed: 65536
+maglev packets processed: 131072
+maglev packets processed: 196608
+nat-tcp-v4 packets processed: 131072
+maglev packets processed: 262144
+nat-tcp-v4 packets processed: 196608
+nat-tcp-v4 packets processed: 262144
+maglev packets processed: 327680
+nat-tcp-v4 packets processed: 327680
+maglev packets processed: 393216
+nat-tcp-v4 packets processed: 393216
+maglev packets processed: 458752
+nat-tcp-v4 packets processed: 458752
+maglev packets processed: 524288
+nat-tcp-v4 packets processed: 524288
+nat-tcp-v4 packets processed: 589824
+maglev packets processed: 589824
+nat-tcp-v4 packets processed: 655360
+maglev packets processed: 655360
+nat-tcp-v4 packets processed: 720896
+maglev packets processed: 720896
+nat-tcp-v4 packets processed: 786432
+maglev packets processed: 786432
+nat-tcp-v4 packets processed: 851968
+nat-tcp-v4 packets processed: 917504
+maglev packets processed: 851968
+nat-tcp-v4 packets processed: 983040
+maglev packets processed: 917504
+nat-tcp-v4 packets processed: 1048576
+maglev packets processed: 983040
+nat-tcp-v4 packets processed: 1114112
+maglev packets processed: 1048576
+nat-tcp-v4 packets processed: 1179648
+nat-tcp-v4 packets processed: 1245184
+maglev packets processed: 1114112
+nat-tcp-v4 packets processed: 1310720
+maglev packets processed: 1179648
+nat-tcp-v4 packets processed: 1376256
+maglev packets processed: 1245184
+nat-tcp-v4 packets processed: 1441792
+maglev packets processed: 1310720
+nat-tcp-v4 packets processed: 1507328
+maglev packets processed: 1376256
+nat-tcp-v4 packets processed: 1572864
+nat-tcp-v4 packets processed: 1638400
+maglev packets processed: 1441792
+nat-tcp-v4 packets processed: 1703936
+maglev packets processed: 1507328
+nat-tcp-v4 packets processed: 1769472
+maglev packets processed: 1572864
+nat-tcp-v4 packets processed: 1835008
+maglev packets processed: 1638400
+nat-tcp-v4 packets processed: 1900544
+nat-tcp-v4 packets processed: 1966080
+maglev packets processed: 1703936
+nat-tcp-v4 packets processed: 2031616
+maglev packets processed: 1769472
+nat-tcp-v4 packets processed: 2097152
+maglev packets processed: 1835008
+nat-tcp-v4 packets processed: 2162688
+maglev packets processed: 1900544
+nat-tcp-v4 packets processed: 2228224
+nat-tcp-v4 packets processed: 2293760
+maglev packets processed: 1966080
+Switched CPUS @ tick 939543265869
+switching cpus
+**** REAL SIMULATION ****
+nat-tcp-v4 packets processed: 2359296
+maglev packets processed: 2031616
+nat-tcp-v4 packets processed: 2424832
+maglev packets processed: 2097152
+nat-tcp-v4 packets processed: 2490368
+maglev packets processed: 2162688
+nat-tcp-v4 packets processed: 2555904
+nat-tcp-v4 packets processed: 2621440
+maglev packets processed: 2228224
+nat-tcp-v4 packets processed: 2686976
+maglev packets processed: 2293760
+nat-tcp-v4 packets processed: 2752512
+maglev packets processed: 2359296
+nat-tcp-v4 packets processed: 2818048
+maglev packets processed: 2424832
+nat-tcp-v4 packets processed: 2883584
+maglev packets processed: 2490368
+nat-tcp-v4 packets processed: 2949120
+nat-tcp-v4 packets processed: 3014656
+maglev packets processed: 2555904
+nat-tcp-v4 packets processed: 3080192
+maglev packets processed: 2621440
+nat-tcp-v4 packets processed: 3145728
+maglev packets processed: 2686976
+nat-tcp-v4 packets processed: 3211264
+maglev packets processed: 2752512
+nat-tcp-v4 packets processed: 3276800
+nat-tcp-v4 packets processed: 3342336
+maglev packets processed: 2818048
+nat-tcp-v4 packets processed: 3407872
+maglev packets processed: 2883584
+nat-tcp-v4 packets processed: 3473408
+maglev packets processed: 2949120
+nat-tcp-v4 packets processed: 3538944
+maglev packets processed: 3014656
+nat-tcp-v4 packets processed: 3604480
+maglev packets processed: 3080192
+nat-tcp-v4 packets processed: 3670016
+nat-tcp-v4 packets processed: 3735552
+maglev packets processed: 3145728
+nat-tcp-v4 packets processed: 3801088
+maglev packets processed: 3211264
+nat-tcp-v4 packets processed: 3866624
+maglev packets processed: 3276800
+nat-tcp-v4 packets processed: 3932160
+maglev packets processed: 3342336
+nat-tcp-v4 packets processed: 3997696
+nat-tcp-v4 packets processed: 4063232
+maglev packets processed: 3407872
+nat-tcp-v4 packets processed: 4128768
+maglev packets processed: 3473408
+nat-tcp-v4 packets processed: 4194304
+maglev packets processed: 3538944
+nat-tcp-v4 packets processed: 4259840
+maglev packets processed: 3604480
+nat-tcp-v4 packets processed: 4325376
+maglev packets processed: 3670016
+nat-tcp-v4 packets processed: 4390912
+nat-tcp-v4 packets processed: 4456448
+maglev packets processed: 3735552
+nat-tcp-v4 packets processed: 4521984
+maglev packets processed: 3801088
+nat-tcp-v4 packets processed: 4587520
+maglev packets processed: 3866624
+nat-tcp-v4 packets processed: 4653056
+maglev packets processed: 3932160
+nat-tcp-v4 packets processed: 4718592
+nat-tcp-v4 packets processed: 4784128
+maglev packets processed: 3997696
+nat-tcp-v4 packets processed: 4849664
+maglev packets processed: 4063232
+nat-tcp-v4 packets processed: 4915200
+maglev packets processed: 4128768
+nat-tcp-v4 packets processed: 4980736
+maglev packets processed: 4194304
+nat-tcp-v4 packets processed: 5046272
+maglev packets processed: 4259840
+nat-tcp-v4 packets processed: 5111808
+nat-tcp-v4 packets processed: 5177344
+maglev packets processed: 4325376
+nat-tcp-v4 packets processed: 5242880
+maglev packets processed: 4390912
+nat-tcp-v4 packets processed: 5308416
+maglev packets processed: 4456448
+nat-tcp-v4 packets processed: 5373952
+maglev packets processed: 4521984
+nat-tcp-v4 packets processed: 5439488
+nat-tcp-v4 packets processed: 5505024
+maglev packets processed: 4587520
+nat-tcp-v4 packets processed: 5570560
+maglev packets processed: 4653056
+nat-tcp-v4 packets processed: 5636096
+maglev packets processed: 4718592
+nat-tcp-v4 packets processed: 5701632
+maglev packets processed: 4784128
+nat-tcp-v4 packets processed: 5767168
+maglev packets processed: 4849664
+nat-tcp-v4 packets processed: 5832704
+nat-tcp-v4 packets processed: 5898240
+maglev packets processed: 4915200
+nat-tcp-v4 packets processed: 5963776
+maglev packets processed: 4980736
+nat-tcp-v4 packets processed: 6029312
+maglev packets processed: 5046272
+nat-tcp-v4 packets processed: 6094848
+maglev packets processed: 5111808
+nat-tcp-v4 packets processed: 6160384
+nat-tcp-v4 packets processed: 6225920
+maglev packets processed: 5177344
+nat-tcp-v4 packets processed: 6291456
+maglev packets processed: 5242880
+nat-tcp-v4 packets processed: 6356992
+maglev packets processed: 5308416
+nat-tcp-v4 packets processed: 6422528
+maglev packets processed: 5373952
+nat-tcp-v4 packets processed: 6488064
+nat-tcp-v4 packets processed: 6553600
+maglev packets processed: 5439488
+nat-tcp-v4 packets processed: 6619136
+maglev packets processed: 5505024
+nat-tcp-v4 packets processed: 6684672
+maglev packets processed: 5570560
+nat-tcp-v4 packets processed: 6750208
+maglev packets processed: 5636096
+nat-tcp-v4 packets processed: 6815744
+maglev packets processed: 5701632
+nat-tcp-v4 packets processed: 6881280
+nat-tcp-v4 packets processed: 6946816
+maglev packets processed: 5767168
+nat-tcp-v4 packets processed: 7012352
+maglev packets processed: 5832704
+nat-tcp-v4 packets processed: 7077888
+maglev packets processed: 5898240
+nat-tcp-v4 packets processed: 7143424
+maglev packets processed: 5963776
+nat-tcp-v4 packets processed: 7208960
+nat-tcp-v4 packets processed: 7274496
+maglev packets processed: 6029312
+nat-tcp-v4 packets processed: 7340032
+maglev packets processed: 6094848
