@@ -346,7 +346,7 @@ def plot_vary_corun(_type, _cpu):
     elif _type == 'l2missrate':
         plt.ylabel('L2 cache missing rate')
         
-    plt.xticks(ind, ['Standalone', 'Co-locate\nwith 1 NF', 'Co-locate\nwith 2 NFs', 'Co-locate\nwith 3 NFs', 'Co-locate\nwith 4 NFs', 'Co-locate\nwith 5 NFs'], rotation=45, ha="right", rotation_mode="anchor", fontsize=24)
+    plt.xticks(ind, ['Standalone', 'Co-locate \nwith 1 NF', 'Co-locate \nwith 2 NFs', 'Co-locate \nwith 3 NFs', 'Co-locate \nwith 4 NFs', 'Co-locate \nwith 5 NFs'], rotation=45, ha="right", rotation_mode="anchor", fontsize=24)
 
     # apply offset transform to all x ticklabels.
     for label in plt.axes().xaxis.get_majorticklabels():
