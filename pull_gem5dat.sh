@@ -19,10 +19,10 @@ mkdir -p ./$datadir/results/
 mkdir -p ./$datadir/stderr/
 mkdir -p ./$datadir/scriptgen/
 
-for node in $node0 $node1 $node2 $node3
+for node in $node0 $node1 $node2 $node3 $node4 $node5
 do
     rsync -auv -e ssh yangzhou@$node:$m5out_dir ./$datadir/m5out/
     rsync -auv -e ssh yangzhou@$node:$stdout_dir ./$datadir/results/
-    rsync -auv -e ssh yangzhou@$node:$stderr_dir ./$datadir/stderr/
+    # rsync -auv -e ssh yangzhou@$node:$stderr_dir ./$datadir/stderr/
     rsync -auv -e ssh yangzhou@$node:$scriptgen_dir ./$datadir/scriptgen/
 done

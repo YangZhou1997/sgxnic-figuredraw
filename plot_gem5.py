@@ -46,7 +46,7 @@ nfinvoke = ['acl-fw', 'dpi', 'nat-tcp-v4', 'maglev', 'lpm', 'monitoring']
 nfinvoke_legend = ["FW", "DPI", "NAT", "LB", "LPM", "Mon."]
 cpus = ['TimingSimpleCPU', 'DerivO3CPU']
 l2_size = ['4kB', '8kB', '16kB', '32kB', '64kB', '128kB', '256kB', '512kB', '1MB', '2MB', '4MB']
-datadir = 'gem5data2'
+datadir = 'gem5data'
 
 singleprog = nfinvoke
 multiprog = []
@@ -87,12 +87,14 @@ def extract_lasting_times(contents):
         start_ticks = int(r.group(1))
     else:
         start_ticks = 0
+        print(colored('start_ticks not found', 'red'))
 
     r = re.search('Exiting\ \@\ tick\ (.+?)\ ', contents)
     if r:
         end_ticks = int(r.group(1))
     else:
         end_ticks = 5 * ticks_base    
+        print(colored('end_ticks not found', 'red'))
 
     return (end_ticks - start_ticks) * 1.0 / ticks_base
 
@@ -108,12 +110,20 @@ def extract_packet_num(contents, nf):
         if f'{nf} packets processed:' in line:
             end_num = int(line.split()[3])
             break
+    if start_num == 0:
+        print(colored('start_num not found', 'red'))
+    if end_num == 0:
+        print(colored('end_num not found', 'red'))
     return end_num - start_num        
 
 def load_data_cache():
     f_list = glob.glob(f'./{datadir}/results/*.out')
     for f_name in f_list:
+        # if 'TimingSimpleCPU' not in f_name:
+        #     continue
+
         print(f_name)
+
         splits = extract_stdout(f_name).split('_')
         cpu = splits[0]
         nfs_str = splits[1].replace('dpi-queue', 'dpi')
@@ -139,6 +149,7 @@ def load_data_cache():
             rawdata['throughput'][cpu][nf][corun_nfs][cachesize] = th_value
 
             print('throughput', cpu, nf, corun_nfs, cachesize, th_value)
+        print('')
 
 
 def extract_m5out(f_name):
@@ -230,15 +241,16 @@ def get_cpuids_from_name(nfs_str):
                 nf_cpu_ids[nf] = ['{:0>2d}'.format(i) for i in range(idx, idx + 1)]
                 idx += 1
                             
-    # print(nfs)
-    # for nf in nfs:
-    #     print(nf_cpu_ids[nf])
     return nf_cpu_ids    
 
 
 def load_data_bus():
     f_list = glob.glob(f'./{datadir}/m5out/*')
     for f_name in f_list:
+        # if 'TimingSimpleCPU' not in f_name:
+        #     continue
+
+        print(f_name)
         dir_name = extract_m5out(f_name + '/')
         
         splits = dir_name.split('_')
@@ -269,7 +281,7 @@ def load_data_bus():
             rawdata['l2missrate'][cpu][nf][corun_nfs][cachesize] = miss_rate
             print('l2missrate', cpu, nf, corun_nfs, cachesize, miss_rate)
          
-        # print('')
+        print('')
 
 def get_datavec_vary_cachesize(_type, _cpu, _nf):
     data_vec = list()
@@ -299,6 +311,7 @@ def plot_vary_cachesize(_type, _cpu):
         plt.ylabel('L2 cache missing rate')
         
     plt.xticks(ind, l2_size, rotation=45, ha="right", rotation_mode="anchor")
+    plt.axes().set_ylim(ymin=0)
 
     # apply offset transform to all x ticklabels.
     for label in plt.axes().xaxis.get_majorticklabels():
@@ -309,6 +322,7 @@ def plot_vary_cachesize(_type, _cpu):
     plt.clf()
 
 def get_datavec_vary_corun(_type, _cpu, _nf):
+    cnt_vec = [0 for nf in singleprog]    
     data_vec = [0.0 for nf in singleprog]
     nf_combs = multiprog.copy()
     nf_combs.extend(singleprog)
@@ -323,6 +337,9 @@ def get_datavec_vary_corun(_type, _cpu, _nf):
                 temp.remove(_nf)
                 nf_comb_exclude = prog_set_to_cmd(temp)
                 data_vec[dot_num] += rawdata[_type][_cpu][_nf][nf_comb_exclude]['4MB']
+            cnt_vec[dot_num] += 1
+    for i in range(len(singleprog)):
+        data_vec[i] /= cnt_vec[i] * 1.0                        
     return data_vec
 
 # type: throughput or l2missrate
@@ -347,6 +364,7 @@ def plot_vary_corun(_type, _cpu):
         plt.ylabel('L2 cache missing rate')
         
     plt.xticks(ind, ['Standalone', 'Co-locate \nwith 1 NF', 'Co-locate \nwith 2 NFs', 'Co-locate \nwith 3 NFs', 'Co-locate \nwith 4 NFs', 'Co-locate \nwith 5 NFs'], rotation=45, ha="right", rotation_mode="anchor", fontsize=24)
+    plt.axes().set_ylim(ymin=0)
 
     # apply offset transform to all x ticklabels.
     for label in plt.axes().xaxis.get_majorticklabels():
@@ -363,9 +381,9 @@ if __name__ == '__main__':
        family = 'Gill Sans',
        fname = '/usr/share/fonts/truetype/adf/GilliusADF-Regular.otf')
 
-    # load_data_cache()
-    # load_data_bus()
-    # write_to_file(rawdata, f'./{datadir}/drawdata/thrput_l2miss.res')
+    load_data_cache()
+    load_data_bus()
+    write_to_file(rawdata, f'./{datadir}/drawdata/thrput_l2miss.res')
 
     rawdata = read_from_file(f'./{datadir}/drawdata/thrput_l2miss.res')
     for _type in ['throughput', 'l2missrate']:
