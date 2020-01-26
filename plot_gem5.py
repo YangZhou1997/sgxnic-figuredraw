@@ -46,7 +46,7 @@ nfinvoke = ['acl-fw', 'dpi', 'nat-tcp-v4', 'maglev', 'lpm', 'monitoring']
 nfinvoke_legend = ["FW", "DPI", "NAT", "LB", "LPM", "Mon."]
 cpus = ['TimingSimpleCPU', 'DerivO3CPU']
 l2_size = ['4kB', '8kB', '16kB', '32kB', '64kB', '128kB', '256kB', '512kB', '1MB', '2MB', '4MB']
-datadir = 'gem5data'
+datadir = 'gem5data_1Mpkts'
 
 singleprog = nfinvoke
 multiprog = []
