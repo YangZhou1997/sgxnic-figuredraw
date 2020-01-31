@@ -18,6 +18,7 @@ mkdir -p ./$datadir/m5out/
 mkdir -p ./$datadir/results/
 mkdir -p ./$datadir/stderr/
 mkdir -p ./$datadir/scriptgen/
+mkdir -p ./$datadir/drawdata/
 
 for node in $node0 $node1 $node2 $node3 $node4 $node5
 do

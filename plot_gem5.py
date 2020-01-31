@@ -46,7 +46,7 @@ nfinvoke = ['acl-fw', 'dpi', 'nat-tcp-v4', 'maglev', 'lpm', 'monitoring']
 nfinvoke_legend = ["FW", "DPI", "NAT", "LB", "LPM", "Mon."]
 cpus = ['TimingSimpleCPU', 'DerivO3CPU']
 l2_size = ['4kB', '8kB', '16kB', '32kB', '64kB', '128kB', '256kB', '512kB', '1MB', '2MB', '4MB']
-datadir = 'gem5data_1Mpkts'
+datadir = 'gem5data_100kflows'
 
 singleprog = nfinvoke
 multiprog = []
@@ -116,7 +116,7 @@ def extract_packet_num(contents, nf):
         print(colored('end_num not found', 'red'))
     return end_num - start_num        
 
-def load_data_cache():
+def load_data_throughput():
     f_list = glob.glob(f'./{datadir}/results/*.out')
     for f_name in f_list:
         # if 'TimingSimpleCPU' not in f_name:
@@ -184,22 +184,25 @@ def extract_miss_rate(contents, nf, cpu_ids):
             if f'system.l2.overall_misses::.switch_cpus{cpu_id}.inst' in line:
                 overall_misses += int(line.split()[1])
             
-            if nf == 'dpi':
-                pure_cpu_id = cpu_id.strip('0')
-                if f'system.cpu{pure_cpu_id}.dcache.overall_accesses::.switch_cpus{cpu_id}.data' in line:
-                    overall_accesses += int(line.split()[1])
-                if f'system.cpu{pure_cpu_id}.icache.overall_accesses::.switch_cpus{cpu_id}.inst' in line:
-                    overall_accesses += int(line.split()[1])
+            # extract missrate for 16 dpi threads;
+            # if nf == 'dpi':
+            #     pure_cpu_id = cpu_id.strip('0')
+            #     if f'system.cpu{pure_cpu_id}.dcache.overall_accesses::.switch_cpus{cpu_id}.data' in line:
+            #         overall_accesses += int(line.split()[1])
+            #     if f'system.cpu{pure_cpu_id}.icache.overall_accesses::.switch_cpus{cpu_id}.inst' in line:
+            #         overall_accesses += int(line.split()[1])
 
-                if f'system.cpu{pure_cpu_id}.dcache.overall_hits::.switch_cpus{cpu_id}.data' in line:
-                    overall_hits += int(line.split()[1])
-                if f'system.cpu{pure_cpu_id}.icache.overall_hits::.switch_cpus{cpu_id}.inst' in line:
-                    overall_hits += int(line.split()[1])
+            #     if f'system.cpu{pure_cpu_id}.dcache.overall_hits::.switch_cpus{cpu_id}.data' in line:
+            #         overall_hits += int(line.split()[1])
+            #     if f'system.cpu{pure_cpu_id}.icache.overall_hits::.switch_cpus{cpu_id}.inst' in line:
+            #         overall_hits += int(line.split()[1])
 
-                if f'system.cpu{pure_cpu_id}.dcache.overall_misses::.switch_cpus{cpu_id}.data' in line:
-                    overall_misses += int(line.split()[1])
-                if f'system.cpu{pure_cpu_id}.icache.overall_misses::.switch_cpus{cpu_id}.inst' in line:
-                    overall_misses += int(line.split()[1])
+            #     if f'system.cpu{pure_cpu_id}.dcache.overall_misses::.switch_cpus{cpu_id}.data' in line:
+            #         overall_misses += int(line.split()[1])
+            #     if f'system.cpu{pure_cpu_id}.icache.overall_misses::.switch_cpus{cpu_id}.inst' in line:
+            #         overall_misses += int(line.split()[1])
+    
+    # print(overall_accesses, overall_hits, overall_misses)
 
     if overall_accesses == 0:
         print(colored('Error: m5out overall_accesses is zero', 'red'))
@@ -244,10 +247,10 @@ def get_cpuids_from_name(nfs_str):
     return nf_cpu_ids    
 
 
-def load_data_bus():
+def load_data_l2cachemiss():
     f_list = glob.glob(f'./{datadir}/m5out/*')
     for f_name in f_list:
-        # if 'TimingSimpleCPU' not in f_name:
+        # if 'TimingSimpleCPU_dpi-queue_' not in f_name:
         #     continue
 
         print(f_name)
@@ -381,8 +384,8 @@ if __name__ == '__main__':
        family = 'Gill Sans',
        fname = '/usr/share/fonts/truetype/adf/GilliusADF-Regular.otf')
 
-    load_data_cache()
-    load_data_bus()
+    load_data_throughput()
+    load_data_l2cachemiss()
     write_to_file(rawdata, f'./{datadir}/drawdata/thrput_l2miss.res')
 
     rawdata = read_from_file(f'./{datadir}/drawdata/thrput_l2miss.res')

@@ -145,7 +145,9 @@ def data_load(f_name):
     # currently we only load the data of the first file
     # break 
 
-smartnic_percore_price = (745 - 230)/16
+# https://homes.cs.washington.edu/~arvind/papers/ipipe.pdf
+#  For example, a 10/25GbE SmartNIC typically costs 100∼400$ more than a corresponding standard NIC
+smartnic_percore_price = 400/16
 cpu_percore_price = 379/6
 print(f'smartnic_percore_price: {smartnic_percore_price} vs. cpu_percore_price: {cpu_percore_price}')
 
@@ -212,7 +214,7 @@ def draw_t_bar_for_core_ipsec_trace(_core, _ipsec, _trace, norm_flag=False):
         legends.append(p1)
         cnt += 1
     
-    plt.legend(legends, all_types)
+    plt.legend(legends, all_types, ncol=3)
     if norm_flag:
         plt.ylabel('Throughput per dollar (Mpps/\$)')
     else:
