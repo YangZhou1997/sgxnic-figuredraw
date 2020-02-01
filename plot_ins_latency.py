@@ -62,9 +62,9 @@ if __name__ == '__main__':
     width = 3.5       # the width of the bars: can also be len(x) sequence
     
     ax1 = plt.subplot(121)
-    p1 = ax1.bar(ind, latencies[:, 0][::2], width, label=legends_launch[0], bottom=latencies[:, 1][::2]+latencies[:, 2][::2], color=colors[0], hatch=patterns[0], align="center")
-    p2 = ax1.bar(ind, latencies[:, 1][::2], width, label=legends_launch[1], bottom=latencies[:, 2][::2], color=colors[1], hatch=patterns[1], align="center")
-    p3 = ax1.bar(ind, latencies[:, 2][::2], width, label=legends_launch[2], color=colors[2], hatch=patterns[2], align="center")
+    p1 = ax1.bar(ind, latencies[:, 0][::2], width, label=legends_launch[0], bottom=latencies[:, 1][::2]+latencies[:, 2][::2], color=colors[0], hatch=patterns[0], align="center", edgecolor = 'k')
+    p2 = ax1.bar(ind, latencies[:, 1][::2], width, label=legends_launch[1], bottom=latencies[:, 2][::2], color=colors[1], hatch=patterns[1], align="center", edgecolor = 'k')
+    p3 = ax1.bar(ind, latencies[:, 2][::2], width, label=legends_launch[2], color=colors[2], hatch=patterns[2], align="center", edgecolor = 'k')
     
     # ax1.set_title(r"\textsf{nf\_launch}")
     ax1.set_ylabel('Latency (ms)')
@@ -82,8 +82,8 @@ if __name__ == '__main__':
     
 
     ax2 = plt.subplot(122)
-    p1 = ax2.bar(ind, latencies[:, 0][1::2], width, label=legends_destroy[0], bottom=latencies[:, 1][1::2], color=colors[3], hatch=patterns[3], align="center")
-    p4 = ax2.bar(ind, latencies[:, 1][1::2], width, label=legends_destroy[1], color=colors[4], hatch=patterns[4], align="center")
+    p1 = ax2.bar(ind, latencies[:, 0][1::2], width, label=legends_destroy[0], bottom=latencies[:, 1][1::2], color=colors[3], hatch=patterns[3], align="center", edgecolor = 'k')
+    p4 = ax2.bar(ind, latencies[:, 1][1::2], width, label=legends_destroy[1], color=colors[4], hatch=patterns[4], align="center", edgecolor = 'k')
     
     # ax2.set_title(r"\textsf{nf\_destroy}")
     ax2.set_ylabel('Latency (ms)')

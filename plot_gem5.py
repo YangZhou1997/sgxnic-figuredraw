@@ -12,6 +12,19 @@ import re
 from termcolor import colored
 from util_serilize import *
 from util_patterns import *
+params_line = {
+    'axes.labelsize': 36,
+    'font.size': 36,
+    'legend.fontsize': 36,
+    'xtick.labelsize': 36,
+    'ytick.labelsize': 36,
+    'text.usetex': False,
+    'figure.figsize': [12, 8],
+    'legend.fontsize': 28,
+    'legend.handlelength': 2,
+    'legend.loc': 'best', 
+    'legend.columnspacing': 1
+}
 rcParams.update(params_line)
 
 dx = 0/72.; dy = -15/72. 
@@ -55,97 +68,8 @@ def prog_set_to_cmd(prog_set):
     return ret
 multiprog = list(map(lambda x: prog_set_to_cmd(x), multiprog))
 
-# "throughput"/"l2missrate" -> "detailed" -> "monitoring" -> "standalone"/"nat-tcp-v4.lpm" -> "l2 cache size" -> "tp"/"none" -> value
+# "ipc"/"l2missrate" -> "detailed" -> "monitoring" -> "standalone"/"nat-tcp-v4.lpm" -> "l2 cache size" -> "tp"/"none" -> value
 rawdata = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(float))))))
-
-def extract_stdout(f_name):
-    found = re.search('stdout_(.+?)\.out', f_name).group(1)
-    return found
-
-ticks_base = 1000000000000 # one second
-def extract_lasting_times_contents(contents):
-    if contents == '':
-        print(colored('Error: stdout content null', 'red'))
-        return 1
-        
-    r = re.search('Switched\ CPUS\ \@\ tick\ (.+?)\n', contents)
-    if r: 
-        start_ticks = int(r.group(1))
-        start_pos = r.start()
-    else:
-        start_ticks = 0
-        start_pos = 0
-        print(colored('start_ticks not found', 'red'))
-
-    r = re.search('reached\ the\ max\ instruction\ count\ \@\ (.+?)\n', contents)
-    if r:
-        end_ticks = int(r.group(1))
-        end_pos = r.start()
-    else:
-        r = re.search('Exiting\ \@\ tick\ (.+?)\ ', contents)
-        if r: 
-            end_ticks = int(r.group(1))
-            end_pos = r.start()
-        else:
-            end_ticks = 5 * ticks_base
-            end_pos = len(contents)
-            print(colored('end_ticks not found', 'red'))
-
-    return (end_ticks - start_ticks) * 1.0 / ticks_base, contents[start_pos: end_pos]
-
-def extract_packet_num(contents, nf):
-    lines = contents.split('\n')
-    start_num = 0
-    end_num = 0
-    for line in lines:
-        if f'{nf} packets processed:' in line:
-            start_num = int(line.split()[3])
-            break
-    for line in lines[::-1]:
-        if f'{nf} packets processed:' in line:
-            end_num = int(line.split()[3])
-            break
-    if start_num == 0:
-        print(colored('start_num not found', 'red'))
-    if end_num == 0:
-        print(colored('end_num not found', 'red'))
-    return end_num - start_num        
-
-def load_data_throughput():
-    f_list = glob.glob(f'./{datadir}/results/*.out')
-    for f_name in f_list:
-        # if 'TimingSimpleCPU' not in f_name:
-        #     continue
-
-        print(f_name)
-
-        splits = extract_stdout(f_name).split('_')
-        cpu = splits[0]
-        nfs_str = splits[1]
-        cachesize = splits[2]
-        mode = splits[3]
-
-        contents = open(f_name).read()
-        index = contents.find('Switched CPUS @ tick ')
-        contents = contents[index:]
-
-        nfs = nfs_str.split('.')
-        
-        lasting_time, sim_contents = extract_lasting_times_contents(contents)
-        for nf in nfs:
-            packet_num = extract_packet_num(sim_contents, nf)
-            th_value = packet_num / lasting_time / (1000000)
-            
-            corun_nfs_list = nfs.copy()
-            corun_nfs_list.remove(nf)
-            corun_nfs = prog_set_to_cmd(corun_nfs_list)
-            if corun_nfs == '':
-                corun_nfs = 'standalone'
-            
-            rawdata['throughput'][cpu][nf][corun_nfs][cachesize][mode] = th_value
-
-            print('throughput', cpu, nf, corun_nfs, cachesize, mode, th_value)
-        print('')
 
 
 def extract_m5out(f_name):
@@ -204,6 +128,28 @@ def extract_miss_rate(contents, nf, cpu_id, num_nfs, mode):
             print(colored('Error: m5out no overall_hits and overall_misses', 'red'))
             return 1
 
+def extract_ipc(contents, nf, cpu_id, num_nfs, mode):
+    if contents == '':
+        print(colored('Error: m5out content null', 'red'))
+        return 1
+
+    lines = contents.split('\n')
+
+    if num_nfs == 1:
+        for line in lines:
+            if 'system.switch_cpus.ipc_total' in line:
+                ipc = float(line.split()[1])
+                return ipc
+        print(colored('Error: m5out no system.switch_cpus.ipc_total', 'red'))            
+        return 1
+    else: # num_nfs = 2 or 4:
+        for line in lines:
+            if f'system.switch_cpus{cpu_id}.ipc_total' in line:
+                ipc = float(line.split()[1])
+                return ipc
+        print(colored(f'Error: m5out no system.switch_cpus{cpu_id}.ipc_total', 'red'))            
+
+
 # system.l2.demand_hits::.switch_cpus0.data
 def get_cpuids_from_name(nfs_str):
     nf_cpu_ids = defaultdict(lambda : [])
@@ -214,7 +160,7 @@ def get_cpuids_from_name(nfs_str):
         idx += 1
     return nf_cpu_ids    
 
-def load_data_l2cachemiss():
+def load_data():
     f_list = glob.glob(f'./{datadir}/m5out/*')
     for f_name in f_list:
         # if 'TimingSimpleCPU_dpi-queue_' not in f_name:
@@ -249,12 +195,15 @@ def load_data_l2cachemiss():
             # print(cpu_ids)
 
             miss_rate = extract_miss_rate(contents, nf, cpu_id, num_nfs, mode)
+            ipc = extract_ipc(contents, nf, cpu_id, num_nfs, mode)
 
             rawdata['l2missrate'][cpu][nf][corun_nfs][cachesize][mode] = miss_rate
+            rawdata['ipc'][cpu][nf][corun_nfs][cachesize][mode] = ipc
+
             print('l2missrate', cpu, nf, corun_nfs, cachesize, mode, miss_rate)
+            print('ipc', cpu, nf, corun_nfs, cachesize, mode, ipc)
          
         print('')
-
 
 
 def get_datavec_vary_cachesize(_type, _cpu, _nf):
@@ -262,34 +211,36 @@ def get_datavec_vary_cachesize(_type, _cpu, _nf):
     for _cachesize in l2_size:
         tp = rawdata[_type][_cpu][_nf]["standalone"][_cachesize]['tp']
         none = rawdata[_type][_cpu][_nf]["standalone"][_cachesize]['none']
-        if _type == 'throughput':
+        if _type == 'ipc':
             data_vec.append((none - tp) / none)
         else:
             data_vec.append((tp - none) / none)
     return data_vec
 
-# type: throughput or l2missrate
+# type: ipc or l2missrate
 def plot_vary_cachesize(_type, _cpu):
     N = len(l2_size)
-    ind = np.arange(N) * 10 + 10    # the x locations for the groups    
-    width = 6.0/N       # the width of the bars: can also be len(x) sequence
+    ind = np.arange(N) * 10 + 10    # the x locations for the groups   
+    width = 1       # the width of the bars: can also be len(x) sequence
 
     cnt = 0
     legends = list()
     for _nf in singleprog:
         data_vec = get_datavec_vary_cachesize(_type, _cpu, _nf)
-        p1, = plt.plot(ind, data_vec, linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt],
-            color=colors[cnt], linewidth=3)
+        # p1, = plt.plot(ind, data_vec, linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt],
+            # color=colors[cnt], linewidth=3)
+        p1 = plt.bar(ind + width * (cnt - (N - 1) / 2.0 - 0.5), data_vec, width, color=colors[cnt], hatch=patterns[cnt], edgecolor = 'k', align="center")
         legends.append(p1)
         cnt += 1
 
     plt.legend(legends, nfinvoke_legend, loc='best', ncol=2, frameon=False)
-    if _type == 'throughput':
-        plt.ylabel('Throughput degradation')
+    if _type == 'ipc':
+        plt.ylabel('IPC degradation')
     elif _type == 'l2missrate':
         plt.ylabel('L2 missing rate increasing')
 
-    plt.xticks(ind, l2_size, rotation=45, ha="right", rotation_mode="anchor")
+    # plt.xticks(ind, l2_size, rotation=45, ha="right", rotation_mode="anchor")
+    plt.xticks(ind, l2_size)
     # plt.axes().set_ylim(ymin=0)
 
     # apply offset transform to all x ticklabels.
@@ -312,7 +263,7 @@ def get_datavec_vary_corun(_type, _cpu, _nf):
             if dot_num == 0:
                 tp = rawdata[_type][_cpu][_nf]["standalone"]['4MB']['tp']
                 none = rawdata[_type][_cpu][_nf]["standalone"]['4MB']['none']
-                if _type == 'throughput':
+                if _type == 'ipc':
                     data_vec[dot_num] += (none - tp) / none
                 else:
                     data_vec[dot_num] += (tp - none) / none
@@ -322,7 +273,7 @@ def get_datavec_vary_corun(_type, _cpu, _nf):
                 nf_comb_exclude = prog_set_to_cmd(temp)
                 tp = rawdata[_type][_cpu][_nf][nf_comb_exclude]['4MB']['tp']
                 none = rawdata[_type][_cpu][_nf][nf_comb_exclude]['4MB']['none']
-                if _type == 'throughput':
+                if _type == 'ipc':
                     data_vec[dot_num] += (none - tp) / none
                 else:
                     data_vec[dot_num] += (tp - none) / none
@@ -332,28 +283,30 @@ def get_datavec_vary_corun(_type, _cpu, _nf):
     del data_vec[2]    
     return data_vec
 
-# type: throughput or l2missrate
+# type: ipc or l2missrate
 def plot_vary_corun(_type, _cpu):
     N = 3
     ind = np.arange(N) * 10 + 10    # the x locations for the groups    
-    width = 6.0/N       # the width of the bars: can also be len(x) sequence
+    width = 1       # the width of the bars: can also be len(x) sequence
 
     cnt = 0
     legends = list()
     for _nf in singleprog:
         data_vec = get_datavec_vary_corun(_type, _cpu, _nf)
-        p1, = plt.plot(ind, data_vec, linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt],
-            color=colors[cnt], linewidth=3)
+        # p1, = plt.plot(ind, data_vec, linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt],
+        #     color=colors[cnt], linewidth=3)
+        p1 = plt.bar(ind + width * (cnt - (N - 1) / 2.0 - 1.5), data_vec, width, color=colors[cnt], hatch=patterns[cnt], edgecolor = 'k', align="center")
         legends.append(p1)
         cnt += 1
 
     plt.legend(legends, nfinvoke_legend, loc='best', ncol=2, frameon=False)
-    if _type == 'throughput':
-        plt.ylabel('Throughput degradation')
+    if _type == 'ipc':
+        plt.ylabel('IPC degradation')
     elif _type == 'l2missrate':
         plt.ylabel('L2 missing rate increasing')
         
-    plt.xticks(ind, ['Standalone', 'Co-locate \nwith 1 NF', 'Co-locate \nwith 3 NFs'], rotation=45, ha="right", rotation_mode="anchor", fontsize=24)
+    plt.xticks(ind, ['1 domain', '2 domains', '4 domains'], fontsize=24)
+    # plt.xticks(ind, ['1 domain', '2 domains', '4 domains'], rotation=45, ha="right", rotation_mode="anchor", fontsize=24)
     # plt.axes().set_ylim(ymin=0)
 
     # apply offset transform to all x ticklabels.
@@ -371,12 +324,11 @@ if __name__ == '__main__':
        family = 'Gill Sans',
        fname = '/usr/share/fonts/truetype/adf/GilliusADF-Regular.otf')
 
-    # load_data_throughput()
-    # load_data_l2cachemiss()
-    # write_to_file(rawdata, f'./{datadir}/drawdata/thrput_l2miss.res')
+    load_data()
+    write_to_file(rawdata, f'./{datadir}/drawdata/thrput_l2miss.res')
 
     rawdata = read_from_file(f'./{datadir}/drawdata/thrput_l2miss.res')
-    for _type in ['throughput', 'l2missrate']:
+    for _type in ['ipc', 'l2missrate']:
         for _cpu in cpus:
             plot_vary_cachesize(_type, _cpu)
             plot_vary_corun(_type, _cpu)
