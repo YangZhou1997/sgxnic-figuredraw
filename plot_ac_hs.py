@@ -156,6 +156,8 @@ def draw_t_bar_for_rule(_ipsec, _trace, _core):
     # apply offset transform to all x ticklabels.
     for label in plt.axes().xaxis.get_majorticklabels():
         label.set_transform(label.get_transform() + offset)
+    plt.axes().grid(which='major', axis='y', linestyle=':')
+    plt.axes().set_axisbelow(True)
 
     plt.tight_layout()
     plt.savefig('./figures/ac-hs/throughput/t_bar_%s_%s_%score.pdf' % (_ipsec, _trace, _core))
@@ -189,6 +191,8 @@ def draw_t_bar_for_trace(_ipsec, _core, _rule):
     # apply offset transform to all x ticklabels.
     for label in plt.axes().xaxis.get_majorticklabels():
         label.set_transform(label.get_transform() + offset)
+    plt.axes().grid(which='major', axis='y', linestyle=':')
+    plt.axes().set_axisbelow(True)
 
     plt.tight_layout()
     plt.savefig('./figures/ac-hs/throughput/t_bar_%s_%score_%srule.pdf' % (_ipsec, _core, _rule))

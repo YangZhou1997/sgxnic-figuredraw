@@ -43,6 +43,8 @@ def draw_t_bar_for_core_ipsec_trace(_core, _ipsec, _trace, norm_flag=False):
     # apply offset transform to all x ticklabels.
     for label in plt.axes().xaxis.get_majorticklabels():
         label.set_transform(label.get_transform() + offset)
+    plt.axes().grid(which='major', axis='y', linestyle=':')
+    plt.axes().set_axisbelow(True)
 
     plt.tight_layout()
     if norm_flag:

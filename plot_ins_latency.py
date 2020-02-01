@@ -76,6 +76,8 @@ if __name__ == '__main__':
     # apply offset transform to all x ticklabels.
     for label in ax1.xaxis.get_majorticklabels():
         label.set_transform(label.get_transform() + offset)
+    ax1.grid(which='major', axis='y', linestyle=':')
+    ax1.set_axisbelow(True)
 
     # plt.yticks(np.arange(0, 81, 10))
     # ax1.xticks(rotation = 35, ha="right", rotation_mode="anchor")
@@ -92,6 +94,8 @@ if __name__ == '__main__':
 
     for label in ax2.xaxis.get_majorticklabels():
         label.set_transform(label.get_transform() + offset)
+    ax2.grid(which='major', axis='y', linestyle=':')
+    ax2.set_axisbelow(True)
 
     # ax2.yticks(np.arange(0, 81, 10))
     # ax2.xticks(rotation = 35, ha="right", rotation_mode="anchor")

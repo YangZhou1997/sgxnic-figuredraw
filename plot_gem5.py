@@ -246,6 +246,8 @@ def plot_vary_cachesize(_type, _cpu):
     # apply offset transform to all x ticklabels.
     for label in plt.axes().xaxis.get_majorticklabels():
         label.set_transform(label.get_transform() + offset)
+    plt.axes().grid(which='major', axis='y', linestyle=':')
+    plt.axes().set_axisbelow(True)
 
     plt.tight_layout()
     plt.savefig(f'./figures/gem5/cachesize_{_type}_{_cpu}.pdf')
@@ -312,6 +314,8 @@ def plot_vary_corun(_type, _cpu):
     # apply offset transform to all x ticklabels.
     for label in plt.axes().xaxis.get_majorticklabels():
         label.set_transform(label.get_transform() + offset)
+    plt.axes().grid(which='major', axis='y', linestyle=':')
+    plt.axes().set_axisbelow(True)
 
     plt.tight_layout()
     plt.savefig(f'./figures/gem5/corun_{_type}_{_cpu}.pdf')
@@ -324,8 +328,8 @@ if __name__ == '__main__':
        family = 'Gill Sans',
        fname = '/usr/share/fonts/truetype/adf/GilliusADF-Regular.otf')
 
-    load_data()
-    write_to_file(rawdata, f'./{datadir}/drawdata/thrput_l2miss.res')
+    # load_data()
+    # write_to_file(rawdata, f'./{datadir}/drawdata/thrput_l2miss.res')
 
     rawdata = read_from_file(f'./{datadir}/drawdata/thrput_l2miss.res')
     for _type in ['ipc', 'l2missrate']:

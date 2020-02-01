@@ -45,6 +45,8 @@ def draw_t_trend_for_task_core(_task, _core, _ipsec):
     # apply offset transform to all x ticklabels.
     for label in plt.axes().xaxis.get_majorticklabels():
         label.set_transform(label.get_transform() + offset)
+    plt.axes().grid(which='major', axis='y', linestyle=':')
+    plt.axes().set_axisbelow(True)
 
     plt.axes().set_ylim(ymin=0)
     plt.tight_layout()
@@ -91,6 +93,8 @@ def draw_l_trend_for_task_core(_task, _core, _ipsec):
     # apply offset transform to all x ticklabels.
     for label in plt.axes().xaxis.get_majorticklabels():
         label.set_transform(label.get_transform() + offset)
+    plt.axes().grid(which='major', axis='y', linestyle=':')
+    plt.axes().set_axisbelow(True)
 
     plt.axes().set_ylim(ymin=0)
     plt.tight_layout()
@@ -131,6 +135,8 @@ def draw_t_trend_for_task_core_6nfs(_type, _core, _ipsec):
     # apply offset transform to all x ticklabels.
     for label in plt.axes().xaxis.get_majorticklabels():
         label.set_transform(label.get_transform() + offset)
+    plt.axes().grid(which='major', axis='y', linestyle=':')
+    plt.axes().set_axisbelow(True)
 
     plt.axes().set_ylim(ymin=0)
     plt.tight_layout()
