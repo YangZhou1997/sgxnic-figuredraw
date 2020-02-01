@@ -7,36 +7,12 @@ import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 from matplotlib import rcParams
 from collections import defaultdict
-import brewer2mpl
 import glob
 import re
 from termcolor import colored
 from util_serilize import *
-
-
- # brewer2mpl.get_map args: set name  set type  number of colors
-# bmap = brewer2mpl.get_map('Paired', 'qualitative', 12)
-bmap = brewer2mpl.get_map('Dark2', 'qualitative', 6)
-colors = bmap.mpl_colors
-
-linestyles = ['--', '-.', '-', ':', (0, (3, 5, 1, 5, 1, 5)), (0, (3, 1, 1, 1))]
-markers = ['*', '^', 'o', 'P', 'p', 'v']
-markersizes = [30, 24, 24, 24, 24, 24]
-
-params = {
-    'axes.labelsize': 36,
-    'font.size': 36,
-    'legend.fontsize': 36,
-    'xtick.labelsize': 36,
-    'ytick.labelsize': 36,
-    'text.usetex': False,
-    'figure.figsize': [12, 8],
-    'legend.loc': 'upper center',
-    'legend.columnspacing': 0.8,
-    'legend.handlelength'  : 1.0,
-    'legend.handletextpad' : 0.4
-}
-rcParams.update(params)
+from util_patterns import *
+rcParams.update(params_line)
 
 dx = 0/72.; dy = -15/72. 
 offset = matplotlib.transforms.ScaledTranslation(dx, dy, plt.gcf().dpi_scale_trans)
@@ -307,7 +283,7 @@ def plot_vary_cachesize(_type, _cpu):
         legends.append(p1)
         cnt += 1
 
-    plt.legend(legends, nfinvoke_legend, loc='best', ncol=2)
+    plt.legend(legends, nfinvoke_legend, loc='best', ncol=2, frameon=False)
     if _type == 'throughput':
         plt.ylabel('Throughput (Mpps)')
     elif _type == 'l2missrate':
@@ -360,7 +336,7 @@ def plot_vary_corun(_type, _cpu):
         legends.append(p1)
         cnt += 1
 
-    plt.legend(legends, nfinvoke_legend, loc='best', ncol=2)
+    plt.legend(legends, nfinvoke_legend, loc='best', ncol=2, frameon=False)
     if _type == 'throughput':
         plt.ylabel('Throughput (Mpps)')
     elif _type == 'l2missrate':
@@ -384,9 +360,9 @@ if __name__ == '__main__':
        family = 'Gill Sans',
        fname = '/usr/share/fonts/truetype/adf/GilliusADF-Regular.otf')
 
-    load_data_throughput()
-    load_data_l2cachemiss()
-    write_to_file(rawdata, f'./{datadir}/drawdata/thrput_l2miss.res')
+    # load_data_throughput()
+    # load_data_l2cachemiss()
+    # write_to_file(rawdata, f'./{datadir}/drawdata/thrput_l2miss.res')
 
     rawdata = read_from_file(f'./{datadir}/drawdata/thrput_l2miss.res')
     for _type in ['throughput', 'l2missrate']:
