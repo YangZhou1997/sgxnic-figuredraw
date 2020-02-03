@@ -36,7 +36,7 @@ nfinvoke_legend = ["FW", "DPI", "NAT", "LB", "LPM", "Mon."]
 cpus = ['detailed']
 modes = ['none', 'tp']
 l2_size = ['1MB', '2MB', '4MB', '8MB', '16MB']
-datadir = 'gem5data/tp_10mins_sec'
+datadir = 'gem5data/tp_100mins'
 
 def bit_num(x):
     cnt = 0
@@ -241,15 +241,22 @@ def plot_vary_cachesize(_type, _cpu, _domain):
     ind = np.arange(N) * 10 + 10    # the x locations for the groups   
     width = 1       # the width of the bars: can also be len(x) sequence
 
+    avg_4mb = []
+
     cnt = 0
     legends = list()
     for _nf in singleprog:
         data_vec = get_datavec_vary_cachesize(_type, _cpu, _nf, _domain)
+        if _type == 'ipc' and _domain == 2:
+            print(data_vec)
+            avg_4mb.append(data_vec[2])
         # p1, = plt.plot(ind, data_vec, linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt],
             # color=colors[cnt], linewidth=3)
         p1 = plt.bar(ind + width * (cnt - (N - 1) / 2.0 - 0.5), data_vec, width, color=colors[cnt], hatch=patterns[cnt], edgecolor = 'k', align="center")
         legends.append(p1)
         cnt += 1
+    if _type == 'ipc' and _domain == 2:
+        print(np.average(avg_4mb))
 
     plt.legend(legends, nfinvoke_legend, loc='best', ncol=2, frameon=False)
     if _type == 'ipc':
@@ -267,6 +274,7 @@ def plot_vary_cachesize(_type, _cpu, _domain):
     plt.axes().grid(which='major', axis='y', linestyle=':')
     plt.axes().set_axisbelow(True)
 
+    plt.gcf().set_size_inches(16, 8)
     plt.tight_layout()
     plt.savefig(f'./figures/gem5/cachesize_{_type}_{_cpu}_{_domain}domains.pdf')
     plt.clf()
@@ -307,26 +315,32 @@ def get_datavec_vary_corun(_type, _cpu, _nf, _l2size):
 # type: ipc or l2missrate
 def plot_vary_corun(_type, _cpu, _l2size):
     N = 2
-    ind = np.arange(N) * 10 + 10    # the x locations for the groups    
+    ind = np.array([10, 20])    # the x locations for the groups    
     width = 1       # the width of the bars: can also be len(x) sequence
 
+    avg_4dom = []
     cnt = 0
     legends = list()
     for _nf in singleprog:
         data_vec = get_datavec_vary_corun(_type, _cpu, _nf, _l2size)
+        if _type == 'ipc' and _l2size == '4MB':
+            print(data_vec)
+            avg_4dom.append(data_vec[1])
         # p1, = plt.plot(ind, data_vec, linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt],
         #     color=colors[cnt], linewidth=3)
         p1 = plt.bar(ind + width * (cnt - (N - 1) / 2.0 - 2.0), data_vec, width, color=colors[cnt], hatch=patterns[cnt], edgecolor = 'k', align="center")
         legends.append(p1)
         cnt += 1
+    print(np.average(avg_4dom))
 
-    plt.legend(legends, nfinvoke_legend, loc='best', ncol=2, frameon=False)
+    plt.legend(legends, nfinvoke_legend, loc='upper left', ncol=1, frameon=False)
     if _type == 'ipc':
         plt.ylabel('IPC degradation percentage (\%)')
     elif _type == 'l2missrate':
         plt.ylabel('L2 missing rate increasing')
         
-    plt.xticks(ind, ['2 domains (NFs)', '4 domains (NFs)'])
+    plt.xticks(ind, ['2 NFs', '4 NFs'])
+    plt.axes().set_xlim(xmin=4, xmax=26)
     # plt.xticks(ind, ['1 domain', '2 domains', '4 domains'], rotation=45, ha="right", rotation_mode="anchor", fontsize=24)
     # plt.axes().set_ylim(ymin=0)
 
@@ -336,6 +350,7 @@ def plot_vary_corun(_type, _cpu, _l2size):
     plt.axes().grid(which='major', axis='y', linestyle=':')
     plt.axes().set_axisbelow(True)
 
+    plt.gcf().set_size_inches(8, 8)
     plt.tight_layout()
     plt.savefig(f'./figures/gem5/domain_{_type}_{_cpu}_{_l2size}.pdf')
     plt.clf()

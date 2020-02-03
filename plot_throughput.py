@@ -15,10 +15,16 @@ rcParams.update(params_bar)
 dx = 0/72.; dy = -15/72. 
 offset = matplotlib.transforms.ScaledTranslation(dx, dy, plt.gcf().dpi_scale_trans)
 
-def get_t_draw_data_vary_task(_type, _ipsec, _trace, _core):
+def get_t_draw_data_vary_task(_type, _ipsec, _trace, _core, norm_flag=False):
     data_vec = list()
     for _task in all_tasks:
-        data_vec.append(t_val_med[_type][_task][_ipsec][_trace][_core])
+        if _type == "SmartNIC": 
+            if norm_flag == True:
+                data_vec.append(t_val_med[_type][_task][_ipsec][_trace][_core])
+            else:
+                data_vec.append(t_val_med[_type][_task][_ipsec][_trace]['4'])
+        else:
+            data_vec.append(t_val_med[_type][_task][_ipsec][_trace][_core])
     return data_vec
 
 def draw_t_bar_for_core_ipsec_trace(_core, _ipsec, _trace, norm_flag=False):
@@ -26,10 +32,13 @@ def draw_t_bar_for_core_ipsec_trace(_core, _ipsec, _trace, norm_flag=False):
     ind = np.arange(N) * 10 + 10    # the x locations for the groups    
     width = 6.0/len(all_types)       # the width of the bars: can also be len(x) sequence
 
+    height = 0.0
+
     cnt = 0
     legends = list()
     for _type in all_types:
-        data_vec = get_t_draw_data_vary_task(_type, _ipsec, _trace, _core)
+        data_vec = get_t_draw_data_vary_task(_type, _ipsec, _trace, _corem)
+        height = max(height, max(data_vec))
         p1 = plt.bar(ind + width * (cnt - len(all_types) / 2.0 + 0.5), data_vec, width, color=colors[cnt], hatch=patterns[cnt], edgecolor = 'k', align="center")
         legends.append(p1)
         cnt += 1
@@ -45,6 +54,8 @@ def draw_t_bar_for_core_ipsec_trace(_core, _ipsec, _trace, norm_flag=False):
         label.set_transform(label.get_transform() + offset)
     plt.axes().grid(which='major', axis='y', linestyle=':')
     plt.axes().set_axisbelow(True)
+    
+    plt.axes().set_ylim(ymin = 0, ymax=height * 1.25)
 
     plt.tight_layout()
     if norm_flag:
@@ -52,6 +63,132 @@ def draw_t_bar_for_core_ipsec_trace(_core, _ipsec, _trace, norm_flag=False):
     else:
         plt.savefig('./figures/throughput/t_bar_%scores_%s_%s.pdf' % (_core, _ipsec, _trace))
     plt.clf()
+
+def draw_t_bar_for_core_trace(_core, _trace, norm_flag=False):
+    N = len(all_tasks) * 3
+    ind = np.array([10, 20, 30, 40, 50, 60,  75, 85, 95, 105, 115, 125,  140, 150, 160, 170, 180, 190])
+    width = 2       # the width of the bars: can also be len(x) sequence
+
+    height = 0.0
+
+    cnt = 0
+    legends = list()
+    for _type in all_types:
+        data_vec = []
+        for _ipsec in all_ipsecs:
+            _data_vec = get_t_draw_data_vary_task(_type, _ipsec, _trace, _core, norm_flag)
+            data_vec.extend(_data_vec)
+        height = max(height, max(data_vec))
+        p1 = plt.bar(ind + width * (cnt - len(all_types) / 2.0 + 0.5), data_vec, width, color=colors[cnt], hatch=patterns[cnt], edgecolor = 'k', align="center")
+        legends.append(p1)
+        cnt += 1
+    
+    plt.legend(legends, all_types, ncol=3, frameon=False, fontsize=32, handlelength=2, loc='best', columnspacing=2)
+    plt.text(35, -2.5 * height / 11.3144, 'W/o IPSec', fontsize=28, horizontalalignment='center', verticalalignment='center')
+    plt.text(100, -2.5 * height / 11.3144, 'W/ AES\_GCM128 IPSec', fontsize=28, horizontalalignment='center', verticalalignment='center')
+    plt.text(165, -2.5 * height / 11.3144, 'W/ AES\_CBC128\_SHA256 IPSec', fontsize=28, horizontalalignment='center', verticalalignment='center')
+
+    if norm_flag:
+        plt.ylabel('Throughput per dollar (Mpps/\$)')
+    else:
+        plt.ylabel('Throughput (Mpps)')
+    plt.xticks(ind, all_tasks_figure * 3, fontsize=28)
+    # apply offset transform to all x ticklabels.
+    for label in plt.axes().xaxis.get_majorticklabels():
+        label.set_transform(label.get_transform() + offset)
+    plt.axes().grid(which='major', axis='y', linestyle=':')
+    plt.axes().set_axisbelow(True)
+    
+    # plt.axes().set_ylim(ymin = 0, ymax=height * 1.25)
+    print(height)
+    plt.gcf().set_size_inches(24, 8)
+
+    plt.tight_layout()
+    if norm_flag:
+        plt.savefig('./figures/throughput/3in1/t_bar_%scores_%s_norm.pdf' % (_core, _trace))
+    else:
+        plt.savefig('./figures/throughput/3in1/t_bar_%scores_%s.pdf' % (_core, _trace))
+    plt.clf()
+
+
+def draw_t_bar_for_core_ipsec(_core, _ipsec, norm_flag=False):
+    N = len(all_tasks) * 2
+    ind = np.array([10, 20, 30, 40, 50, 60,  75, 85, 95, 105, 115, 125])
+    width = 2       # the width of the bars: can also be len(x) sequence
+
+    height = 0.0
+
+    cnt = 0
+    legends = list()
+    all_data_vec = []
+    for _type in all_types:
+        data_vec = []
+        for _trace in ['64B', 'ICTF']:
+            _data_vec = get_t_draw_data_vary_task(_type, _ipsec, _trace, _core, norm_flag)
+            data_vec.extend(_data_vec)
+        height = max(height, max(data_vec))
+        p1 = plt.bar(ind + width * (cnt - len(all_types) / 2.0 + 0.5), data_vec, width, color=colors[cnt], hatch=patterns[cnt], edgecolor = 'k', align="center")
+        legends.append(p1)
+        cnt += 1
+        all_data_vec.append(data_vec)
+
+    if _ipsec == 'sha_ipsec':
+        nb_min, sb_min = 1 << 30, 1 << 30
+        nb_max, sb_max = 0, 0
+        for i in range(N):
+            nb_factor = all_data_vec[0][i]/all_data_vec[1][i]
+            sb_factor = all_data_vec[0][i]/all_data_vec[2][i]
+            nb_min = min(nb_min, nb_factor)
+            sb_min = min(sb_min, sb_factor)
+            nb_max = max(nb_max, nb_factor)
+            sb_max = max(sb_max, sb_factor)
+            if i in [1, 7]:
+                print(i, '{:.2f}'.format(nb_factor), '{:.2f}'.format(sb_factor))
+        print(_ipsec)        
+        print('NIC vs NB {:.2f}--{:.2f}'.format(nb_min, nb_max))
+        print('NIC vs SB {:.2f}--{:.2f}'.format(sb_min, sb_max))
+
+    if _ipsec == 'gcm_ipsec':
+        nb_min, sb_min = 1 << 30, 1 << 30
+        nb_max, sb_max = 0, 0
+        for i in range(N//2):
+            nb_factor = all_data_vec[0][i]/all_data_vec[1][i]
+            sb_factor = all_data_vec[0][i]/all_data_vec[2][i]
+            nb_min = min(nb_min, nb_factor)
+            sb_min = min(sb_min, sb_factor)
+            nb_max = max(nb_max, nb_factor)
+            sb_max = max(sb_max, sb_factor)
+        print(_ipsec)        
+        print('NIC vs NB {:.2f}--{:.2f}'.format(nb_min, nb_max))
+        print('NIC vs SB {:.2f}--{:.2f}'.format(sb_min, sb_max))
+
+    
+    plt.legend(legends, all_types, ncol=3, frameon=False, fontsize=32, handlelength=2, loc='upper center', columnspacing=2)
+    plt.text(35, -0.25 * height, '64B CAIDA trace', fontsize=32, horizontalalignment='center', verticalalignment='center')
+    plt.text(100, -0.25 * height, 'ICTF trace', fontsize=32, horizontalalignment='center', verticalalignment='center')
+
+    if norm_flag:
+        plt.ylabel('Throughput per dollar (Mpps/\$)')
+    else:
+        plt.ylabel('Throughput (Mpps)')
+    plt.xticks(ind, all_tasks_figure * 2, fontsize=28)
+    # apply offset transform to all x ticklabels.
+    for label in plt.axes().xaxis.get_majorticklabels():
+        label.set_transform(label.get_transform() + offset)
+    plt.axes().grid(which='major', axis='y', linestyle=':')
+    plt.axes().set_axisbelow(True)
+    
+    plt.axes().set_ylim(ymin = 0, ymax=height * 1.25)
+    print(height)
+    plt.gcf().set_size_inches(24, 8)
+
+    plt.tight_layout()
+    if norm_flag:
+        plt.savefig('./figures/throughput/2in1/t_bar_%scores_%s_norm.pdf' % (_core, _ipsec))
+    else:
+        plt.savefig('./figures/throughput/2in1/t_bar_%scores_%s.pdf' % (_core, _ipsec))
+    plt.clf()
+
 
 if __name__ == '__main__':
     plt.rc('text', usetex=True)
@@ -63,19 +200,40 @@ if __name__ == '__main__':
     data_load("./rawdata/nb/sixnfs.res")
     data_load("./rawdata/sb/sixnfs.res")
 
+    # process_draw_data()
+    # all_cores_wecare = ["1"]
+    # for _ipsec in all_ipsecs:
+    #     for _core in all_cores_wecare:
+    #         draw_t_bar_for_core_ipsec_trace(_core, _ipsec, "64B")
+    #         draw_t_bar_for_core_ipsec_trace(_core, _ipsec, "ICTF")
+
+    # process_draw_data(norm_flag=True)
+    # all_cores_wecare = ["1"]
+    # for _ipsec in all_ipsecs:
+    #     for _core in all_cores_wecare:
+    #         draw_t_bar_for_core_ipsec_trace(_core, _ipsec, "64B", norm_flag=True)
+    #         draw_t_bar_for_core_ipsec_trace(_core, _ipsec, "ICTF", norm_flag=True)
+
     process_draw_data()
-
     all_cores_wecare = ["1"]
-    for _ipsec in all_ipsecs:
-        for _core in all_cores_wecare:
-            draw_t_bar_for_core_ipsec_trace(_core, _ipsec, "64B")
-            draw_t_bar_for_core_ipsec_trace(_core, _ipsec, "ICTF")
-
+    for _core in all_cores_wecare:
+        draw_t_bar_for_core_trace(_core, "64B")
+        draw_t_bar_for_core_trace(_core, "ICTF")
 
     process_draw_data(norm_flag=True)
-
     all_cores_wecare = ["1"]
-    for _ipsec in all_ipsecs:
-        for _core in all_cores_wecare:
-            draw_t_bar_for_core_ipsec_trace(_core, _ipsec, "64B", norm_flag=True)
-            draw_t_bar_for_core_ipsec_trace(_core, _ipsec, "ICTF", norm_flag=True)
+    for _core in all_cores_wecare:
+        draw_t_bar_for_core_trace(_core, "64B", norm_flag=True)
+        draw_t_bar_for_core_trace(_core, "ICTF", norm_flag=True)
+
+    process_draw_data()
+    all_cores_wecare = ["1"]
+    for _core in all_cores_wecare:
+        for _ipsec in all_ipsecs:
+            draw_t_bar_for_core_ipsec(_core, _ipsec)
+
+    process_draw_data(norm_flag=True)
+    all_cores_wecare = ["1"]
+    for _core in all_cores_wecare:
+        for _ipsec in all_ipsecs:
+            draw_t_bar_for_core_ipsec(_core, _ipsec, norm_flag=True)

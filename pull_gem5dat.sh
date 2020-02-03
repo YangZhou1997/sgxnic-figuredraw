@@ -14,7 +14,7 @@ stdout_dir=/users/yangzhou/GEM5_DRAMSim2/sgx_nic/results/*
 stderr_dir=/users/yangzhou/GEM5_DRAMSim2/sgx_nic/stderr/*
 scriptgen_dir=/users/yangzhou/GEM5_DRAMSim2/sgx_nic/scriptgen/*
 
-datadir=gem5data/tp_10mins_sec
+datadir=gem5data/tp_100mins
 mkdir -p ./$datadir
 
 mkdir -p ./$datadir/m5out/

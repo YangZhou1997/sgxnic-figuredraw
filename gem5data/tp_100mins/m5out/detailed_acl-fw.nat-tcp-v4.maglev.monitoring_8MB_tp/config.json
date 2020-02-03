@@ -1,0 +1,3141 @@
+{
+    "name": null, 
+    "system": {
+        "membus": {
+            "num_pids": 4, 
+            "save_trace": false, 
+            "req_offset": 0, 
+            "name": "membus", 
+            "clock": 1e-09, 
+            "master": {
+                "peer": [
+                    "system.physmem.port"
+                ], 
+                "role": "MASTER"
+            }, 
+            "req_tl": 1, 
+            "resp_tl": 1, 
+            "offset": 0, 
+            "slave": {
+                "peer": [
+                    "system.system_port", 
+                    "system.l20.mem_side", 
+                    "system.l21.mem_side", 
+                    "system.l22.mem_side", 
+                    "system.l23.mem_side"
+                ], 
+                "role": "SLAVE"
+            }, 
+            "header_cycles": 1, 
+            "width": 8, 
+            "use_default_range": false, 
+            "resp_offset": 0, 
+            "cxx_class": "RR_NoncoherentBus", 
+            "path": "system.membus", 
+            "block_size": 64, 
+            "type": "RR_NoncoherentBus", 
+            "turn_length": 10
+        }, 
+        "save_trace": false, 
+        "physmem": {
+            "p0Period": 64, 
+            "zero": false, 
+            "save_trace": false, 
+            "split_ports": true, 
+            "cxx_class": "DRAMSim2", 
+            "fixAddr": true, 
+            "port": {
+                "peer": "system.membus.master[0]", 
+                "role": "SLAVE"
+            }, 
+            "latency": 3.0000000000000004e-08, 
+            "null": false, 
+            "in_addr_map": true, 
+            "clock": 1, 
+            "cpu_clock": 4.166666666666667e-10, 
+            "trace_addr": 0, 
+            "p1Period": 64, 
+            "type": "DRAMSim2", 
+            "numPids": 4, 
+            "conf_table_reported": false, 
+            "offset": 0, 
+            "path": "system.physmem", 
+            "genTrace": false, 
+            "name": "physmem", 
+            "diffPeriod": false, 
+            "latency_var": 0.0, 
+            "finalStatsOnly": true, 
+            "addr_trace": false
+        }, 
+        "cxx_class": "System", 
+        "fixAddr": true, 
+        "work_end_ckpt_count": 0, 
+        "clock": 1, 
+        "work_begin_ckpt_count": 0, 
+        "tol2bus": [
+            {
+                "save_trace": false, 
+                "slave": {
+                    "peer": [
+                        "system.cpu0.icache.mem_side", 
+                        "system.cpu0.dcache.mem_side", 
+                        "system.cpu0.itb.walker.port", 
+                        "system.cpu0.dtb.walker.port"
+                    ], 
+                    "role": "SLAVE"
+                }, 
+                "name": "tol2bus0", 
+                "clock": 1e-09, 
+                "header_cycles": 1, 
+                "width": 8, 
+                "use_default_range": false, 
+                "master": {
+                    "peer": [
+                        "system.l20.cpu_side"
+                    ], 
+                    "role": "MASTER"
+                }, 
+                "cxx_class": "NoncoherentBus", 
+                "path": "system.tol2bus0", 
+                "block_size": 64, 
+                "type": "NoncoherentBus"
+            }, 
+            {
+                "save_trace": false, 
+                "slave": {
+                    "peer": [
+                        "system.cpu1.icache.mem_side", 
+                        "system.cpu1.dcache.mem_side", 
+                        "system.cpu1.itb.walker.port", 
+                        "system.cpu1.dtb.walker.port"
+                    ], 
+                    "role": "SLAVE"
+                }, 
+                "name": "tol2bus1", 
+                "clock": 1e-09, 
+                "header_cycles": 1, 
+                "width": 8, 
+                "use_default_range": false, 
+                "master": {
+                    "peer": [
+                        "system.l21.cpu_side"
+                    ], 
+                    "role": "MASTER"
+                }, 
+                "cxx_class": "NoncoherentBus", 
+                "path": "system.tol2bus1", 
+                "block_size": 64, 
+                "type": "NoncoherentBus"
+            }, 
+            {
+                "save_trace": false, 
+                "slave": {
+                    "peer": [
+                        "system.cpu2.icache.mem_side", 
+                        "system.cpu2.dcache.mem_side", 
+                        "system.cpu2.itb.walker.port", 
+                        "system.cpu2.dtb.walker.port"
+                    ], 
+                    "role": "SLAVE"
+                }, 
+                "name": "tol2bus2", 
+                "clock": 1e-09, 
+                "header_cycles": 1, 
+                "width": 8, 
+                "use_default_range": false, 
+                "master": {
+                    "peer": [
+                        "system.l22.cpu_side"
+                    ], 
+                    "role": "MASTER"
+                }, 
+                "cxx_class": "NoncoherentBus", 
+                "path": "system.tol2bus2", 
+                "block_size": 64, 
+                "type": "NoncoherentBus"
+            }, 
+            {
+                "save_trace": false, 
+                "slave": {
+                    "peer": [
+                        "system.cpu3.icache.mem_side", 
+                        "system.cpu3.dcache.mem_side", 
+                        "system.cpu3.itb.walker.port", 
+                        "system.cpu3.dtb.walker.port"
+                    ], 
+                    "role": "SLAVE"
+                }, 
+                "name": "tol2bus3", 
+                "clock": 1e-09, 
+                "header_cycles": 1, 
+                "width": 8, 
+                "use_default_range": false, 
+                "master": {
+                    "peer": [
+                        "system.l23.cpu_side"
+                    ], 
+                    "role": "MASTER"
+                }, 
+                "cxx_class": "NoncoherentBus", 
+                "path": "system.tol2bus3", 
+                "block_size": 64, 
+                "type": "NoncoherentBus"
+            }
+        ], 
+        "work_end_exit_count": 0, 
+        "type": "System", 
+        "numPids": 4, 
+        "work_cpus_ckpt_count": 0, 
+        "work_begin_exit_count": 0, 
+        "path": "system", 
+        "switch_cpus": [
+            {
+                "SQEntries": 32, 
+                "smtLSQThreshold": 100, 
+                "save_trace": false, 
+                "fetchWidth": 8, 
+                "do_statistics_insts": true, 
+                "dispatchWidth": 8, 
+                "iewToRenameDelay": 1, 
+                "itb": {
+                    "name": "itb", 
+                    "cxx_class": "ArmISA::TLB", 
+                    "walker": {
+                        "save_trace": false, 
+                        "name": "walker", 
+                        "clock": 1, 
+                        "cxx_class": "ArmISA::TableWalker", 
+                        "path": "system.switch_cpus0.itb.walker", 
+                        "type": "ArmTableWalker"
+                    }, 
+                    "path": "system.switch_cpus0.itb", 
+                    "type": "ArmTLB", 
+                    "size": 64
+                }, 
+                "wbWidth": 8, 
+                "squashWidth": 8, 
+                "commitToFetchDelay": 1, 
+                "function_trace": false, 
+                "do_checkpoint_insts": true, 
+                "BTBEntries": 4096, 
+                "cxx_class": "DerivO3CPU", 
+                "backComSize": 5, 
+                "max_loads_all_threads": 0, 
+                "numROBEntries": 192, 
+                "commitToIEWDelay": 1, 
+                "commitToDecodeDelay": 1, 
+                "decodeToRenameDelay": 1, 
+                "fetchToDecodeDelay": 1, 
+                "issueWidth": 8, 
+                "LSQCheckLoads": true, 
+                "clock": 4.166666666666667e-10, 
+                "commitToRenameDelay": 1, 
+                "instShiftAmt": 2, 
+                "wbDepth": 1, 
+                "choicePredictorSize": 8192, 
+                "cachePorts": 200, 
+                "function_trace_start": 0, 
+                "cpu_id": 0, 
+                "store_set_clear_period": 250000, 
+                "numPhysFloatRegs": 256, 
+                "numPhysIntRegs": 256, 
+                "smtNumFetchingThreads": 1, 
+                "localHistoryTableSize": 2048, 
+                "do_quiesce": true, 
+                "type": "DerivO3CPU", 
+                "numRobs": 1, 
+                "smtROBThreshold": 100, 
+                "profile": 0.0, 
+                "renameToROBDelay": 1, 
+                "choiceCtrBits": 2, 
+                "fetchTrapLatency": 1, 
+                "progress_interval": 0.0, 
+                "defer_registration": true, 
+                "commitWidth": 8, 
+                "numThreads": 1, 
+                "decodeToFetchDelay": 1, 
+                "renameToFetchDelay": 1, 
+                "LSQDepCheckShift": 4, 
+                "decodeWidth": 8, 
+                "localCtrBits": 2, 
+                "globalHistoryBits": 13, 
+                "needsTSO": false, 
+                "renameWidth": 8, 
+                "path": "system.switch_cpus0", 
+                "localPredictorSize": 2048, 
+                "max_insts_all_threads": 0, 
+                "max_loads_any_thread": 0, 
+                "RASSize": 16, 
+                "globalPredictorSize": 8192, 
+                "localHistoryBits": 11, 
+                "iewToDecodeDelay": 1, 
+                "max_insts_any_thread": 100000000, 
+                "issueToExecuteDelay": 1, 
+                "name": "switch_cpus0", 
+                "dtb": {
+                    "name": "dtb", 
+                    "cxx_class": "ArmISA::TLB", 
+                    "walker": {
+                        "save_trace": false, 
+                        "name": "walker", 
+                        "clock": 1, 
+                        "cxx_class": "ArmISA::TableWalker", 
+                        "path": "system.switch_cpus0.dtb.walker", 
+                        "type": "ArmTableWalker"
+                    }, 
+                    "path": "system.switch_cpus0.dtb", 
+                    "type": "ArmTLB", 
+                    "size": 64
+                }, 
+                "globalCtrBits": 2, 
+                "trapLatency": 13, 
+                "SSITSize": 1024, 
+                "renameToDecodeDelay": 1, 
+                "fuPool": {
+                    "path": "system.switch_cpus0.fuPool", 
+                    "FUList": [
+                        {
+                            "count": 6, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList", 
+                                    "opClass": "IntAlu", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList0.opList", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList0", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus0.fuPool.FUList0", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 2, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 3, 
+                                    "name": "opList0", 
+                                    "opClass": "IntMult", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList1.opList0", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 19, 
+                                    "opLat": 20, 
+                                    "name": "opList1", 
+                                    "opClass": "IntDiv", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList1.opList1", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList1", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus0.fuPool.FUList1", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 4, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 2, 
+                                    "name": "opList0", 
+                                    "opClass": "FloatAdd", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList2.opList0", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 2, 
+                                    "name": "opList1", 
+                                    "opClass": "FloatCmp", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList2.opList1", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 2, 
+                                    "name": "opList2", 
+                                    "opClass": "FloatCvt", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList2.opList2", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList2", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus0.fuPool.FUList2", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 2, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 4, 
+                                    "name": "opList0", 
+                                    "opClass": "FloatMult", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList3.opList0", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 12, 
+                                    "opLat": 12, 
+                                    "name": "opList1", 
+                                    "opClass": "FloatDiv", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList3.opList1", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 24, 
+                                    "opLat": 24, 
+                                    "name": "opList2", 
+                                    "opClass": "FloatSqrt", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList3.opList2", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList3", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus0.fuPool.FUList3", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 0, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList", 
+                                    "opClass": "MemRead", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList4.opList", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList4", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus0.fuPool.FUList4", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 4, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList00", 
+                                    "opClass": "SimdAdd", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList5.opList00", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList01", 
+                                    "opClass": "SimdAddAcc", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList5.opList01", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList02", 
+                                    "opClass": "SimdAlu", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList5.opList02", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList03", 
+                                    "opClass": "SimdCmp", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList5.opList03", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList04", 
+                                    "opClass": "SimdCvt", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList5.opList04", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList05", 
+                                    "opClass": "SimdMisc", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList5.opList05", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList06", 
+                                    "opClass": "SimdMult", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList5.opList06", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList07", 
+                                    "opClass": "SimdMultAcc", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList5.opList07", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList08", 
+                                    "opClass": "SimdShift", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList5.opList08", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList09", 
+                                    "opClass": "SimdShiftAcc", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList5.opList09", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList10", 
+                                    "opClass": "SimdSqrt", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList5.opList10", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList11", 
+                                    "opClass": "SimdFloatAdd", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList5.opList11", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList12", 
+                                    "opClass": "SimdFloatAlu", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList5.opList12", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList13", 
+                                    "opClass": "SimdFloatCmp", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList5.opList13", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList14", 
+                                    "opClass": "SimdFloatCvt", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList5.opList14", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList15", 
+                                    "opClass": "SimdFloatDiv", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList5.opList15", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList16", 
+                                    "opClass": "SimdFloatMisc", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList5.opList16", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList17", 
+                                    "opClass": "SimdFloatMult", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList5.opList17", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList18", 
+                                    "opClass": "SimdFloatMultAcc", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList5.opList18", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList19", 
+                                    "opClass": "SimdFloatSqrt", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList5.opList19", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList5", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus0.fuPool.FUList5", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 0, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList", 
+                                    "opClass": "MemWrite", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList6.opList", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList6", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus0.fuPool.FUList6", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 4, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList0", 
+                                    "opClass": "MemRead", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList7.opList0", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList1", 
+                                    "opClass": "MemWrite", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList7.opList1", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList7", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus0.fuPool.FUList7", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 1, 
+                            "opList": [
+                                {
+                                    "issueLat": 3, 
+                                    "opLat": 3, 
+                                    "name": "opList", 
+                                    "opClass": "IprAccess", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus0.fuPool.FUList8.opList", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList8", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus0.fuPool.FUList8", 
+                            "type": "FUDesc"
+                        }
+                    ], 
+                    "type": "FUPool", 
+                    "name": "fuPool", 
+                    "cxx_class": "FUPool"
+                }, 
+                "forwardComSize": 5, 
+                "BTBTagSize": 16, 
+                "numIQEntries": 64, 
+                "activity": 0, 
+                "LFSTSize": 1024, 
+                "iewToCommitDelay": 1, 
+                "renameToIEWDelay": 2, 
+                "iewToFetchDelay": 1, 
+                "tracer": {
+                    "path": "system.switch_cpus0.tracer", 
+                    "type": "ExeTracer", 
+                    "name": "tracer", 
+                    "cxx_class": "Trace::ExeTracer"
+                }, 
+                "LQEntries": 32, 
+                "smtIQThreshold": 100
+            }, 
+            {
+                "SQEntries": 32, 
+                "smtLSQThreshold": 100, 
+                "save_trace": false, 
+                "fetchWidth": 8, 
+                "do_statistics_insts": true, 
+                "dispatchWidth": 8, 
+                "iewToRenameDelay": 1, 
+                "itb": {
+                    "name": "itb", 
+                    "cxx_class": "ArmISA::TLB", 
+                    "walker": {
+                        "save_trace": false, 
+                        "name": "walker", 
+                        "clock": 1, 
+                        "cxx_class": "ArmISA::TableWalker", 
+                        "path": "system.switch_cpus1.itb.walker", 
+                        "type": "ArmTableWalker"
+                    }, 
+                    "path": "system.switch_cpus1.itb", 
+                    "type": "ArmTLB", 
+                    "size": 64
+                }, 
+                "wbWidth": 8, 
+                "squashWidth": 8, 
+                "commitToFetchDelay": 1, 
+                "function_trace": false, 
+                "do_checkpoint_insts": true, 
+                "BTBEntries": 4096, 
+                "cxx_class": "DerivO3CPU", 
+                "backComSize": 5, 
+                "max_loads_all_threads": 0, 
+                "numROBEntries": 192, 
+                "commitToIEWDelay": 1, 
+                "commitToDecodeDelay": 1, 
+                "decodeToRenameDelay": 1, 
+                "fetchToDecodeDelay": 1, 
+                "issueWidth": 8, 
+                "LSQCheckLoads": true, 
+                "clock": 4.166666666666667e-10, 
+                "commitToRenameDelay": 1, 
+                "instShiftAmt": 2, 
+                "wbDepth": 1, 
+                "choicePredictorSize": 8192, 
+                "cachePorts": 200, 
+                "function_trace_start": 0, 
+                "cpu_id": 1, 
+                "store_set_clear_period": 250000, 
+                "numPhysFloatRegs": 256, 
+                "numPhysIntRegs": 256, 
+                "smtNumFetchingThreads": 1, 
+                "localHistoryTableSize": 2048, 
+                "do_quiesce": true, 
+                "type": "DerivO3CPU", 
+                "numRobs": 1, 
+                "smtROBThreshold": 100, 
+                "profile": 0.0, 
+                "renameToROBDelay": 1, 
+                "choiceCtrBits": 2, 
+                "fetchTrapLatency": 1, 
+                "progress_interval": 0.0, 
+                "defer_registration": true, 
+                "commitWidth": 8, 
+                "numThreads": 1, 
+                "decodeToFetchDelay": 1, 
+                "renameToFetchDelay": 1, 
+                "LSQDepCheckShift": 4, 
+                "decodeWidth": 8, 
+                "localCtrBits": 2, 
+                "globalHistoryBits": 13, 
+                "needsTSO": false, 
+                "renameWidth": 8, 
+                "path": "system.switch_cpus1", 
+                "localPredictorSize": 2048, 
+                "max_insts_all_threads": 0, 
+                "max_loads_any_thread": 0, 
+                "RASSize": 16, 
+                "globalPredictorSize": 8192, 
+                "localHistoryBits": 11, 
+                "iewToDecodeDelay": 1, 
+                "max_insts_any_thread": 100000000, 
+                "issueToExecuteDelay": 1, 
+                "name": "switch_cpus1", 
+                "dtb": {
+                    "name": "dtb", 
+                    "cxx_class": "ArmISA::TLB", 
+                    "walker": {
+                        "save_trace": false, 
+                        "name": "walker", 
+                        "clock": 1, 
+                        "cxx_class": "ArmISA::TableWalker", 
+                        "path": "system.switch_cpus1.dtb.walker", 
+                        "type": "ArmTableWalker"
+                    }, 
+                    "path": "system.switch_cpus1.dtb", 
+                    "type": "ArmTLB", 
+                    "size": 64
+                }, 
+                "globalCtrBits": 2, 
+                "trapLatency": 13, 
+                "SSITSize": 1024, 
+                "renameToDecodeDelay": 1, 
+                "fuPool": {
+                    "path": "system.switch_cpus1.fuPool", 
+                    "FUList": [
+                        {
+                            "count": 6, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList", 
+                                    "opClass": "IntAlu", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList0.opList", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList0", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus1.fuPool.FUList0", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 2, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 3, 
+                                    "name": "opList0", 
+                                    "opClass": "IntMult", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList1.opList0", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 19, 
+                                    "opLat": 20, 
+                                    "name": "opList1", 
+                                    "opClass": "IntDiv", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList1.opList1", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList1", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus1.fuPool.FUList1", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 4, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 2, 
+                                    "name": "opList0", 
+                                    "opClass": "FloatAdd", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList2.opList0", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 2, 
+                                    "name": "opList1", 
+                                    "opClass": "FloatCmp", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList2.opList1", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 2, 
+                                    "name": "opList2", 
+                                    "opClass": "FloatCvt", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList2.opList2", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList2", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus1.fuPool.FUList2", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 2, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 4, 
+                                    "name": "opList0", 
+                                    "opClass": "FloatMult", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList3.opList0", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 12, 
+                                    "opLat": 12, 
+                                    "name": "opList1", 
+                                    "opClass": "FloatDiv", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList3.opList1", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 24, 
+                                    "opLat": 24, 
+                                    "name": "opList2", 
+                                    "opClass": "FloatSqrt", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList3.opList2", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList3", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus1.fuPool.FUList3", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 0, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList", 
+                                    "opClass": "MemRead", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList4.opList", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList4", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus1.fuPool.FUList4", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 4, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList00", 
+                                    "opClass": "SimdAdd", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList5.opList00", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList01", 
+                                    "opClass": "SimdAddAcc", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList5.opList01", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList02", 
+                                    "opClass": "SimdAlu", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList5.opList02", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList03", 
+                                    "opClass": "SimdCmp", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList5.opList03", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList04", 
+                                    "opClass": "SimdCvt", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList5.opList04", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList05", 
+                                    "opClass": "SimdMisc", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList5.opList05", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList06", 
+                                    "opClass": "SimdMult", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList5.opList06", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList07", 
+                                    "opClass": "SimdMultAcc", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList5.opList07", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList08", 
+                                    "opClass": "SimdShift", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList5.opList08", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList09", 
+                                    "opClass": "SimdShiftAcc", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList5.opList09", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList10", 
+                                    "opClass": "SimdSqrt", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList5.opList10", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList11", 
+                                    "opClass": "SimdFloatAdd", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList5.opList11", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList12", 
+                                    "opClass": "SimdFloatAlu", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList5.opList12", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList13", 
+                                    "opClass": "SimdFloatCmp", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList5.opList13", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList14", 
+                                    "opClass": "SimdFloatCvt", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList5.opList14", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList15", 
+                                    "opClass": "SimdFloatDiv", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList5.opList15", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList16", 
+                                    "opClass": "SimdFloatMisc", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList5.opList16", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList17", 
+                                    "opClass": "SimdFloatMult", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList5.opList17", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList18", 
+                                    "opClass": "SimdFloatMultAcc", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList5.opList18", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList19", 
+                                    "opClass": "SimdFloatSqrt", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList5.opList19", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList5", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus1.fuPool.FUList5", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 0, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList", 
+                                    "opClass": "MemWrite", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList6.opList", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList6", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus1.fuPool.FUList6", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 4, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList0", 
+                                    "opClass": "MemRead", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList7.opList0", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList1", 
+                                    "opClass": "MemWrite", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList7.opList1", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList7", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus1.fuPool.FUList7", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 1, 
+                            "opList": [
+                                {
+                                    "issueLat": 3, 
+                                    "opLat": 3, 
+                                    "name": "opList", 
+                                    "opClass": "IprAccess", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus1.fuPool.FUList8.opList", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList8", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus1.fuPool.FUList8", 
+                            "type": "FUDesc"
+                        }
+                    ], 
+                    "type": "FUPool", 
+                    "name": "fuPool", 
+                    "cxx_class": "FUPool"
+                }, 
+                "forwardComSize": 5, 
+                "BTBTagSize": 16, 
+                "numIQEntries": 64, 
+                "activity": 0, 
+                "LFSTSize": 1024, 
+                "iewToCommitDelay": 1, 
+                "renameToIEWDelay": 2, 
+                "iewToFetchDelay": 1, 
+                "tracer": {
+                    "path": "system.switch_cpus1.tracer", 
+                    "type": "ExeTracer", 
+                    "name": "tracer", 
+                    "cxx_class": "Trace::ExeTracer"
+                }, 
+                "LQEntries": 32, 
+                "smtIQThreshold": 100
+            }, 
+            {
+                "SQEntries": 32, 
+                "smtLSQThreshold": 100, 
+                "save_trace": false, 
+                "fetchWidth": 8, 
+                "do_statistics_insts": true, 
+                "dispatchWidth": 8, 
+                "iewToRenameDelay": 1, 
+                "itb": {
+                    "name": "itb", 
+                    "cxx_class": "ArmISA::TLB", 
+                    "walker": {
+                        "save_trace": false, 
+                        "name": "walker", 
+                        "clock": 1, 
+                        "cxx_class": "ArmISA::TableWalker", 
+                        "path": "system.switch_cpus2.itb.walker", 
+                        "type": "ArmTableWalker"
+                    }, 
+                    "path": "system.switch_cpus2.itb", 
+                    "type": "ArmTLB", 
+                    "size": 64
+                }, 
+                "wbWidth": 8, 
+                "squashWidth": 8, 
+                "commitToFetchDelay": 1, 
+                "function_trace": false, 
+                "do_checkpoint_insts": true, 
+                "BTBEntries": 4096, 
+                "cxx_class": "DerivO3CPU", 
+                "backComSize": 5, 
+                "max_loads_all_threads": 0, 
+                "numROBEntries": 192, 
+                "commitToIEWDelay": 1, 
+                "commitToDecodeDelay": 1, 
+                "decodeToRenameDelay": 1, 
+                "fetchToDecodeDelay": 1, 
+                "issueWidth": 8, 
+                "LSQCheckLoads": true, 
+                "clock": 4.166666666666667e-10, 
+                "commitToRenameDelay": 1, 
+                "instShiftAmt": 2, 
+                "wbDepth": 1, 
+                "choicePredictorSize": 8192, 
+                "cachePorts": 200, 
+                "function_trace_start": 0, 
+                "cpu_id": 2, 
+                "store_set_clear_period": 250000, 
+                "numPhysFloatRegs": 256, 
+                "numPhysIntRegs": 256, 
+                "smtNumFetchingThreads": 1, 
+                "localHistoryTableSize": 2048, 
+                "do_quiesce": true, 
+                "type": "DerivO3CPU", 
+                "numRobs": 1, 
+                "smtROBThreshold": 100, 
+                "profile": 0.0, 
+                "renameToROBDelay": 1, 
+                "choiceCtrBits": 2, 
+                "fetchTrapLatency": 1, 
+                "progress_interval": 0.0, 
+                "defer_registration": true, 
+                "commitWidth": 8, 
+                "numThreads": 1, 
+                "decodeToFetchDelay": 1, 
+                "renameToFetchDelay": 1, 
+                "LSQDepCheckShift": 4, 
+                "decodeWidth": 8, 
+                "localCtrBits": 2, 
+                "globalHistoryBits": 13, 
+                "needsTSO": false, 
+                "renameWidth": 8, 
+                "path": "system.switch_cpus2", 
+                "localPredictorSize": 2048, 
+                "max_insts_all_threads": 0, 
+                "max_loads_any_thread": 0, 
+                "RASSize": 16, 
+                "globalPredictorSize": 8192, 
+                "localHistoryBits": 11, 
+                "iewToDecodeDelay": 1, 
+                "max_insts_any_thread": 100000000, 
+                "issueToExecuteDelay": 1, 
+                "name": "switch_cpus2", 
+                "dtb": {
+                    "name": "dtb", 
+                    "cxx_class": "ArmISA::TLB", 
+                    "walker": {
+                        "save_trace": false, 
+                        "name": "walker", 
+                        "clock": 1, 
+                        "cxx_class": "ArmISA::TableWalker", 
+                        "path": "system.switch_cpus2.dtb.walker", 
+                        "type": "ArmTableWalker"
+                    }, 
+                    "path": "system.switch_cpus2.dtb", 
+                    "type": "ArmTLB", 
+                    "size": 64
+                }, 
+                "globalCtrBits": 2, 
+                "trapLatency": 13, 
+                "SSITSize": 1024, 
+                "renameToDecodeDelay": 1, 
+                "fuPool": {
+                    "path": "system.switch_cpus2.fuPool", 
+                    "FUList": [
+                        {
+                            "count": 6, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList", 
+                                    "opClass": "IntAlu", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList0.opList", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList0", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus2.fuPool.FUList0", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 2, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 3, 
+                                    "name": "opList0", 
+                                    "opClass": "IntMult", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList1.opList0", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 19, 
+                                    "opLat": 20, 
+                                    "name": "opList1", 
+                                    "opClass": "IntDiv", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList1.opList1", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList1", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus2.fuPool.FUList1", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 4, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 2, 
+                                    "name": "opList0", 
+                                    "opClass": "FloatAdd", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList2.opList0", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 2, 
+                                    "name": "opList1", 
+                                    "opClass": "FloatCmp", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList2.opList1", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 2, 
+                                    "name": "opList2", 
+                                    "opClass": "FloatCvt", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList2.opList2", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList2", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus2.fuPool.FUList2", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 2, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 4, 
+                                    "name": "opList0", 
+                                    "opClass": "FloatMult", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList3.opList0", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 12, 
+                                    "opLat": 12, 
+                                    "name": "opList1", 
+                                    "opClass": "FloatDiv", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList3.opList1", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 24, 
+                                    "opLat": 24, 
+                                    "name": "opList2", 
+                                    "opClass": "FloatSqrt", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList3.opList2", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList3", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus2.fuPool.FUList3", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 0, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList", 
+                                    "opClass": "MemRead", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList4.opList", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList4", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus2.fuPool.FUList4", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 4, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList00", 
+                                    "opClass": "SimdAdd", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList5.opList00", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList01", 
+                                    "opClass": "SimdAddAcc", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList5.opList01", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList02", 
+                                    "opClass": "SimdAlu", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList5.opList02", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList03", 
+                                    "opClass": "SimdCmp", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList5.opList03", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList04", 
+                                    "opClass": "SimdCvt", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList5.opList04", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList05", 
+                                    "opClass": "SimdMisc", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList5.opList05", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList06", 
+                                    "opClass": "SimdMult", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList5.opList06", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList07", 
+                                    "opClass": "SimdMultAcc", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList5.opList07", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList08", 
+                                    "opClass": "SimdShift", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList5.opList08", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList09", 
+                                    "opClass": "SimdShiftAcc", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList5.opList09", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList10", 
+                                    "opClass": "SimdSqrt", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList5.opList10", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList11", 
+                                    "opClass": "SimdFloatAdd", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList5.opList11", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList12", 
+                                    "opClass": "SimdFloatAlu", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList5.opList12", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList13", 
+                                    "opClass": "SimdFloatCmp", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList5.opList13", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList14", 
+                                    "opClass": "SimdFloatCvt", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList5.opList14", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList15", 
+                                    "opClass": "SimdFloatDiv", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList5.opList15", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList16", 
+                                    "opClass": "SimdFloatMisc", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList5.opList16", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList17", 
+                                    "opClass": "SimdFloatMult", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList5.opList17", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList18", 
+                                    "opClass": "SimdFloatMultAcc", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList5.opList18", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList19", 
+                                    "opClass": "SimdFloatSqrt", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList5.opList19", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList5", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus2.fuPool.FUList5", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 0, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList", 
+                                    "opClass": "MemWrite", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList6.opList", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList6", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus2.fuPool.FUList6", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 4, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList0", 
+                                    "opClass": "MemRead", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList7.opList0", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList1", 
+                                    "opClass": "MemWrite", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList7.opList1", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList7", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus2.fuPool.FUList7", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 1, 
+                            "opList": [
+                                {
+                                    "issueLat": 3, 
+                                    "opLat": 3, 
+                                    "name": "opList", 
+                                    "opClass": "IprAccess", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus2.fuPool.FUList8.opList", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList8", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus2.fuPool.FUList8", 
+                            "type": "FUDesc"
+                        }
+                    ], 
+                    "type": "FUPool", 
+                    "name": "fuPool", 
+                    "cxx_class": "FUPool"
+                }, 
+                "forwardComSize": 5, 
+                "BTBTagSize": 16, 
+                "numIQEntries": 64, 
+                "activity": 0, 
+                "LFSTSize": 1024, 
+                "iewToCommitDelay": 1, 
+                "renameToIEWDelay": 2, 
+                "iewToFetchDelay": 1, 
+                "tracer": {
+                    "path": "system.switch_cpus2.tracer", 
+                    "type": "ExeTracer", 
+                    "name": "tracer", 
+                    "cxx_class": "Trace::ExeTracer"
+                }, 
+                "LQEntries": 32, 
+                "smtIQThreshold": 100
+            }, 
+            {
+                "SQEntries": 32, 
+                "smtLSQThreshold": 100, 
+                "save_trace": false, 
+                "fetchWidth": 8, 
+                "do_statistics_insts": true, 
+                "dispatchWidth": 8, 
+                "iewToRenameDelay": 1, 
+                "itb": {
+                    "name": "itb", 
+                    "cxx_class": "ArmISA::TLB", 
+                    "walker": {
+                        "save_trace": false, 
+                        "name": "walker", 
+                        "clock": 1, 
+                        "cxx_class": "ArmISA::TableWalker", 
+                        "path": "system.switch_cpus3.itb.walker", 
+                        "type": "ArmTableWalker"
+                    }, 
+                    "path": "system.switch_cpus3.itb", 
+                    "type": "ArmTLB", 
+                    "size": 64
+                }, 
+                "wbWidth": 8, 
+                "squashWidth": 8, 
+                "commitToFetchDelay": 1, 
+                "function_trace": false, 
+                "do_checkpoint_insts": true, 
+                "BTBEntries": 4096, 
+                "cxx_class": "DerivO3CPU", 
+                "backComSize": 5, 
+                "max_loads_all_threads": 0, 
+                "numROBEntries": 192, 
+                "commitToIEWDelay": 1, 
+                "commitToDecodeDelay": 1, 
+                "decodeToRenameDelay": 1, 
+                "fetchToDecodeDelay": 1, 
+                "issueWidth": 8, 
+                "LSQCheckLoads": true, 
+                "clock": 4.166666666666667e-10, 
+                "commitToRenameDelay": 1, 
+                "instShiftAmt": 2, 
+                "wbDepth": 1, 
+                "choicePredictorSize": 8192, 
+                "cachePorts": 200, 
+                "function_trace_start": 0, 
+                "cpu_id": 3, 
+                "store_set_clear_period": 250000, 
+                "numPhysFloatRegs": 256, 
+                "numPhysIntRegs": 256, 
+                "smtNumFetchingThreads": 1, 
+                "localHistoryTableSize": 2048, 
+                "do_quiesce": true, 
+                "type": "DerivO3CPU", 
+                "numRobs": 1, 
+                "smtROBThreshold": 100, 
+                "profile": 0.0, 
+                "renameToROBDelay": 1, 
+                "choiceCtrBits": 2, 
+                "fetchTrapLatency": 1, 
+                "progress_interval": 0.0, 
+                "defer_registration": true, 
+                "commitWidth": 8, 
+                "numThreads": 1, 
+                "decodeToFetchDelay": 1, 
+                "renameToFetchDelay": 1, 
+                "LSQDepCheckShift": 4, 
+                "decodeWidth": 8, 
+                "localCtrBits": 2, 
+                "globalHistoryBits": 13, 
+                "needsTSO": false, 
+                "renameWidth": 8, 
+                "path": "system.switch_cpus3", 
+                "localPredictorSize": 2048, 
+                "max_insts_all_threads": 0, 
+                "max_loads_any_thread": 0, 
+                "RASSize": 16, 
+                "globalPredictorSize": 8192, 
+                "localHistoryBits": 11, 
+                "iewToDecodeDelay": 1, 
+                "max_insts_any_thread": 100000000, 
+                "issueToExecuteDelay": 1, 
+                "name": "switch_cpus3", 
+                "dtb": {
+                    "name": "dtb", 
+                    "cxx_class": "ArmISA::TLB", 
+                    "walker": {
+                        "save_trace": false, 
+                        "name": "walker", 
+                        "clock": 1, 
+                        "cxx_class": "ArmISA::TableWalker", 
+                        "path": "system.switch_cpus3.dtb.walker", 
+                        "type": "ArmTableWalker"
+                    }, 
+                    "path": "system.switch_cpus3.dtb", 
+                    "type": "ArmTLB", 
+                    "size": 64
+                }, 
+                "globalCtrBits": 2, 
+                "trapLatency": 13, 
+                "SSITSize": 1024, 
+                "renameToDecodeDelay": 1, 
+                "fuPool": {
+                    "path": "system.switch_cpus3.fuPool", 
+                    "FUList": [
+                        {
+                            "count": 6, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList", 
+                                    "opClass": "IntAlu", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList0.opList", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList0", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus3.fuPool.FUList0", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 2, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 3, 
+                                    "name": "opList0", 
+                                    "opClass": "IntMult", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList1.opList0", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 19, 
+                                    "opLat": 20, 
+                                    "name": "opList1", 
+                                    "opClass": "IntDiv", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList1.opList1", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList1", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus3.fuPool.FUList1", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 4, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 2, 
+                                    "name": "opList0", 
+                                    "opClass": "FloatAdd", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList2.opList0", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 2, 
+                                    "name": "opList1", 
+                                    "opClass": "FloatCmp", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList2.opList1", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 2, 
+                                    "name": "opList2", 
+                                    "opClass": "FloatCvt", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList2.opList2", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList2", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus3.fuPool.FUList2", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 2, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 4, 
+                                    "name": "opList0", 
+                                    "opClass": "FloatMult", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList3.opList0", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 12, 
+                                    "opLat": 12, 
+                                    "name": "opList1", 
+                                    "opClass": "FloatDiv", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList3.opList1", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 24, 
+                                    "opLat": 24, 
+                                    "name": "opList2", 
+                                    "opClass": "FloatSqrt", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList3.opList2", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList3", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus3.fuPool.FUList3", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 0, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList", 
+                                    "opClass": "MemRead", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList4.opList", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList4", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus3.fuPool.FUList4", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 4, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList00", 
+                                    "opClass": "SimdAdd", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList5.opList00", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList01", 
+                                    "opClass": "SimdAddAcc", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList5.opList01", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList02", 
+                                    "opClass": "SimdAlu", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList5.opList02", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList03", 
+                                    "opClass": "SimdCmp", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList5.opList03", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList04", 
+                                    "opClass": "SimdCvt", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList5.opList04", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList05", 
+                                    "opClass": "SimdMisc", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList5.opList05", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList06", 
+                                    "opClass": "SimdMult", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList5.opList06", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList07", 
+                                    "opClass": "SimdMultAcc", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList5.opList07", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList08", 
+                                    "opClass": "SimdShift", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList5.opList08", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList09", 
+                                    "opClass": "SimdShiftAcc", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList5.opList09", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList10", 
+                                    "opClass": "SimdSqrt", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList5.opList10", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList11", 
+                                    "opClass": "SimdFloatAdd", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList5.opList11", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList12", 
+                                    "opClass": "SimdFloatAlu", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList5.opList12", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList13", 
+                                    "opClass": "SimdFloatCmp", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList5.opList13", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList14", 
+                                    "opClass": "SimdFloatCvt", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList5.opList14", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList15", 
+                                    "opClass": "SimdFloatDiv", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList5.opList15", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList16", 
+                                    "opClass": "SimdFloatMisc", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList5.opList16", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList17", 
+                                    "opClass": "SimdFloatMult", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList5.opList17", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList18", 
+                                    "opClass": "SimdFloatMultAcc", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList5.opList18", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList19", 
+                                    "opClass": "SimdFloatSqrt", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList5.opList19", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList5", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus3.fuPool.FUList5", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 0, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList", 
+                                    "opClass": "MemWrite", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList6.opList", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList6", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus3.fuPool.FUList6", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 4, 
+                            "opList": [
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList0", 
+                                    "opClass": "MemRead", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList7.opList0", 
+                                    "type": "OpDesc"
+                                }, 
+                                {
+                                    "issueLat": 1, 
+                                    "opLat": 1, 
+                                    "name": "opList1", 
+                                    "opClass": "MemWrite", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList7.opList1", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList7", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus3.fuPool.FUList7", 
+                            "type": "FUDesc"
+                        }, 
+                        {
+                            "count": 1, 
+                            "opList": [
+                                {
+                                    "issueLat": 3, 
+                                    "opLat": 3, 
+                                    "name": "opList", 
+                                    "opClass": "IprAccess", 
+                                    "cxx_class": "OpDesc", 
+                                    "path": "system.switch_cpus3.fuPool.FUList8.opList", 
+                                    "type": "OpDesc"
+                                }
+                            ], 
+                            "name": "FUList8", 
+                            "cxx_class": "FUDesc", 
+                            "path": "system.switch_cpus3.fuPool.FUList8", 
+                            "type": "FUDesc"
+                        }
+                    ], 
+                    "type": "FUPool", 
+                    "name": "fuPool", 
+                    "cxx_class": "FUPool"
+                }, 
+                "forwardComSize": 5, 
+                "BTBTagSize": 16, 
+                "numIQEntries": 64, 
+                "activity": 0, 
+                "LFSTSize": 1024, 
+                "iewToCommitDelay": 1, 
+                "renameToIEWDelay": 2, 
+                "iewToFetchDelay": 1, 
+                "tracer": {
+                    "path": "system.switch_cpus3.tracer", 
+                    "type": "ExeTracer", 
+                    "name": "tracer", 
+                    "cxx_class": "Trace::ExeTracer"
+                }, 
+                "LQEntries": 32, 
+                "smtIQThreshold": 100
+            }
+        ], 
+        "mem_mode": "atomic", 
+        "name": "system", 
+        "init_param": 0, 
+        "system_port": {
+            "peer": "system.membus.slave[0]", 
+            "role": "MASTER"
+        }, 
+        "load_addr_mask": 1099511627775, 
+        "cpu": [
+            {
+                "save_trace": false, 
+                "do_statistics_insts": true, 
+                "numThreads": 1, 
+                "itb": {
+                    "name": "itb", 
+                    "cxx_class": "ArmISA::TLB", 
+                    "walker": {
+                        "save_trace": false, 
+                        "name": "walker", 
+                        "clock": 1, 
+                        "cxx_class": "ArmISA::TableWalker", 
+                        "path": "system.cpu0.itb.walker", 
+                        "type": "ArmTableWalker", 
+                        "port": {
+                            "peer": "system.tol2bus0.slave[2]", 
+                            "role": "MASTER"
+                        }
+                    }, 
+                    "path": "system.cpu0.itb", 
+                    "type": "ArmTLB", 
+                    "size": 64
+                }, 
+                "function_trace": false, 
+                "do_checkpoint_insts": true, 
+                "cxx_class": "AtomicSimpleCPU", 
+                "max_loads_all_threads": 0, 
+                "clock": 4.166666666666667e-10, 
+                "simulate_data_stalls": false, 
+                "function_trace_start": 0, 
+                "cpu_id": 0, 
+                "width": 1, 
+                "do_quiesce": true, 
+                "type": "AtomicSimpleCPU", 
+                "fastmem": false, 
+                "profile": 0.0, 
+                "icache_port": {
+                    "peer": "system.cpu0.icache.cpu_side", 
+                    "role": "MASTER"
+                }, 
+                "icache": {
+                    "save_trace": false, 
+                    "use_way_part": false, 
+                    "cxx_class": "BaseCache", 
+                    "write_buffers": 8, 
+                    "is_top_level": true, 
+                    "block_size": 128, 
+                    "size": 79872, 
+                    "latency": 1e-09, 
+                    "clock": 1, 
+                    "num_tcs": 2, 
+                    "trace_addr": 0, 
+                    "max_miss_count": 0, 
+                    "mem_side": {
+                        "peer": "system.tol2bus0.slave[0]", 
+                        "role": "MASTER"
+                    }, 
+                    "type": "BaseCache", 
+                    "forward_snoops": true, 
+                    "cw_first": true, 
+                    "use_set_part": false, 
+                    "tgts_per_mshr": 20, 
+                    "assoc": 39, 
+                    "prefetch_on_access": false, 
+                    "split_mshrq": false, 
+                    "do_cache_trace": false, 
+                    "prioritizeRequests": false, 
+                    "split_rport": false, 
+                    "name": "icache", 
+                    "mshrs": 10, 
+                    "hash_delay": 1, 
+                    "subblock_size": 0, 
+                    "cpu_side": {
+                        "peer": "system.cpu0.icache_port", 
+                        "role": "SLAVE"
+                    }, 
+                    "path": "system.cpu0.icache", 
+                    "two_queue": false
+                }, 
+                "defer_registration": false, 
+                "interrupts": {
+                    "path": "system.cpu0.interrupts", 
+                    "type": "ArmInterrupts", 
+                    "name": "interrupts", 
+                    "cxx_class": "ArmISA::Interrupts"
+                }, 
+                "max_insts_all_threads": 0, 
+                "path": "system.cpu0", 
+                "workload": [
+                    {
+                        "gid": 100, 
+                        "ppid": 99, 
+                        "name": "workload", 
+                        "pid": 0, 
+                        "simpoint": 0, 
+                        "egid": 100, 
+                        "euid": 100, 
+                        "cxx_class": "LiveProcess", 
+                        "path": "system.cpu0.workload", 
+                        "max_stack_size": 67108864, 
+                        "type": "LiveProcess", 
+                        "uid": 100
+                    }
+                ], 
+                "name": "cpu0", 
+                "dtb": {
+                    "name": "dtb", 
+                    "cxx_class": "ArmISA::TLB", 
+                    "walker": {
+                        "save_trace": false, 
+                        "name": "walker", 
+                        "clock": 1, 
+                        "cxx_class": "ArmISA::TableWalker", 
+                        "path": "system.cpu0.dtb.walker", 
+                        "type": "ArmTableWalker", 
+                        "port": {
+                            "peer": "system.tol2bus0.slave[3]", 
+                            "role": "MASTER"
+                        }
+                    }, 
+                    "path": "system.cpu0.dtb", 
+                    "type": "ArmTLB", 
+                    "size": 64
+                }, 
+                "max_insts_any_thread": 1000000000, 
+                "simulate_inst_stalls": false, 
+                "progress_interval": 0.0, 
+                "dcache_port": {
+                    "peer": "system.cpu0.dcache.cpu_side", 
+                    "role": "MASTER"
+                }, 
+                "dcache": {
+                    "save_trace": false, 
+                    "use_way_part": false, 
+                    "cxx_class": "BaseCache", 
+                    "write_buffers": 8, 
+                    "is_top_level": true, 
+                    "block_size": 128, 
+                    "size": 32768, 
+                    "latency": 1e-09, 
+                    "clock": 1, 
+                    "num_tcs": 2, 
+                    "trace_addr": 0, 
+                    "max_miss_count": 0, 
+                    "mem_side": {
+                        "peer": "system.tol2bus0.slave[1]", 
+                        "role": "MASTER"
+                    }, 
+                    "type": "BaseCache", 
+                    "forward_snoops": true, 
+                    "cw_first": true, 
+                    "use_set_part": false, 
+                    "tgts_per_mshr": 20, 
+                    "assoc": 32, 
+                    "prefetch_on_access": false, 
+                    "split_mshrq": false, 
+                    "do_cache_trace": false, 
+                    "prioritizeRequests": false, 
+                    "split_rport": false, 
+                    "name": "dcache", 
+                    "mshrs": 10, 
+                    "hash_delay": 1, 
+                    "subblock_size": 0, 
+                    "cpu_side": {
+                        "peer": "system.cpu0.dcache_port", 
+                        "role": "SLAVE"
+                    }, 
+                    "path": "system.cpu0.dcache", 
+                    "two_queue": false
+                }, 
+                "max_loads_any_thread": 0, 
+                "tracer": {
+                    "path": "system.cpu0.tracer", 
+                    "type": "ExeTracer", 
+                    "name": "tracer", 
+                    "cxx_class": "Trace::ExeTracer"
+                }
+            }, 
+            {
+                "save_trace": false, 
+                "do_statistics_insts": true, 
+                "numThreads": 1, 
+                "itb": {
+                    "name": "itb", 
+                    "cxx_class": "ArmISA::TLB", 
+                    "walker": {
+                        "save_trace": false, 
+                        "name": "walker", 
+                        "clock": 1, 
+                        "cxx_class": "ArmISA::TableWalker", 
+                        "path": "system.cpu1.itb.walker", 
+                        "type": "ArmTableWalker", 
+                        "port": {
+                            "peer": "system.tol2bus1.slave[2]", 
+                            "role": "MASTER"
+                        }
+                    }, 
+                    "path": "system.cpu1.itb", 
+                    "type": "ArmTLB", 
+                    "size": 64
+                }, 
+                "function_trace": false, 
+                "do_checkpoint_insts": true, 
+                "cxx_class": "AtomicSimpleCPU", 
+                "max_loads_all_threads": 0, 
+                "clock": 4.166666666666667e-10, 
+                "simulate_data_stalls": false, 
+                "function_trace_start": 0, 
+                "cpu_id": 1, 
+                "width": 1, 
+                "do_quiesce": true, 
+                "type": "AtomicSimpleCPU", 
+                "fastmem": false, 
+                "profile": 0.0, 
+                "icache_port": {
+                    "peer": "system.cpu1.icache.cpu_side", 
+                    "role": "MASTER"
+                }, 
+                "icache": {
+                    "save_trace": false, 
+                    "use_way_part": false, 
+                    "cxx_class": "BaseCache", 
+                    "write_buffers": 8, 
+                    "is_top_level": true, 
+                    "block_size": 128, 
+                    "size": 79872, 
+                    "latency": 1e-09, 
+                    "clock": 1, 
+                    "num_tcs": 2, 
+                    "trace_addr": 0, 
+                    "max_miss_count": 0, 
+                    "mem_side": {
+                        "peer": "system.tol2bus1.slave[0]", 
+                        "role": "MASTER"
+                    }, 
+                    "type": "BaseCache", 
+                    "forward_snoops": true, 
+                    "cw_first": true, 
+                    "use_set_part": false, 
+                    "tgts_per_mshr": 20, 
+                    "assoc": 39, 
+                    "prefetch_on_access": false, 
+                    "split_mshrq": false, 
+                    "do_cache_trace": false, 
+                    "prioritizeRequests": false, 
+                    "split_rport": false, 
+                    "name": "icache", 
+                    "mshrs": 10, 
+                    "hash_delay": 1, 
+                    "subblock_size": 0, 
+                    "cpu_side": {
+                        "peer": "system.cpu1.icache_port", 
+                        "role": "SLAVE"
+                    }, 
+                    "path": "system.cpu1.icache", 
+                    "two_queue": false
+                }, 
+                "defer_registration": false, 
+                "interrupts": {
+                    "path": "system.cpu1.interrupts", 
+                    "type": "ArmInterrupts", 
+                    "name": "interrupts", 
+                    "cxx_class": "ArmISA::Interrupts"
+                }, 
+                "max_insts_all_threads": 0, 
+                "path": "system.cpu1", 
+                "workload": [
+                    {
+                        "gid": 100, 
+                        "ppid": 99, 
+                        "name": "workload", 
+                        "pid": 1, 
+                        "simpoint": 0, 
+                        "egid": 100, 
+                        "euid": 100, 
+                        "cxx_class": "LiveProcess", 
+                        "path": "system.cpu1.workload", 
+                        "max_stack_size": 67108864, 
+                        "type": "LiveProcess", 
+                        "uid": 100
+                    }
+                ], 
+                "name": "cpu1", 
+                "dtb": {
+                    "name": "dtb", 
+                    "cxx_class": "ArmISA::TLB", 
+                    "walker": {
+                        "save_trace": false, 
+                        "name": "walker", 
+                        "clock": 1, 
+                        "cxx_class": "ArmISA::TableWalker", 
+                        "path": "system.cpu1.dtb.walker", 
+                        "type": "ArmTableWalker", 
+                        "port": {
+                            "peer": "system.tol2bus1.slave[3]", 
+                            "role": "MASTER"
+                        }
+                    }, 
+                    "path": "system.cpu1.dtb", 
+                    "type": "ArmTLB", 
+                    "size": 64
+                }, 
+                "max_insts_any_thread": 1000000000, 
+                "simulate_inst_stalls": false, 
+                "progress_interval": 0.0, 
+                "dcache_port": {
+                    "peer": "system.cpu1.dcache.cpu_side", 
+                    "role": "MASTER"
+                }, 
+                "dcache": {
+                    "save_trace": false, 
+                    "use_way_part": false, 
+                    "cxx_class": "BaseCache", 
+                    "write_buffers": 8, 
+                    "is_top_level": true, 
+                    "block_size": 128, 
+                    "size": 32768, 
+                    "latency": 1e-09, 
+                    "clock": 1, 
+                    "num_tcs": 2, 
+                    "trace_addr": 0, 
+                    "max_miss_count": 0, 
+                    "mem_side": {
+                        "peer": "system.tol2bus1.slave[1]", 
+                        "role": "MASTER"
+                    }, 
+                    "type": "BaseCache", 
+                    "forward_snoops": true, 
+                    "cw_first": true, 
+                    "use_set_part": false, 
+                    "tgts_per_mshr": 20, 
+                    "assoc": 32, 
+                    "prefetch_on_access": false, 
+                    "split_mshrq": false, 
+                    "do_cache_trace": false, 
+                    "prioritizeRequests": false, 
+                    "split_rport": false, 
+                    "name": "dcache", 
+                    "mshrs": 10, 
+                    "hash_delay": 1, 
+                    "subblock_size": 0, 
+                    "cpu_side": {
+                        "peer": "system.cpu1.dcache_port", 
+                        "role": "SLAVE"
+                    }, 
+                    "path": "system.cpu1.dcache", 
+                    "two_queue": false
+                }, 
+                "max_loads_any_thread": 0, 
+                "tracer": {
+                    "path": "system.cpu1.tracer", 
+                    "type": "ExeTracer", 
+                    "name": "tracer", 
+                    "cxx_class": "Trace::ExeTracer"
+                }
+            }, 
+            {
+                "save_trace": false, 
+                "do_statistics_insts": true, 
+                "numThreads": 1, 
+                "itb": {
+                    "name": "itb", 
+                    "cxx_class": "ArmISA::TLB", 
+                    "walker": {
+                        "save_trace": false, 
+                        "name": "walker", 
+                        "clock": 1, 
+                        "cxx_class": "ArmISA::TableWalker", 
+                        "path": "system.cpu2.itb.walker", 
+                        "type": "ArmTableWalker", 
+                        "port": {
+                            "peer": "system.tol2bus2.slave[2]", 
+                            "role": "MASTER"
+                        }
+                    }, 
+                    "path": "system.cpu2.itb", 
+                    "type": "ArmTLB", 
+                    "size": 64
+                }, 
+                "function_trace": false, 
+                "do_checkpoint_insts": true, 
+                "cxx_class": "AtomicSimpleCPU", 
+                "max_loads_all_threads": 0, 
+                "clock": 4.166666666666667e-10, 
+                "simulate_data_stalls": false, 
+                "function_trace_start": 0, 
+                "cpu_id": 2, 
+                "width": 1, 
+                "do_quiesce": true, 
+                "type": "AtomicSimpleCPU", 
+                "fastmem": false, 
+                "profile": 0.0, 
+                "icache_port": {
+                    "peer": "system.cpu2.icache.cpu_side", 
+                    "role": "MASTER"
+                }, 
+                "icache": {
+                    "save_trace": false, 
+                    "use_way_part": false, 
+                    "cxx_class": "BaseCache", 
+                    "write_buffers": 8, 
+                    "is_top_level": true, 
+                    "block_size": 128, 
+                    "size": 79872, 
+                    "latency": 1e-09, 
+                    "clock": 1, 
+                    "num_tcs": 2, 
+                    "trace_addr": 0, 
+                    "max_miss_count": 0, 
+                    "mem_side": {
+                        "peer": "system.tol2bus2.slave[0]", 
+                        "role": "MASTER"
+                    }, 
+                    "type": "BaseCache", 
+                    "forward_snoops": true, 
+                    "cw_first": true, 
+                    "use_set_part": false, 
+                    "tgts_per_mshr": 20, 
+                    "assoc": 39, 
+                    "prefetch_on_access": false, 
+                    "split_mshrq": false, 
+                    "do_cache_trace": false, 
+                    "prioritizeRequests": false, 
+                    "split_rport": false, 
+                    "name": "icache", 
+                    "mshrs": 10, 
+                    "hash_delay": 1, 
+                    "subblock_size": 0, 
+                    "cpu_side": {
+                        "peer": "system.cpu2.icache_port", 
+                        "role": "SLAVE"
+                    }, 
+                    "path": "system.cpu2.icache", 
+                    "two_queue": false
+                }, 
+                "defer_registration": false, 
+                "interrupts": {
+                    "path": "system.cpu2.interrupts", 
+                    "type": "ArmInterrupts", 
+                    "name": "interrupts", 
+                    "cxx_class": "ArmISA::Interrupts"
+                }, 
+                "max_insts_all_threads": 0, 
+                "path": "system.cpu2", 
+                "workload": [
+                    {
+                        "gid": 100, 
+                        "ppid": 99, 
+                        "name": "workload", 
+                        "pid": 2, 
+                        "simpoint": 0, 
+                        "egid": 100, 
+                        "euid": 100, 
+                        "cxx_class": "LiveProcess", 
+                        "path": "system.cpu2.workload", 
+                        "max_stack_size": 67108864, 
+                        "type": "LiveProcess", 
+                        "uid": 100
+                    }
+                ], 
+                "name": "cpu2", 
+                "dtb": {
+                    "name": "dtb", 
+                    "cxx_class": "ArmISA::TLB", 
+                    "walker": {
+                        "save_trace": false, 
+                        "name": "walker", 
+                        "clock": 1, 
+                        "cxx_class": "ArmISA::TableWalker", 
+                        "path": "system.cpu2.dtb.walker", 
+                        "type": "ArmTableWalker", 
+                        "port": {
+                            "peer": "system.tol2bus2.slave[3]", 
+                            "role": "MASTER"
+                        }
+                    }, 
+                    "path": "system.cpu2.dtb", 
+                    "type": "ArmTLB", 
+                    "size": 64
+                }, 
+                "max_insts_any_thread": 1000000000, 
+                "simulate_inst_stalls": false, 
+                "progress_interval": 0.0, 
+                "dcache_port": {
+                    "peer": "system.cpu2.dcache.cpu_side", 
+                    "role": "MASTER"
+                }, 
+                "dcache": {
+                    "save_trace": false, 
+                    "use_way_part": false, 
+                    "cxx_class": "BaseCache", 
+                    "write_buffers": 8, 
+                    "is_top_level": true, 
+                    "block_size": 128, 
+                    "size": 32768, 
+                    "latency": 1e-09, 
+                    "clock": 1, 
+                    "num_tcs": 2, 
+                    "trace_addr": 0, 
+                    "max_miss_count": 0, 
+                    "mem_side": {
+                        "peer": "system.tol2bus2.slave[1]", 
+                        "role": "MASTER"
+                    }, 
+                    "type": "BaseCache", 
+                    "forward_snoops": true, 
+                    "cw_first": true, 
+                    "use_set_part": false, 
+                    "tgts_per_mshr": 20, 
+                    "assoc": 32, 
+                    "prefetch_on_access": false, 
+                    "split_mshrq": false, 
+                    "do_cache_trace": false, 
+                    "prioritizeRequests": false, 
+                    "split_rport": false, 
+                    "name": "dcache", 
+                    "mshrs": 10, 
+                    "hash_delay": 1, 
+                    "subblock_size": 0, 
+                    "cpu_side": {
+                        "peer": "system.cpu2.dcache_port", 
+                        "role": "SLAVE"
+                    }, 
+                    "path": "system.cpu2.dcache", 
+                    "two_queue": false
+                }, 
+                "max_loads_any_thread": 0, 
+                "tracer": {
+                    "path": "system.cpu2.tracer", 
+                    "type": "ExeTracer", 
+                    "name": "tracer", 
+                    "cxx_class": "Trace::ExeTracer"
+                }
+            }, 
+            {
+                "save_trace": false, 
+                "do_statistics_insts": true, 
+                "numThreads": 1, 
+                "itb": {
+                    "name": "itb", 
+                    "cxx_class": "ArmISA::TLB", 
+                    "walker": {
+                        "save_trace": false, 
+                        "name": "walker", 
+                        "clock": 1, 
+                        "cxx_class": "ArmISA::TableWalker", 
+                        "path": "system.cpu3.itb.walker", 
+                        "type": "ArmTableWalker", 
+                        "port": {
+                            "peer": "system.tol2bus3.slave[2]", 
+                            "role": "MASTER"
+                        }
+                    }, 
+                    "path": "system.cpu3.itb", 
+                    "type": "ArmTLB", 
+                    "size": 64
+                }, 
+                "function_trace": false, 
+                "do_checkpoint_insts": true, 
+                "cxx_class": "AtomicSimpleCPU", 
+                "max_loads_all_threads": 0, 
+                "clock": 4.166666666666667e-10, 
+                "simulate_data_stalls": false, 
+                "function_trace_start": 0, 
+                "cpu_id": 3, 
+                "width": 1, 
+                "do_quiesce": true, 
+                "type": "AtomicSimpleCPU", 
+                "fastmem": false, 
+                "profile": 0.0, 
+                "icache_port": {
+                    "peer": "system.cpu3.icache.cpu_side", 
+                    "role": "MASTER"
+                }, 
+                "icache": {
+                    "save_trace": false, 
+                    "use_way_part": false, 
+                    "cxx_class": "BaseCache", 
+                    "write_buffers": 8, 
+                    "is_top_level": true, 
+                    "block_size": 128, 
+                    "size": 79872, 
+                    "latency": 1e-09, 
+                    "clock": 1, 
+                    "num_tcs": 2, 
+                    "trace_addr": 0, 
+                    "max_miss_count": 0, 
+                    "mem_side": {
+                        "peer": "system.tol2bus3.slave[0]", 
+                        "role": "MASTER"
+                    }, 
+                    "type": "BaseCache", 
+                    "forward_snoops": true, 
+                    "cw_first": true, 
+                    "use_set_part": false, 
+                    "tgts_per_mshr": 20, 
+                    "assoc": 39, 
+                    "prefetch_on_access": false, 
+                    "split_mshrq": false, 
+                    "do_cache_trace": false, 
+                    "prioritizeRequests": false, 
+                    "split_rport": false, 
+                    "name": "icache", 
+                    "mshrs": 10, 
+                    "hash_delay": 1, 
+                    "subblock_size": 0, 
+                    "cpu_side": {
+                        "peer": "system.cpu3.icache_port", 
+                        "role": "SLAVE"
+                    }, 
+                    "path": "system.cpu3.icache", 
+                    "two_queue": false
+                }, 
+                "defer_registration": false, 
+                "interrupts": {
+                    "path": "system.cpu3.interrupts", 
+                    "type": "ArmInterrupts", 
+                    "name": "interrupts", 
+                    "cxx_class": "ArmISA::Interrupts"
+                }, 
+                "max_insts_all_threads": 0, 
+                "path": "system.cpu3", 
+                "workload": [
+                    {
+                        "gid": 100, 
+                        "ppid": 99, 
+                        "name": "workload", 
+                        "pid": 3, 
+                        "simpoint": 0, 
+                        "egid": 100, 
+                        "euid": 100, 
+                        "cxx_class": "LiveProcess", 
+                        "path": "system.cpu3.workload", 
+                        "max_stack_size": 67108864, 
+                        "type": "LiveProcess", 
+                        "uid": 100
+                    }
+                ], 
+                "name": "cpu3", 
+                "dtb": {
+                    "name": "dtb", 
+                    "cxx_class": "ArmISA::TLB", 
+                    "walker": {
+                        "save_trace": false, 
+                        "name": "walker", 
+                        "clock": 1, 
+                        "cxx_class": "ArmISA::TableWalker", 
+                        "path": "system.cpu3.dtb.walker", 
+                        "type": "ArmTableWalker", 
+                        "port": {
+                            "peer": "system.tol2bus3.slave[3]", 
+                            "role": "MASTER"
+                        }
+                    }, 
+                    "path": "system.cpu3.dtb", 
+                    "type": "ArmTLB", 
+                    "size": 64
+                }, 
+                "max_insts_any_thread": 1000000000, 
+                "simulate_inst_stalls": false, 
+                "progress_interval": 0.0, 
+                "dcache_port": {
+                    "peer": "system.cpu3.dcache.cpu_side", 
+                    "role": "MASTER"
+                }, 
+                "dcache": {
+                    "save_trace": false, 
+                    "use_way_part": false, 
+                    "cxx_class": "BaseCache", 
+                    "write_buffers": 8, 
+                    "is_top_level": true, 
+                    "block_size": 128, 
+                    "size": 32768, 
+                    "latency": 1e-09, 
+                    "clock": 1, 
+                    "num_tcs": 2, 
+                    "trace_addr": 0, 
+                    "max_miss_count": 0, 
+                    "mem_side": {
+                        "peer": "system.tol2bus3.slave[1]", 
+                        "role": "MASTER"
+                    }, 
+                    "type": "BaseCache", 
+                    "forward_snoops": true, 
+                    "cw_first": true, 
+                    "use_set_part": false, 
+                    "tgts_per_mshr": 20, 
+                    "assoc": 32, 
+                    "prefetch_on_access": false, 
+                    "split_mshrq": false, 
+                    "do_cache_trace": false, 
+                    "prioritizeRequests": false, 
+                    "split_rport": false, 
+                    "name": "dcache", 
+                    "mshrs": 10, 
+                    "hash_delay": 1, 
+                    "subblock_size": 0, 
+                    "cpu_side": {
+                        "peer": "system.cpu3.dcache_port", 
+                        "role": "SLAVE"
+                    }, 
+                    "path": "system.cpu3.dcache", 
+                    "two_queue": false
+                }, 
+                "max_loads_any_thread": 0, 
+                "tracer": {
+                    "path": "system.cpu3.tracer", 
+                    "type": "ExeTracer", 
+                    "name": "tracer", 
+                    "cxx_class": "Trace::ExeTracer"
+                }
+            }
+        ], 
+        "l2": [
+            {
+                "save_trace": false, 
+                "use_way_part": false, 
+                "cxx_class": "BaseCache", 
+                "write_buffers": 8, 
+                "is_top_level": false, 
+                "block_size": 128, 
+                "size": 2097152, 
+                "latency": 3.3300000000000003e-09, 
+                "clock": 1, 
+                "num_tcs": 2, 
+                "trace_addr": 0, 
+                "max_miss_count": 0, 
+                "mem_side": {
+                    "peer": "system.membus.slave[1]", 
+                    "role": "MASTER"
+                }, 
+                "type": "BaseCache", 
+                "forward_snoops": true, 
+                "cw_first": true, 
+                "use_set_part": false, 
+                "tgts_per_mshr": 12, 
+                "assoc": 16, 
+                "prefetch_on_access": false, 
+                "split_mshrq": false, 
+                "do_cache_trace": false, 
+                "prioritizeRequests": false, 
+                "split_rport": false, 
+                "name": "l20", 
+                "mshrs": 20, 
+                "hash_delay": 1, 
+                "subblock_size": 0, 
+                "cpu_side": {
+                    "peer": "system.tol2bus0.master[0]", 
+                    "role": "SLAVE"
+                }, 
+                "path": "system.l20", 
+                "two_queue": false
+            }, 
+            {
+                "save_trace": false, 
+                "use_way_part": false, 
+                "cxx_class": "BaseCache", 
+                "write_buffers": 8, 
+                "is_top_level": false, 
+                "block_size": 128, 
+                "size": 2097152, 
+                "latency": 3.3300000000000003e-09, 
+                "clock": 1, 
+                "num_tcs": 2, 
+                "trace_addr": 0, 
+                "max_miss_count": 0, 
+                "mem_side": {
+                    "peer": "system.membus.slave[2]", 
+                    "role": "MASTER"
+                }, 
+                "type": "BaseCache", 
+                "forward_snoops": true, 
+                "cw_first": true, 
+                "use_set_part": false, 
+                "tgts_per_mshr": 12, 
+                "assoc": 16, 
+                "prefetch_on_access": false, 
+                "split_mshrq": false, 
+                "do_cache_trace": false, 
+                "prioritizeRequests": false, 
+                "split_rport": false, 
+                "name": "l21", 
+                "mshrs": 20, 
+                "hash_delay": 1, 
+                "subblock_size": 0, 
+                "cpu_side": {
+                    "peer": "system.tol2bus1.master[0]", 
+                    "role": "SLAVE"
+                }, 
+                "path": "system.l21", 
+                "two_queue": false
+            }, 
+            {
+                "save_trace": false, 
+                "use_way_part": false, 
+                "cxx_class": "BaseCache", 
+                "write_buffers": 8, 
+                "is_top_level": false, 
+                "block_size": 128, 
+                "size": 2097152, 
+                "latency": 3.3300000000000003e-09, 
+                "clock": 1, 
+                "num_tcs": 2, 
+                "trace_addr": 0, 
+                "max_miss_count": 0, 
+                "mem_side": {
+                    "peer": "system.membus.slave[3]", 
+                    "role": "MASTER"
+                }, 
+                "type": "BaseCache", 
+                "forward_snoops": true, 
+                "cw_first": true, 
+                "use_set_part": false, 
+                "tgts_per_mshr": 12, 
+                "assoc": 16, 
+                "prefetch_on_access": false, 
+                "split_mshrq": false, 
+                "do_cache_trace": false, 
+                "prioritizeRequests": false, 
+                "split_rport": false, 
+                "name": "l22", 
+                "mshrs": 20, 
+                "hash_delay": 1, 
+                "subblock_size": 0, 
+                "cpu_side": {
+                    "peer": "system.tol2bus2.master[0]", 
+                    "role": "SLAVE"
+                }, 
+                "path": "system.l22", 
+                "two_queue": false
+            }, 
+            {
+                "save_trace": false, 
+                "use_way_part": false, 
+                "cxx_class": "BaseCache", 
+                "write_buffers": 8, 
+                "is_top_level": false, 
+                "block_size": 128, 
+                "size": 2097152, 
+                "latency": 3.3300000000000003e-09, 
+                "clock": 1, 
+                "num_tcs": 2, 
+                "trace_addr": 0, 
+                "max_miss_count": 0, 
+                "mem_side": {
+                    "peer": "system.membus.slave[4]", 
+                    "role": "MASTER"
+                }, 
+                "type": "BaseCache", 
+                "forward_snoops": true, 
+                "cw_first": true, 
+                "use_set_part": false, 
+                "tgts_per_mshr": 12, 
+                "assoc": 16, 
+                "prefetch_on_access": false, 
+                "split_mshrq": false, 
+                "do_cache_trace": false, 
+                "prioritizeRequests": false, 
+                "split_rport": false, 
+                "name": "l23", 
+                "mshrs": 20, 
+                "hash_delay": 1, 
+                "subblock_size": 0, 
+                "cpu_side": {
+                    "peer": "system.tol2bus3.master[0]", 
+                    "role": "SLAVE"
+                }, 
+                "path": "system.l23", 
+                "two_queue": false
+            }
+        ], 
+        "fast_forward": true, 
+        "num_work_ids": 16, 
+        "work_item_id": -1, 
+        "work_begin_cpu_id_exit": -1
+    }, 
+    "time_sync_period": 0.1, 
+    "time_sync_spin_threshold": 9.999999999999999e-05, 
+    "cxx_class": "Root", 
+    "path": "root", 
+    "time_sync_enable": false, 
+    "type": "Root", 
+    "full_system": false
+}
