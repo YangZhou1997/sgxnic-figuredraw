@@ -196,9 +196,9 @@ if __name__ == '__main__':
        family = 'Gill Sans',
        fname = '/usr/share/fonts/truetype/adf/GilliusADF-Regular.otf')
 
-    data_load("./rawdata/nic/sixnfs.res")
-    data_load("./rawdata/nb/sixnfs.res")
-    data_load("./rawdata/sb/sixnfs.res")
+    data_load("./rawdata_1run/nic/sixnfs.res")
+    data_load("./rawdata_1run/nb/sixnfs.res")
+    data_load("./rawdata_1run/sb/sixnfs.res")
 
     # process_draw_data()
     # all_cores_wecare = ["1"]
