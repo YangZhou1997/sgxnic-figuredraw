@@ -150,18 +150,21 @@ if __name__ == '__main__':
        family = 'Gill Sans',
        fname = '/usr/share/fonts/truetype/adf/GilliusADF-Regular.otf')
 
-    data_load("./rawdata/nic/sixnfs.res")
-    data_load("./rawdata/nb/sixnfs.res")
-    data_load("./rawdata/sb/sixnfs.res")
+    data_load(f'./{data_dir}/nic/sixnfs.res')
+    data_load(f'./{data_dir}/nb/sixnfs.res')
+    data_load(f'./{data_dir}/sb/sixnfs.res')
 
     process_draw_data()
     all_traces.remove("ICTF")
 
-    for _ipsec in all_ipsecs:
-        for _core in all_cores:
-            for _task in all_tasks:
-                draw_t_trend_for_task_core(_task, _core, _ipsec)
-                draw_l_trend_for_task_core(_task, _core, _ipsec)
+    # for _ipsec in all_ipsecs:
+    #     for _core in all_cores:
+    #         for _task in all_tasks:
+    #             draw_t_trend_for_task_core(_task, _core, _ipsec)
+    #             draw_l_trend_for_task_core(_task, _core, _ipsec)
 
     draw_t_trend_for_task_core_6nfs("SmartNIC", "1", "gcm_ipsec")
     draw_t_trend_for_task_core_6nfs("SmartNIC", "1", "sha_ipsec")
+
+    draw_t_trend_for_task_core_6nfs("SmartNIC", "4", "gcm_ipsec")
+    draw_t_trend_for_task_core_6nfs("SmartNIC", "4", "sha_ipsec")

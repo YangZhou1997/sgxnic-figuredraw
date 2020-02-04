@@ -19,10 +19,7 @@ def get_t_draw_data_vary_task(_type, _ipsec, _trace, _core, norm_flag=False):
     data_vec = list()
     for _task in all_tasks:
         if _type == "SmartNIC": 
-            if norm_flag == True:
-                data_vec.append(t_val_med[_type][_task][_ipsec][_trace][_core])
-            else:
-                data_vec.append(t_val_med[_type][_task][_ipsec][_trace]['4'])
+            data_vec.append(t_val_med[_type][_task][_ipsec][_trace]['4'])
         else:
             data_vec.append(t_val_med[_type][_task][_ipsec][_trace][_core])
     return data_vec
@@ -36,13 +33,38 @@ def draw_t_bar_for_core_ipsec_trace(_core, _ipsec, _trace, norm_flag=False):
 
     cnt = 0
     legends = list()
+    all_data_vec = []
     for _type in all_types:
-        data_vec = get_t_draw_data_vary_task(_type, _ipsec, _trace, _corem)
+        data_vec = get_t_draw_data_vary_task(_type, _ipsec, _trace, _core)
+        all_data_vec.append(data_vec)
         height = max(height, max(data_vec))
         p1 = plt.bar(ind + width * (cnt - len(all_types) / 2.0 + 0.5), data_vec, width, color=colors[cnt], hatch=patterns[cnt], edgecolor = 'k', align="center")
         legends.append(p1)
         cnt += 1
     
+    if _trace == 'ICTF' and _ipsec == 'no_ipsec' and norm_flag == False:
+        print('nic dpi vs nb ac: {:.2f}'.format(all_data_vec[0][1]/all_data_vec[1][1]))
+        print('nic dpi vs sb ac: {:.2f}'.format(all_data_vec[0][1]/all_data_vec[2][1]))
+
+    if _trace == '64B' and _ipsec == 'sha_ipsec' and norm_flag:
+        nb_min, sb_min = 1 << 30, 1 << 30
+        nb_max, sb_max = 0, 0
+        for i in range(N):
+            nb_factor = all_data_vec[0][i]/all_data_vec[1][i]
+            sb_factor = all_data_vec[0][i]/all_data_vec[2][i]
+            nb_min = min(nb_min, nb_factor)
+            sb_min = min(sb_min, sb_factor)
+            nb_max = max(nb_max, nb_factor)
+            sb_max = max(sb_max, sb_factor)
+            if i in [1, 7]:
+                print(i, '{:.2f}'.format(nb_factor), '{:.2f}'.format(sb_factor))
+        print(_ipsec)        
+        print('NIC vs NB {:.2f}--{:.2f}'.format(nb_min, nb_max))
+        print('NIC vs SB {:.2f}--{:.2f}'.format(sb_min, sb_max))
+
+    if _trace == '64B' and _ipsec == 'no_ipsec' and not norm_flag:
+        print(all_data_vec)    
+
     plt.legend(legends, all_types, ncol=3, frameon=False)
     if norm_flag:
         plt.ylabel('Throughput per dollar (Mpps/\$)')
@@ -196,44 +218,44 @@ if __name__ == '__main__':
        family = 'Gill Sans',
        fname = '/usr/share/fonts/truetype/adf/GilliusADF-Regular.otf')
 
-    data_load("./rawdata_1run/nic/sixnfs.res")
-    data_load("./rawdata_1run/nb/sixnfs.res")
-    data_load("./rawdata_1run/sb/sixnfs.res")
+    data_load(f'./{data_dir}/nic/sixnfs.res')
+    data_load(f'./{data_dir}/nb/sixnfs.res')
+    data_load(f'./{data_dir}/sb/sixnfs.res')
+
+    process_draw_data()
+    all_cores_wecare = ["1"]
+    for _ipsec in all_ipsecs:
+        for _core in all_cores_wecare:
+            draw_t_bar_for_core_ipsec_trace(_core, _ipsec, "64B")
+            draw_t_bar_for_core_ipsec_trace(_core, _ipsec, "ICTF")
+
+    process_draw_data(norm_flag=True)
+    all_cores_wecare = ["1"]
+    for _ipsec in all_ipsecs:
+        for _core in all_cores_wecare:
+            draw_t_bar_for_core_ipsec_trace(_core, _ipsec, "64B", norm_flag=True)
+            draw_t_bar_for_core_ipsec_trace(_core, _ipsec, "ICTF", norm_flag=True)
 
     # process_draw_data()
     # all_cores_wecare = ["1"]
-    # for _ipsec in all_ipsecs:
-    #     for _core in all_cores_wecare:
-    #         draw_t_bar_for_core_ipsec_trace(_core, _ipsec, "64B")
-    #         draw_t_bar_for_core_ipsec_trace(_core, _ipsec, "ICTF")
+    # for _core in all_cores_wecare:
+    #     draw_t_bar_for_core_trace(_core, "64B")
+    #     draw_t_bar_for_core_trace(_core, "ICTF")
 
     # process_draw_data(norm_flag=True)
     # all_cores_wecare = ["1"]
-    # for _ipsec in all_ipsecs:
-    #     for _core in all_cores_wecare:
-    #         draw_t_bar_for_core_ipsec_trace(_core, _ipsec, "64B", norm_flag=True)
-    #         draw_t_bar_for_core_ipsec_trace(_core, _ipsec, "ICTF", norm_flag=True)
+    # for _core in all_cores_wecare:
+    #     draw_t_bar_for_core_trace(_core, "64B", norm_flag=True)
+    #     draw_t_bar_for_core_trace(_core, "ICTF", norm_flag=True)
 
-    process_draw_data()
-    all_cores_wecare = ["1"]
-    for _core in all_cores_wecare:
-        draw_t_bar_for_core_trace(_core, "64B")
-        draw_t_bar_for_core_trace(_core, "ICTF")
+    # process_draw_data()
+    # all_cores_wecare = ["1"]
+    # for _core in all_cores_wecare:
+    #     for _ipsec in all_ipsecs:
+    #         draw_t_bar_for_core_ipsec(_core, _ipsec)
 
-    process_draw_data(norm_flag=True)
-    all_cores_wecare = ["1"]
-    for _core in all_cores_wecare:
-        draw_t_bar_for_core_trace(_core, "64B", norm_flag=True)
-        draw_t_bar_for_core_trace(_core, "ICTF", norm_flag=True)
-
-    process_draw_data()
-    all_cores_wecare = ["1"]
-    for _core in all_cores_wecare:
-        for _ipsec in all_ipsecs:
-            draw_t_bar_for_core_ipsec(_core, _ipsec)
-
-    process_draw_data(norm_flag=True)
-    all_cores_wecare = ["1"]
-    for _core in all_cores_wecare:
-        for _ipsec in all_ipsecs:
-            draw_t_bar_for_core_ipsec(_core, _ipsec, norm_flag=True)
+    # process_draw_data(norm_flag=True)
+    # all_cores_wecare = ["1"]
+    # for _core in all_cores_wecare:
+    #     for _ipsec in all_ipsecs:
+    #         draw_t_bar_for_core_ipsec(_core, _ipsec, norm_flag=True)

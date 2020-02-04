@@ -147,18 +147,21 @@ if __name__ == '__main__':
        family = 'Gill Sans',
        fname = '/usr/share/fonts/truetype/adf/GilliusADF-Regular.otf')
 
-    data_load("./rawdata/nic/sixnfs.res")
-    data_load("./rawdata/nb/sixnfs.res")
-    data_load("./rawdata/sb/sixnfs.res")
+    data_load(f'./{data_dir}/nic/sixnfs.res')
+    data_load(f'./{data_dir}/nb/sixnfs.res')
+    data_load(f'./{data_dir}/sb/sixnfs.res')
 
     process_draw_data()
 
-    for _ipsec in all_ipsecs:
-        for _trace in all_traces:
-            for _task in all_tasks:
-                draw_t_trend_for_task_ipsec_trace(_task, _ipsec, _trace)
-                draw_l_trend_for_task_ipsec_trace(_task, _ipsec, _trace)
+    # for _ipsec in all_ipsecs:
+    #     for _trace in all_traces:
+    #         for _task in all_tasks:
+    #             draw_t_trend_for_task_ipsec_trace(_task, _ipsec, _trace)
+    #             draw_l_trend_for_task_ipsec_trace(_task, _ipsec, _trace)
 
 
     draw_t_trend_for_ipsec_trace_6nfs("SmartNIC", "gcm_ipsec", "64B")
     draw_t_trend_for_ipsec_trace_6nfs("SmartNIC", "sha_ipsec", "64B")
+
+    draw_t_trend_for_ipsec_trace_6nfs("SmartNIC", "gcm_ipsec", "ICTF")
+    draw_t_trend_for_ipsec_trace_6nfs("SmartNIC", "sha_ipsec", "ICTF")

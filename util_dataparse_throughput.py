@@ -1,5 +1,8 @@
 from collections import defaultdict
 import numpy as np
+
+data_dir = 'rawdata_1run'
+
 all_types = ["SmartNIC", "NetBricks", "SafeBricks"]
 all_tasks = ["Firewall", "DPI", "NAT", "Maglev", "LPM", "Monitor"]
 all_tasks_figure = ["FW", "DPI", "NAT", "LB", "LPM", "Mon."]
@@ -23,9 +26,9 @@ cores_nb = ["1", "2", "3", "4", "5", "6"]
 
 def get_type(ori_name):
     switcher = {
-        **dict.fromkeys(["./rawdata/nic/sixnfs.res"], "SmartNIC"), 
-        **dict.fromkeys(["./rawdata/nb/sixnfs.res"], "NetBricks"), 
-        **dict.fromkeys(["./rawdata/sb/sixnfs.res"], "SafeBricks"), 
+        **dict.fromkeys([f'./{data_dir}/nic/sixnfs.res'], "SmartNIC"), 
+        **dict.fromkeys([f'./{data_dir}/nb/sixnfs.res'], "NetBricks"), 
+        **dict.fromkeys([f'./{data_dir}/sb/sixnfs.res'], "SafeBricks"), 
     }
     return switcher.get(ori_name, "Invalid path name %s" % (ori_name,))
 
@@ -114,7 +117,7 @@ def data_load(f_name):
 
 # https://homes.cs.washington.edu/~arvind/papers/ipipe.pdf
 #  For example, a 10/25GbE SmartNIC typically costs 100∼400$ more than a corresponding standard NIC
-smartnic_percore_price = 400/16
+smartnic_percore_price = 400/16 * 4
 cpu_percore_price = 379/6
 print(f'smartnic_percore_price: {smartnic_percore_price} vs. cpu_percore_price: {cpu_percore_price}')
 

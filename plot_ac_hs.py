@@ -8,6 +8,7 @@ import matplotlib.font_manager as fm
 from matplotlib import rcParams
 from collections import defaultdict
 from util_patterns import *
+from util_dataparse_throughput import *
 import glob
 rcParams.update(params_line)
 
@@ -141,6 +142,7 @@ def draw_t_bar_for_rule(_ipsec, _trace, _core):
     width = 6.0/N       # the width of the bars: can also be len(x) sequence
 
     cnt = 0
+    all_data_vec = []
     legends = list()
     for _task in all_tasks:
         data_vec = get_t_draw_data_vary_rule(_task, _ipsec, _trace, _core)
@@ -148,6 +150,10 @@ def draw_t_bar_for_rule(_ipsec, _trace, _core):
             color=colors[cnt], linewidth=3)
         legends.append(p1)
         cnt += 1
+        all_data_vec.append(data_vec)
+
+    print('nic vs ac: {:.2f}'.format(all_data_vec[2][5]/all_data_vec[0][5]))
+    print('nic vs hs: {:.2f}'.format(all_data_vec[2][5]/all_data_vec[1][5]))
 
     plt.legend(legends, all_tasks, frameon=False)
     plt.ylabel('Throughput (Mpps)')
@@ -204,8 +210,10 @@ if __name__ == "__main__":
        family = 'Gill Sans',
        fname = '/usr/share/fonts/truetype/adf/GilliusADF-Regular.otf')
 
-    data_load("./rawdata/nic/ac-hs.res")
-    data_load("./rawdata/nb/ac-hs.res")
+
+    data_load(f'./{data_dir}/nic/ac-hs.res')
+    data_load(f'./{data_dir}/nb/ac-hs.res')
+
     process_draw_data()
     draw_t_bar_for_rule("no_ipsec", "ICTF", "1")
     draw_t_bar_for_trace("no_ipsec", "1", "33.5k")

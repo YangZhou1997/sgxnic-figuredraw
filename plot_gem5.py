@@ -50,13 +50,26 @@ multiprog = []
 for i in range(1, 1 << 6):
     prog_set = []
     bitn = bit_num(i)
-    if bitn not in [2, 4]:
+    if bitn not in [1, 2, 4]:
         continue
     for j in range(6):
         if (i >> j) & 1 == 1:
             prog_set.append(nfinvoke[j])
     multiprog.append(prog_set)
 # print(multiprog, len(multiprog))
+
+for i in range(6):
+    for j in range(6):
+        if j == i:
+            continue
+        for k in range(6):
+            if k == j or k == i:
+                continue
+            prog_set = []
+            prog_set.append(nfinvoke[i])
+            prog_set.append(nfinvoke[j])
+            prog_set.append(nfinvoke[k])
+            multiprog.append(prog_set)
 
 def prog_set_to_cmd(prog_set):
     ret = ''
@@ -68,7 +81,7 @@ def prog_set_to_cmd(prog_set):
     return ret
 multiprog = list(map(lambda x: prog_set_to_cmd(x), multiprog))
 
-# "ipc"/"l2missrate" -> "detailed" -> "monitoring" -> "standalone"/"nat-tcp-v4.lpm" -> "l2 cache size" -> "tp"/"none" -> value
+# "ipc"/"l2missrate" -> "detailed" -> "monitoring" -> "nat-tcp-v4.lpm" -> "l2 cache size" -> "tp"/"none" -> value
 rawdata = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(float))))))
 
 
@@ -184,12 +197,7 @@ def load_data():
         num_nfs = len(nfs)
 
         for nf in nfs:
-            corun_nfs_list = nfs.copy()
-            corun_nfs_list.remove(nf)
-            corun_nfs = prog_set_to_cmd(corun_nfs_list)
-            if corun_nfs == '':
-                corun_nfs = 'standalone'
-
+            corun_nfs = prog_set_to_cmd(nfs)
             cpu_id = nf_cpu_ids[nf]
             # print(nf)
             # print(cpu_ids)
@@ -209,26 +217,19 @@ def load_data():
 def get_datavec_vary_cachesize(_type, _cpu, _nf, _domain):
     data_vec = list()
     for _cachesize in l2_size:
-        if _domain == 1:
-            tp = rawdata[_type][_cpu][_nf]["standalone"][_cachesize]['tp']
-            none = rawdata[_type][_cpu][_nf]["standalone"][_cachesize]['none']
-        else:
-            nf_combs = multiprog.copy()
-            tp = 0.0
-            none = 0.0
-            cnt = 0
-            for nf_comb in nf_combs:
-                if _nf in nf_comb:
-                    dot_num = nf_comb.count('.')
-                    if dot_num + 1 == _domain:
-                        temp = nf_comb.split('.')
-                        temp.remove(_nf)
-                        nf_comb_exclude = prog_set_to_cmd(temp)
-                        tp += rawdata[_type][_cpu][_nf][nf_comb_exclude][_cachesize]['tp']
-                        none += rawdata[_type][_cpu][_nf][nf_comb_exclude][_cachesize]['none']
-                        cnt += 1
-            tp /= cnt
-            none /= cnt          
+        nf_combs = multiprog.copy()
+        tp = 0.0
+        none = 0.0
+        cnt = 0
+        for nf_comb in nf_combs:
+            if _nf in nf_comb:
+                dot_num = nf_comb.count('.')
+                if dot_num + 1 == _domain:
+                    tp += rawdata[_type][_cpu][_nf][nf_comb][_cachesize]['tp']
+                    none += rawdata[_type][_cpu][_nf][nf_comb][_cachesize]['none']
+                    cnt += 1
+        tp /= cnt
+        none /= cnt          
         if _type == 'ipc':
             data_vec.append((none - tp) / none)
         else:
@@ -260,7 +261,7 @@ def plot_vary_cachesize(_type, _cpu, _domain):
 
     plt.legend(legends, nfinvoke_legend, loc='best', ncol=2, frameon=False)
     if _type == 'ipc':
-        plt.ylabel('IPC degradation percentage (\%)')
+        plt.ylabel('IPC degrading percent (\%)')
     elif _type == 'l2missrate':
         plt.ylabel('L2 missing rate increasing')
 
@@ -274,7 +275,7 @@ def plot_vary_cachesize(_type, _cpu, _domain):
     plt.axes().grid(which='major', axis='y', linestyle=':')
     plt.axes().set_axisbelow(True)
 
-    plt.gcf().set_size_inches(16, 8)
+    plt.gcf().set_size_inches(15, 8)
     plt.tight_layout()
     plt.savefig(f'./figures/gem5/cachesize_{_type}_{_cpu}_{_domain}domains.pdf')
     plt.clf()
@@ -288,34 +289,22 @@ def get_datavec_vary_corun(_type, _cpu, _nf, _l2size):
     for nf_comb in nf_combs:
         if _nf in nf_comb:
             dot_num = nf_comb.count('.')
-            if dot_num == 0:
-                tp = rawdata[_type][_cpu][_nf]["standalone"][_l2size]['tp']
-                none = rawdata[_type][_cpu][_nf]["standalone"][_l2size]['none']
-                if _type == 'ipc':
-                    data_vec[dot_num] += (none - tp) / none
-                else:
-                    data_vec[dot_num] += (tp - none) / none
+            tp = rawdata[_type][_cpu][_nf][nf_comb][_l2size]['tp']
+            none = rawdata[_type][_cpu][_nf][nf_comb][_l2size]['none']
+            if _type == 'ipc':
+                data_vec[dot_num] += (none - tp) / none
             else:
-                temp = nf_comb.split('.')
-                temp.remove(_nf)
-                nf_comb_exclude = prog_set_to_cmd(temp)
-                tp = rawdata[_type][_cpu][_nf][nf_comb_exclude][_l2size]['tp']
-                none = rawdata[_type][_cpu][_nf][nf_comb_exclude][_l2size]['none']
-                if _type == 'ipc':
-                    data_vec[dot_num] += (none - tp) / none
-                else:
-                    data_vec[dot_num] += (tp - none) / none
+                data_vec[dot_num] += (tp - none) / none
             cnt_vec[dot_num] += 1
-    for i in [0, 1, 3]:
+    for i in [0, 1, 2, 3]:
         data_vec[i] /= cnt_vec[i] * 1.0
-    del data_vec[2]    
     del data_vec[0]
     return list(map(lambda x: x * 100, data_vec))
 
 # type: ipc or l2missrate
 def plot_vary_corun(_type, _cpu, _l2size):
-    N = 2
-    ind = np.array([10, 20])    # the x locations for the groups    
+    N = 3
+    ind = np.array([10, 20, 30])    # the x locations for the groups    
     width = 1       # the width of the bars: can also be len(x) sequence
 
     avg_4dom = []
@@ -335,12 +324,12 @@ def plot_vary_corun(_type, _cpu, _l2size):
 
     plt.legend(legends, nfinvoke_legend, loc='upper left', ncol=1, frameon=False)
     if _type == 'ipc':
-        plt.ylabel('IPC degradation percentage (\%)')
+        plt.ylabel('IPC degrading percent (\%)')
     elif _type == 'l2missrate':
         plt.ylabel('L2 missing rate increasing')
         
-    plt.xticks(ind, ['2 NFs', '4 NFs'])
-    plt.axes().set_xlim(xmin=4, xmax=26)
+    plt.xticks(ind, ['2 NFs', '3 NFs', '4 NFs'])
+    plt.axes().set_xlim(xmin=4, xmax=36)
     # plt.xticks(ind, ['1 domain', '2 domains', '4 domains'], rotation=45, ha="right", rotation_mode="anchor", fontsize=24)
     # plt.axes().set_ylim(ymin=0)
 
@@ -350,7 +339,7 @@ def plot_vary_corun(_type, _cpu, _l2size):
     plt.axes().grid(which='major', axis='y', linestyle=':')
     plt.axes().set_axisbelow(True)
 
-    plt.gcf().set_size_inches(8, 8)
+    plt.gcf().set_size_inches(9, 8)
     plt.tight_layout()
     plt.savefig(f'./figures/gem5/domain_{_type}_{_cpu}_{_l2size}.pdf')
     plt.clf()
@@ -368,8 +357,8 @@ if __name__ == '__main__':
     rawdata = read_from_file(f'./{datadir}/drawdata/thrput_l2miss.res')
     for _type in ['ipc', 'l2missrate']:
         for _cpu in cpus:
-            for _domain in [1, 2, 4]:
+            for _domain in [2]:
                 plot_vary_cachesize(_type, _cpu, _domain)
-            for _l2size in l2_size:
+            for _l2size in ['4MB']:
                 plot_vary_corun(_type, _cpu, _l2size)
 
