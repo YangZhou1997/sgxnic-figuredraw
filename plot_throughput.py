@@ -42,9 +42,9 @@ def draw_t_bar_for_core_ipsec_trace(_core, _ipsec, _trace, norm_flag=False):
         legends.append(p1)
         cnt += 1
     
-    if _trace == 'ICTF' and _ipsec == 'no_ipsec' and norm_flag == False:
-        print('nic dpi vs nb ac: {:.2f}'.format(all_data_vec[0][1]/all_data_vec[1][1]))
-        print('nic dpi vs sb ac: {:.2f}'.format(all_data_vec[0][1]/all_data_vec[2][1]))
+    if _trace in ['ICTF', '64B'] and _ipsec == 'no_ipsec' and norm_flag == False:
+        print(_trace, 'nic dpi vs nb ac: {:.2f}'.format(all_data_vec[0][1]/all_data_vec[1][1]))
+        print(_trace, 'nic dpi vs sb ac: {:.2f}'.format(all_data_vec[0][1]/all_data_vec[2][1]))
 
     if _trace == '64B' and _ipsec == 'sha_ipsec' and norm_flag:
         nb_min, sb_min = 1 << 30, 1 << 30
@@ -67,9 +67,9 @@ def draw_t_bar_for_core_ipsec_trace(_core, _ipsec, _trace, norm_flag=False):
 
     plt.legend(legends, all_types, ncol=3, frameon=False)
     if norm_flag:
-        plt.ylabel('Throughput per dollar (Mpps/\$)')
+        plt.ylabel('Throughput per dollar (Mpps/\$)', fontsize=34)
     else:
-        plt.ylabel('Throughput (Mpps)')
+        plt.ylabel('Throughput (Mpps)', fontsize=34)
     plt.xticks(ind, all_tasks_figure)
     # apply offset transform to all x ticklabels.
     for label in plt.axes().xaxis.get_majorticklabels():
@@ -248,11 +248,11 @@ if __name__ == '__main__':
     #     draw_t_bar_for_core_trace(_core, "64B", norm_flag=True)
     #     draw_t_bar_for_core_trace(_core, "ICTF", norm_flag=True)
 
-    # process_draw_data()
-    # all_cores_wecare = ["1"]
-    # for _core in all_cores_wecare:
-    #     for _ipsec in all_ipsecs:
-    #         draw_t_bar_for_core_ipsec(_core, _ipsec)
+    process_draw_data()
+    all_cores_wecare = ["1"]
+    for _core in all_cores_wecare:
+        for _ipsec in all_ipsecs:
+            draw_t_bar_for_core_ipsec(_core, _ipsec)
 
     # process_draw_data(norm_flag=True)
     # all_cores_wecare = ["1"]
