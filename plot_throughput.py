@@ -30,7 +30,8 @@ def draw_t_bar_for_core_ipsec_trace(_core, _ipsec, _trace, norm_flag=False):
     width = 6.0/len(all_types)       # the width of the bars: can also be len(x) sequence
 
     height = 0.0
-
+    
+    fig, ax = plt.subplots()
     cnt = 0
     legends = list()
     all_data_vec = []
@@ -42,9 +43,9 @@ def draw_t_bar_for_core_ipsec_trace(_core, _ipsec, _trace, norm_flag=False):
         legends.append(p1)
         cnt += 1
     
-    if _trace in ['ICTF', '64B'] and _ipsec == 'no_ipsec' and norm_flag == False:
-        print(_trace, 'nic dpi vs nb ac: {:.2f}'.format(all_data_vec[0][1]/all_data_vec[1][1]))
-        print(_trace, 'nic dpi vs sb ac: {:.2f}'.format(all_data_vec[0][1]/all_data_vec[2][1]))
+    if _trace in ['ICTF', '64B'] and _ipsec == 'sha_ipsec' and norm_flag == False:
+        print("Section 5.4,", _trace, 'SHA, No NORM: nic dpi vs nb ac: {:.2f}'.format(all_data_vec[0][1]/all_data_vec[1][1]))
+        print("Section 5.4,", _trace, 'SHA, No NORM: nic dpi vs sb ac: {:.2f}'.format(all_data_vec[0][1]/all_data_vec[2][1]))
 
     if _trace == '64B' and _ipsec == 'sha_ipsec' and norm_flag:
         nb_min, sb_min = 1 << 30, 1 << 30
@@ -56,28 +57,43 @@ def draw_t_bar_for_core_ipsec_trace(_core, _ipsec, _trace, norm_flag=False):
             sb_min = min(sb_min, sb_factor)
             nb_max = max(nb_max, nb_factor)
             sb_max = max(sb_max, sb_factor)
-            if i in [1, 7]:
-                print(i, '{:.2f}'.format(nb_factor), '{:.2f}'.format(sb_factor))
-        print(_ipsec)        
-        print('NIC vs NB {:.2f}--{:.2f}'.format(nb_min, nb_max))
-        print('NIC vs SB {:.2f}--{:.2f}'.format(sb_min, sb_max))
+            # if i in [1, 7]:
+            #     print(i, '{:.2f}'.format(nb_factor), '{:.2f}'.format(sb_factor))
+        print('Appendix A 64B, SHA, NORM: NIC vs NB {:.2f}--{:.2f}'.format(nb_min, nb_max))
+        print('Appendix A 64B, SHA, NORM: NIC vs SB {:.2f}--{:.2f}'.format(sb_min, sb_max))
 
-    if _trace == '64B' and _ipsec == 'no_ipsec' and not norm_flag:
-        print(all_data_vec)    
+    if _trace == 'ICTF' and _ipsec == 'no_ipsec' and norm_flag == False:
+        print("Appendix A", _trace, 'RAW, No NORM: nic dpi vs nb ac: {:.2f}'.format(all_data_vec[0][1]/all_data_vec[1][1]))
+        print("Appendix A", _trace, 'RAW, No NORM: nic dpi vs sb ac: {:.2f}'.format(all_data_vec[0][1]/all_data_vec[2][1]))
 
-    plt.legend(legends, all_types, ncol=3, frameon=False)
+    if _trace == '64B' and _ipsec == 'gcm_ipsec' and norm_flag == True:
+        nb_min, sb_min = 1 << 30, 1 << 30
+        nb_max, sb_max = 0, 0
+        for i in range(N):
+            nb_factor = all_data_vec[0][i]/all_data_vec[1][i]
+            sb_factor = all_data_vec[0][i]/all_data_vec[2][i]
+            nb_min = min(nb_min, nb_factor)
+            sb_min = min(sb_min, sb_factor)
+            nb_max = max(nb_max, nb_factor)
+            sb_max = max(sb_max, sb_factor)
+        # print(_ipsec)        
+        print('Appendix A, GCM, No NORM: NIC vs NB {:.2f}--{:.2f}'.format(nb_min, nb_max))
+        print('Appendix A, GCM, No NORM: NIC vs SB {:.2f}--{:.2f}'.format(sb_min, sb_max))
+
+
+    ax.legend(legends, all_types, ncol=3, frameon=False)
     if norm_flag:
-        plt.ylabel('Throughput per dollar (Mpps/\$)', fontsize=34)
+        ax.set_ylabel('Throughput per dollar (Mpps/\$)', fontsize=34)
     else:
-        plt.ylabel('Throughput (Mpps)', fontsize=34)
+        ax.set_ylabel('Throughput (Mpps)', fontsize=34)
     plt.xticks(ind, all_tasks_figure)
     # apply offset transform to all x ticklabels.
-    for label in plt.axes().xaxis.get_majorticklabels():
+    for label in ax.xaxis.get_majorticklabels():
         label.set_transform(label.get_transform() + offset)
-    plt.axes().grid(which='major', axis='y', linestyle=':')
-    plt.axes().set_axisbelow(True)
+    ax.grid(which='major', axis='y', linestyle=':')
+    ax.set_axisbelow(True)
     
-    plt.axes().set_ylim(ymin = 0, ymax=height * 1.25)
+    ax.set_ylim(ymin = 0, ymax=height * 1.25)
 
     plt.tight_layout()
     if norm_flag:
@@ -93,6 +109,7 @@ def draw_t_bar_for_core_trace(_core, _trace, norm_flag=False):
 
     height = 0.0
 
+    fig, ax = plt.subplots()
     cnt = 0
     legends = list()
     for _type in all_types:
@@ -105,23 +122,23 @@ def draw_t_bar_for_core_trace(_core, _trace, norm_flag=False):
         legends.append(p1)
         cnt += 1
     
-    plt.legend(legends, all_types, ncol=3, frameon=False, fontsize=32, handlelength=2, loc='best', columnspacing=2)
+    ax.legend(legends, all_types, ncol=3, frameon=False, fontsize=32, handlelength=2, loc='best', columnspacing=2)
     plt.text(35, -2.5 * height / 11.3144, 'W/o IPSec', fontsize=28, horizontalalignment='center', verticalalignment='center')
     plt.text(100, -2.5 * height / 11.3144, 'W/ AES\_GCM128 IPSec', fontsize=28, horizontalalignment='center', verticalalignment='center')
     plt.text(165, -2.5 * height / 11.3144, 'W/ AES\_CBC128\_SHA256 IPSec', fontsize=28, horizontalalignment='center', verticalalignment='center')
 
     if norm_flag:
-        plt.ylabel('Throughput per dollar (Mpps/\$)')
+        ax.set_ylabel('Throughput per dollar (Mpps/\$)')
     else:
-        plt.ylabel('Throughput (Mpps)')
+        ax.set_ylabel('Throughput (Mpps)')
     plt.xticks(ind, all_tasks_figure * 3, fontsize=28)
     # apply offset transform to all x ticklabels.
-    for label in plt.axes().xaxis.get_majorticklabels():
+    for label in ax.xaxis.get_majorticklabels():
         label.set_transform(label.get_transform() + offset)
-    plt.axes().grid(which='major', axis='y', linestyle=':')
-    plt.axes().set_axisbelow(True)
+    ax.grid(which='major', axis='y', linestyle=':')
+    ax.set_axisbelow(True)
     
-    # plt.axes().set_ylim(ymin = 0, ymax=height * 1.25)
+    # ax.set_ylim(ymin = 0, ymax=height * 1.25)
     print(height)
     plt.gcf().set_size_inches(24, 8)
 
@@ -140,6 +157,7 @@ def draw_t_bar_for_core_ipsec(_core, _ipsec, norm_flag=False):
 
     height = 0.0
 
+    fig, ax = plt.subplots()
     cnt = 0
     legends = list()
     all_data_vec = []
@@ -164,44 +182,26 @@ def draw_t_bar_for_core_ipsec(_core, _ipsec, norm_flag=False):
             sb_min = min(sb_min, sb_factor)
             nb_max = max(nb_max, nb_factor)
             sb_max = max(sb_max, sb_factor)
-            if i in [1, 7]:
-                print(i, '{:.2f}'.format(nb_factor), '{:.2f}'.format(sb_factor))
-        print(_ipsec)        
-        print('NIC vs NB {:.2f}--{:.2f}'.format(nb_min, nb_max))
-        print('NIC vs SB {:.2f}--{:.2f}'.format(sb_min, sb_max))
+        print('Section 5.4, SHA, No NORM: NIC vs NB {:.2f}--{:.2f}'.format(nb_min, nb_max))
+        print('Section 5.4, SHA, No NORM: NIC vs SB {:.2f}--{:.2f}'.format(sb_min, sb_max))
 
-    if _ipsec == 'gcm_ipsec':
-        nb_min, sb_min = 1 << 30, 1 << 30
-        nb_max, sb_max = 0, 0
-        for i in range(N//2):
-            nb_factor = all_data_vec[0][i]/all_data_vec[1][i]
-            sb_factor = all_data_vec[0][i]/all_data_vec[2][i]
-            nb_min = min(nb_min, nb_factor)
-            sb_min = min(sb_min, sb_factor)
-            nb_max = max(nb_max, nb_factor)
-            sb_max = max(sb_max, sb_factor)
-        print(_ipsec)        
-        print('NIC vs NB {:.2f}--{:.2f}'.format(nb_min, nb_max))
-        print('NIC vs SB {:.2f}--{:.2f}'.format(sb_min, sb_max))
-
-    
-    plt.legend(legends, all_types, ncol=3, frameon=False, fontsize=32, handlelength=2, loc='upper center', columnspacing=2)
+    ax.legend(legends, all_types, ncol=3, frameon=False, fontsize=32, handlelength=2, loc='upper center', columnspacing=2)
     plt.text(35, -0.25 * height, '64B CAIDA trace', fontsize=32, horizontalalignment='center', verticalalignment='center')
     plt.text(100, -0.25 * height, 'ICTF trace', fontsize=32, horizontalalignment='center', verticalalignment='center')
 
     if norm_flag:
-        plt.ylabel('Throughput per dollar (Mpps/\$)')
+        ax.set_ylabel('Throughput per dollar (Mpps/\$)')
     else:
-        plt.ylabel('Throughput (Mpps)')
+        ax.set_ylabel('Throughput (Mpps)')
     plt.xticks(ind, all_tasks_figure * 2, fontsize=28)
     # apply offset transform to all x ticklabels.
-    for label in plt.axes().xaxis.get_majorticklabels():
+    for label in ax.xaxis.get_majorticklabels():
         label.set_transform(label.get_transform() + offset)
-    plt.axes().grid(which='major', axis='y', linestyle=':')
-    plt.axes().set_axisbelow(True)
+    ax.grid(which='major', axis='y', linestyle=':')
+    ax.set_axisbelow(True)
     
-    plt.axes().set_ylim(ymin = 0, ymax=height * 1.25)
-    print(height)
+    ax.set_ylim(ymin = 0, ymax=height * 1.25)
+    # print(height)
     plt.gcf().set_size_inches(24, 8)
 
     plt.tight_layout()

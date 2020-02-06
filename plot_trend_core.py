@@ -113,29 +113,40 @@ def draw_t_trend_for_ipsec_trace_6nfs(_type, _ipsec, _trace):
     ind = np.arange(N) * 10 + 10    # the x locations for the groups    
     width = 6.0/len(all_tasks)       # the width of the bars: can also be len(x) sequence
 
+    fig, ax = plt.subplots()
     cnt = 0
     legends = list()
+    all_data_vec = []
     for _task in all_tasks:
         data_vec = get_t_draw_data_vary_core_6nfs(_type, _task, _ipsec, _trace)
-        p1, = plt.plot(ind, data_vec, linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt],
+        p1, = ax.plot(ind, data_vec, linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt],
             color=colors[cnt], linewidth=3)
-        print(str(all_tasks_figure[cnt]) + ": " + str(data_vec))        
-
+        # print(str(all_tasks_figure[cnt]) + ": " + str(data_vec))                
         legends.append(p1)
         cnt += 1
+        all_data_vec.append(data_vec)
 
-    plt.legend(legends, all_tasks_figure, ncol=2, frameon=False)
-    plt.ylabel('Throughput (Mpps)')
-    plt.xlabel('\# of cores')
+    if _type == 'SmartNIC' and _ipsec == 'sha_ipsec' and _trace in ['64B']:
+        print('Section 5.4,', _type, _ipsec, _trace)
+        print('Mon: 16 cores vs 1 core {:.2f}'.format(all_data_vec[5][4]/all_data_vec[5][0]))
+        print('Mon: 8 cores vs 1 core {:.2f}'.format(all_data_vec[5][3]/all_data_vec[5][0]))
+
+        print('DPI: 16 cores vs 1 core {:.2f}'.format(all_data_vec[1][4]/all_data_vec[1][0]))
+        print('DPI: 8 cores vs 1 core {:.2f}'.format(all_data_vec[1][3]/all_data_vec[1][0]))
+
+
+    ax.legend(legends, all_tasks_figure, ncol=2, frameon=False)
+    ax.set_ylabel('Throughput (Mpps)')
+    ax.set_xlabel('\# of cores')
     plt.xticks(ind, all_cores)
     # apply offset transform to all x ticklabels.
-    for label in plt.axes().xaxis.get_majorticklabels():
+    for label in ax.xaxis.get_majorticklabels():
         label.set_transform(label.get_transform() + offset)
     # plt.yscale('log')
-    plt.axes().grid(which='major', axis='y', linestyle=':')
-    plt.axes().set_axisbelow(True)
+    ax.grid(which='major', axis='y', linestyle=':')
+    ax.set_axisbelow(True)
 
-    plt.axes().set_ylim(ymin=0)
+    ax.set_ylim(ymin=0)
     plt.tight_layout()
     plt.savefig('./figures/trend_core/sixnfs/t_trend_core_6nfs_%s_%s_%s.pdf' % (_type, _trace, _ipsec))
     plt.clf()
@@ -160,11 +171,11 @@ if __name__ == '__main__':
     #             draw_l_trend_for_task_ipsec_trace(_task, _ipsec, _trace)
 
 
-    draw_t_trend_for_ipsec_trace_6nfs("SmartNIC", "no_ipsec", "ICTF")
-    draw_t_trend_for_ipsec_trace_6nfs("SmartNIC", "no_ipsec", "64B")
+    # draw_t_trend_for_ipsec_trace_6nfs("SmartNIC", "no_ipsec", "64B")
+    # draw_t_trend_for_ipsec_trace_6nfs("SmartNIC", "no_ipsec", "ICTF")
 
-    draw_t_trend_for_ipsec_trace_6nfs("SmartNIC", "gcm_ipsec", "64B")
+    # draw_t_trend_for_ipsec_trace_6nfs("SmartNIC", "gcm_ipsec", "64B")
+    # draw_t_trend_for_ipsec_trace_6nfs("SmartNIC", "gcm_ipsec", "ICTF")
+
     draw_t_trend_for_ipsec_trace_6nfs("SmartNIC", "sha_ipsec", "64B")
-
-    draw_t_trend_for_ipsec_trace_6nfs("SmartNIC", "gcm_ipsec", "ICTF")
     draw_t_trend_for_ipsec_trace_6nfs("SmartNIC", "sha_ipsec", "ICTF")

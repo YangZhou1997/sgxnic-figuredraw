@@ -1,7 +1,7 @@
 from collections import defaultdict
 import numpy as np
 
-data_dir = 'rawdata_1run'
+data_dir = 'rawdata'
 
 all_types = ["SmartNIC", "NetBricks", "SafeBricks"]
 all_tasks = ["Firewall", "DPI", "NAT", "Maglev", "LPM", "Monitor"]
