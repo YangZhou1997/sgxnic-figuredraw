@@ -14,7 +14,7 @@ stdout_dir=/users/yangzhou/GEM5_DRAMSim2/sgx_nic/results/*
 stderr_dir=/users/yangzhou/GEM5_DRAMSim2/sgx_nic/stderr/*
 scriptgen_dir=/users/yangzhou/GEM5_DRAMSim2/sgx_nic/scriptgen/*
 
-datadir=gem5data/tp_100mins_sec
+datadir=gem5data/tp_100mins_sec_mix
 mkdir -p ./$datadir
 
 mkdir -p ./$datadir/m5out/
@@ -23,7 +23,8 @@ mkdir -p ./$datadir/stderr/
 mkdir -p ./$datadir/scriptgen/
 mkdir -p ./$datadir/drawdata/
 
-for node in $node0 $node1 $node2 $node3 $node4 $node5 $node6 $node7
+# for node in $node0 $node1 $node2 $node3 $node4 $node5 $node6 $node7
+for node in $node0
 do
     rsync -auv -e ssh yangzhou@$node:$m5out_dir ./$datadir/m5out/
     rsync -auv -e ssh yangzhou@$node:$stdout_dir ./$datadir/results/

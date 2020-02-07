@@ -36,7 +36,7 @@ nfinvoke_legend = ["FW", "DPI", "NAT", "LB", "LPM", "Mon."]
 cpus = ['detailed']
 modes = ['none', 'tp']
 l2_size = ['1MB', '2MB', '4MB', '8MB', '16MB']
-datadir = 'gem5data/tp_100mins'
+datadir = 'gem5data/tp_100mins_sec_mix'
 
 def bit_num(x):
     cnt = 0

@@ -1,0 +1,44 @@
+gem5 Simulator System.  http://gem5.org
+gem5 is copyrighted software; use the --copyright option for details.
+
+gem5 compiled Jan 31 2020 21:25:07
+gem5 started Feb  5 2020 17:52:23
+gem5 executing on node-0.yangzhou-qv63708.lambda-mpi-pg0.clemson.cloudlab.us
+command line: build/ARM/gem5.fast --remote-gdb-port=0 --outdir=/users/yangzhou/GEM5_DRAMSim2/sgx_nic/m5out/detailed_acl-fw.monitoring_1MB_none --stats-file=detailed_acl-fw.monitoring_1MB_none_stats.txt configs/dramsim2/dramsim2_se.py --cpu-type=detailed --clock=1.2GHz --cacheline_size=128 --caches --l2cache --l2config=shared --l2_size=1MB --l2_assoc=16 --dramsim2 --tpturnlength=6 --devicecfg=./ext/DRAMSim2/ini/DDR3_micron_16M_8B_x8_sg15.ini --systemcfg=./ext/DRAMSim2/system_none.ini --outputfile=/dev/null --fast-forward=1000000000 --maxinsts=100000000 --maxtick=2000000000000 --numpids=2 --p0=/users/yangzhou/NF-GEM5/acl-fw --p1=/users/yangzhou/NF-GEM5/monitoring
+Global frequency set at 1000000000000 ticks per second
+device file: ./ext/DRAMSim2/ini/DDR3_micron_16M_8B_x8_sg15.ini
+system file: ./ext/DRAMSim2/system_none.ini
+output file: /dev/null
+DEBUGSTR My tpTurnLength is 6
+genTrace is 0
+finish initializing memory controller
+CPU Clock = 1200MHz
+DRAM Clock = 1600MHz
+Memory Capacity = 16384MB
+Switch at instruction count:1000000000
+info: Entering event queue @ 0.  Starting simulation...
+info: Increasing stack size by one page.
+info: Increasing stack size by one page.
+value_t size: 1B
+value_t size: 4B
+memory size: 4.386990MB
+memory size: 10.063114MB
+value_t size: 1B
+memory size: 4.386990MB
+trying to open file /users/yangzhou/ictf2010_100kflow.dat
+opening succeeds
+trying to open file /users/yangzhou/ictf2010_100kflow.dat
+opening succeeds
+Reading pkt trace done!
+average pkt size = 607.092021
+Reading pkt trace done!
+average pkt size = 607.092021
+recover down
+a thread in cpu1 reached the max instruction count @ 1054566527091
+a thread in cpu0 reached the max instruction count @ 1057858821313
+Switched CPUS @ tick 1057858821313
+Changing memory mode to timing
+switching cpus
+**** REAL SIMULATION ****
+info: Entering event queue @ 1057858821313.  Starting simulation...
+Exiting @ tick 1177938405259 because a thread in cpu0 reached the max instruction count
