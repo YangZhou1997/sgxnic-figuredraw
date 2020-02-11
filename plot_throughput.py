@@ -66,7 +66,7 @@ def draw_t_bar_for_core_ipsec_trace(_core, _ipsec, _trace, norm_flag=False):
         print("Appendix A", _trace, 'RAW, No NORM: nic dpi vs nb ac: {:.2f}'.format(all_data_vec[0][1]/all_data_vec[1][1]))
         print("Appendix A", _trace, 'RAW, No NORM: nic dpi vs sb ac: {:.2f}'.format(all_data_vec[0][1]/all_data_vec[2][1]))
 
-    if _trace == '64B' and _ipsec == 'gcm_ipsec' and norm_flag == True:
+    if _trace == '64B' and _ipsec == 'gcm_ipsec' and norm_flag == False:
         nb_min, sb_min = 1 << 30, 1 << 30
         nb_max, sb_max = 0, 0
         for i in range(N):
@@ -77,8 +77,8 @@ def draw_t_bar_for_core_ipsec_trace(_core, _ipsec, _trace, norm_flag=False):
             nb_max = max(nb_max, nb_factor)
             sb_max = max(sb_max, sb_factor)
         # print(_ipsec)        
-        print('Appendix A, GCM, No NORM: NIC vs NB {:.2f}--{:.2f}'.format(nb_min, nb_max))
-        print('Appendix A, GCM, No NORM: NIC vs SB {:.2f}--{:.2f}'.format(sb_min, sb_max))
+        print('Appendix A, GCM, 64B, No NORM: NIC vs NB {:.2f}--{:.2f}'.format(nb_min, nb_max))
+        print('Appendix A, GCM, 64B, No NORM: NIC vs SB {:.2f}--{:.2f}'.format(sb_min, sb_max))
 
 
     ax.legend(legends, all_types, ncol=3, frameon=False)

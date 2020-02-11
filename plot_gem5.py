@@ -257,7 +257,7 @@ def plot_vary_cachesize(_type, _cpu, _domain):
         legends.append(p1)
         cnt += 1
     if _type == 'ipc' and _domain == 2:
-        print(np.average(avg_4mb))
+        print('{:.2f}'.format(np.average(avg_4mb)))
 
     plt.legend(legends, nfinvoke_legend, loc='best', ncol=2, frameon=False)
     if _type == 'ipc':
@@ -320,7 +320,7 @@ def plot_vary_corun(_type, _cpu, _l2size):
         p1 = plt.bar(ind + width * (cnt - (N - 1) / 2.0 - 2.0), data_vec, width, color=colors[cnt], hatch=patterns[cnt], edgecolor = 'k', align="center")
         legends.append(p1)
         cnt += 1
-    print(np.average(avg_4dom))
+    print('{:.2f}'.format(np.average(avg_4dom)))
 
     plt.legend(legends, nfinvoke_legend, loc='upper left', ncol=1, frameon=False)
     if _type == 'ipc':

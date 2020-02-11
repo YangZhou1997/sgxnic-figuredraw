@@ -132,7 +132,7 @@ def draw_t_trend_for_task_core_6nfs(_type, _core, _ipsec):
 
     if _type == 'SmartNIC' and _core == '4' and _ipsec in ['sha_ipsec']:
         print('Section 5.4,', _type, _core, _ipsec)
-        print('Mon: 1024B vs 64B {:.2f}'.format(all_data_vec[2][0]/all_data_vec[2][3]))
+        print('NAT: 1024B vs 64B {:.2f}'.format(all_data_vec[2][0]/all_data_vec[2][3]))
         print('DPI: 1024B vs 64B {:.2f}'.format(all_data_vec[1][0]/all_data_vec[1][3]))
 
     ax.legend(legends, all_tasks_figure, ncol=2, frameon=False)
