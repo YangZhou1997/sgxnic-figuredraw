@@ -43,7 +43,7 @@ def data_load(fileDir):
                 # print(entry_array)
                 _framesize = entry_array[3]
                 _thread = get_thread(entry_array[4])
-                _t = float(entry_array[5])
+                _t = float(entry_array[5]) * (1 - 0.014)
                 t_val[_framesize][_thread].append(float(_t))
                 raw_entry = f.readline()
         # currently we only load the data of the first file

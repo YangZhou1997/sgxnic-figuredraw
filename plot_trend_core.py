@@ -77,7 +77,7 @@ def draw_l_trend_for_task_ipsec_trace(_task, _ipsec, _trace):
         
         (p1, caps, _) = plt.errorbar(ind, data_vec_avg, yerr = yerr[1, :],
             linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt],
-            color=colors[cnt], linewidth=3, capthick=2, capsize=10, elinewidth=2, lolims=True, ecolor=colors[cnt])
+            color=colors[cnt], linewidth=3, capthick=2, capsize=5, elinewidth=2, lolims=True, ecolor=colors[cnt])
         legends.append(p1)
         caps[0].set_marker('_')
         caps[1].set_marker('')

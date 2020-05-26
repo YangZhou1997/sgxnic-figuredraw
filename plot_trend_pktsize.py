@@ -171,7 +171,7 @@ if __name__ == '__main__':
     #             draw_l_trend_for_task_core(_task, _core, _ipsec)
 
     # draw_t_trend_for_task_core_6nfs("SmartNIC", "1", "gcm_ipsec")
-    # draw_t_trend_for_task_core_6nfs("SmartNIC", "1", "sha_ipsec")
+    draw_t_trend_for_task_core_6nfs("SmartNIC", "1", "sha_ipsec")
 
     # draw_t_trend_for_task_core_6nfs("SmartNIC", "4", "gcm_ipsec")
     draw_t_trend_for_task_core_6nfs("SmartNIC", "4", "sha_ipsec")

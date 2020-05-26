@@ -20,6 +20,7 @@ def get_t_draw_data_vary_task(_type, _ipsec, _trace, _core, norm_flag=False):
     for _task in all_tasks:
         if _type == "SmartNIC": 
             data_vec.append(t_val_med[_type][_task][_ipsec][_trace]['4'])
+            # data_vec.append(t_val_med[_type][_task][_ipsec][_trace]['1'])
         else:
             data_vec.append(t_val_med[_type][_task][_ipsec][_trace][_core])
     return data_vec
@@ -37,6 +38,8 @@ def draw_t_bar_for_core_ipsec_trace(_core, _ipsec, _trace, norm_flag=False):
     all_data_vec = []
     for _type in all_types:
         data_vec = get_t_draw_data_vary_task(_type, _ipsec, _trace, _core)
+        if _ipsec == "no_ipsec" and _trace == "ICTF":
+            print(list(map(lambda x: float('%.02f'%(x,)), data_vec)))
         all_data_vec.append(data_vec)
         height = max(height, max(data_vec))
         p1 = plt.bar(ind + width * (cnt - len(all_types) / 2.0 + 0.5), data_vec, width, color=colors[cnt], hatch=patterns[cnt], edgecolor = 'k', align="center")

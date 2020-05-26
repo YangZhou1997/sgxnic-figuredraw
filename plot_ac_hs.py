@@ -113,20 +113,23 @@ def data_load(f_name):
 # then process data to get graph drawing data
 def process_draw_data():
     for _task in all_tasks:
+        ipc_degrad = 1
+        if _task == "SmartNIC-DPI":
+            ipc_degrad = 1 - 0.014
         for _ipsec in all_ipsecs:
             for _trace in all_traces:
                 for _core in all_cores:
                     for _rule in all_rules:
                         try:
-                            t_val_med[_task][_ipsec][_trace][_core][_rule] = np.median(t_val[_task][_ipsec][_trace][_core][_rule])
+                            t_val_med[_task][_ipsec][_trace][_core][_rule] = np.median(t_val[_task][_ipsec][_trace][_core][_rule]) * ipc_degrad
                         except IndexError:
                             t_val_med[_task][_ipsec][_trace][_core][_rule] = 0
                         try:
-                            avg_l_val_med[_task][_ipsec][_trace][_core][_rule] = np.median(avg_l_val[_task][_ipsec][_trace][_core][_rule])
+                            avg_l_val_med[_task][_ipsec][_trace][_core][_rule] = np.median(avg_l_val[_task][_ipsec][_trace][_core][_rule]) / ipc_degrad
                         except IndexError:
                             avg_l_val_med[_task][_ipsec][_trace][_core][_rule] = 0
                         try:
-                            tail_l_val_med[_task][_ipsec][_trace][_core][_rule] = np.median(tail_l_val[_task][_ipsec][_trace][_core][_rule])
+                            tail_l_val_med[_task][_ipsec][_trace][_core][_rule] = np.median(tail_l_val[_task][_ipsec][_trace][_core][_rule]) / ipc_degrad
                         except IndexError:
                             tail_l_val_med[_task][_ipsec][_trace][_core][_rule] = 0
                         

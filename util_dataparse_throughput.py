@@ -125,6 +125,9 @@ print(f'smartnic_percore_price: {smartnic_percore_price} vs. cpu_percore_price: 
 def process_draw_data(norm_flag=False):
     for _type in all_types:
         norm_base = 1
+        ipc_degra = 1
+        if _type == "SmartNIC":
+            ipc_degra = 1 - 0.014
         if norm_flag:
             if _type == "SmartNIC":
                 norm_base = smartnic_percore_price
@@ -135,14 +138,14 @@ def process_draw_data(norm_flag=False):
                 for _trace in all_traces:
                     for _core in all_cores:
                         try:
-                            t_val_med[_type][_task][_ipsec][_trace][_core] = np.median(t_val[_type][_task][_ipsec][_trace][_core])/norm_base
+                            t_val_med[_type][_task][_ipsec][_trace][_core] = np.median(t_val[_type][_task][_ipsec][_trace][_core]) * ipc_degra /norm_base
                         except IndexError:
                             t_val_med[_type][_task][_ipsec][_trace][_core] = 0
                         try:
-                            avg_l_val_med[_type][_task][_ipsec][_trace][_core] = np.median(avg_l_val[_type][_task][_ipsec][_trace][_core])/norm_base
+                            avg_l_val_med[_type][_task][_ipsec][_trace][_core] = np.median(avg_l_val[_type][_task][_ipsec][_trace][_core]) / ipc_degra /norm_base
                         except IndexError:
                             avg_l_val_med[_type][_task][_ipsec][_trace][_core] = 0
                         try:
-                            tail_l_val_med[_type][_task][_ipsec][_trace][_core] = np.median(tail_l_val[_type][_task][_ipsec][_trace][_core])/norm_base
+                            tail_l_val_med[_type][_task][_ipsec][_trace][_core] = np.median(tail_l_val[_type][_task][_ipsec][_trace][_core]) / ipc_degra /norm_base
                         except IndexError:
                             tail_l_val_med[_type][_task][_ipsec][_trace][_core] = 0
