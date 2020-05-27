@@ -251,9 +251,9 @@ def plot_vary_cachesize(_type, _cpu, _domain):
         if _type == 'ipc' and _domain == 2:
             print(data_vec)
             avg_4mb.append(data_vec[2])
-        # p1, = plt.plot(ind, data_vec, linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt],
-            # color=colors[cnt], linewidth=3)
-        p1 = plt.bar(ind + width * (cnt - (N - 1) / 2.0 - 0.5), data_vec, width, color=colors[cnt], hatch=patterns[cnt], edgecolor = 'k', align="center")
+        p1, = plt.plot(ind, data_vec, linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt],
+            color=colors[cnt], linewidth=3)
+        # p1 = plt.bar(ind + width * (cnt - (N - 7) / 2.0), data_vec, width, color=colors[cnt], hatch=patterns[cnt], edgecolor = 'k', align="center")
         legends.append(p1)
         cnt += 1
     if _type == 'ipc' and _domain == 2:
@@ -265,8 +265,8 @@ def plot_vary_cachesize(_type, _cpu, _domain):
     elif _type == 'l2missrate':
         plt.ylabel('L2 missing rate increasing')
 
-    # plt.xticks(ind, l2_size, rotation=45, ha="right", rotation_mode="anchor")
-    plt.xticks(ind, l2_size)
+    plt.xticks(ind, list(map(lambda x: x.upper(), l2_size)), rotation=45, ha="right", rotation_mode="anchor")
+    # plt.xticks(ind, l2_size)
     # plt.axes().set_ylim(ymin=0)
 
     # apply offset transform to all x ticklabels.
@@ -280,12 +280,80 @@ def plot_vary_cachesize(_type, _cpu, _domain):
     plt.savefig(f'./figures/gem5/cachesize_{_type}_{_cpu}_{_domain}domains.pdf')
     plt.clf()
 
+def get_datavec_vary_corun(_type, _cpu, _nf, _l2size):
+    cnt_vec = [0, 0, 0, 0]    
+    data_vec = [0.0, 0.0, 0.0, 0.0]
+    nf_combs = multiprog.copy()
+    nf_combs.extend(singleprog)
+
+    for nf_comb in nf_combs:
+        if _nf in nf_comb:
+            dot_num = nf_comb.count('.')
+            tp = rawdata[_type][_cpu][_nf][nf_comb][_l2size]['tp']
+            none = rawdata[_type][_cpu][_nf][nf_comb][_l2size]['none']
+            if _type == 'ipc':
+                data_vec[dot_num] += (none - tp) / none
+            else:
+                data_vec[dot_num] += (tp - none) / none
+            cnt_vec[dot_num] += 1
+    for i in [0, 1, 2, 3]:
+        data_vec[i] /= cnt_vec[i] * 1.0
+    del data_vec[0]
+    return list(map(lambda x: x * 100, data_vec))
+
+# type: ipc or l2missrate
+def plot_vary_corun(_type, _cpu, _l2size):
+    N = 3
+    ind = np.array([10, 20, 30])    # the x locations for the groups    
+    width = 1       # the width of the bars: can also be len(x) sequence
+
+    avg_4dom = []
+    cnt = 0
+    legends = list()
+    for _nf in singleprog:
+        data_vec = get_datavec_vary_corun(_type, _cpu, _nf, _l2size)
+        if _type == 'ipc' and _l2size == '4MB':
+            print(data_vec)
+            avg_4dom.append(data_vec[1])
+        # p1, = plt.plot(ind, data_vec, linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt],
+        #     color=colors[cnt], linewidth=3)
+        p1 = plt.bar(ind + width * (cnt - (N - 1) / 2.0 - 2.0), data_vec, width, color=colors[cnt], hatch=patterns[cnt], edgecolor = 'k', align="center")
+        legends.append(p1)
+        cnt += 1
+    print('{:.2f}'.format(np.average(avg_4dom)))
+
+    plt.legend(legends, nfinvoke_legend, loc='upper left', ncol=1, frameon=False)
+    if _type == 'ipc':
+        plt.ylabel('IPC degrading percent (\%)')
+    elif _type == 'l2missrate':
+        plt.ylabel('L2 missing rate increasing')
+        
+    plt.xticks(ind, ['2 NFs', '3 NFs', '4 NFs'])
+    plt.axes().set_xlim(xmin=4, xmax=36)
+    # plt.xticks(ind, ['1 domain', '2 domains', '4 domains'], rotation=45, ha="right", rotation_mode="anchor", fontsize=24)
+    # plt.axes().set_ylim(ymin=0)
+
+    # apply offset transform to all x ticklabels.
+    for label in plt.axes().xaxis.get_majorticklabels():
+        label.set_transform(label.get_transform() + offset)
+    plt.axes().grid(which='major', axis='y', linestyle=':')
+    plt.axes().set_axisbelow(True)
+
+    plt.gcf().set_size_inches(9, 8)
+    plt.tight_layout()
+    plt.savefig(f'./figures/gem5/domain_{_type}_{_cpu}_{_l2size}.pdf')
+    plt.clf()
+
+
 if __name__ == '__main__':
     plt.rc('text', usetex=True)
     font = fm.FontProperties(
        family = 'Gill Sans',
        fname = '/usr/share/fonts/truetype/adf/GilliusADF-Regular.otf')
 
+    datadir = 'gem5data/tp_100M_Ins'
+    load_data()
+    datadir = 'gem5data/lowl2cache'
     load_data()
     write_to_file(rawdata, f'./{datadir}/drawdata/thrput_l2miss.res')
 
@@ -294,4 +362,6 @@ if __name__ == '__main__':
         for _cpu in cpus:
             for _domain in [2]:
                 plot_vary_cachesize(_type, _cpu, _domain)
+            for _l2size in ['4MB']:
+                plot_vary_corun(_type, _cpu, _l2size)
 
