@@ -115,7 +115,7 @@ def process_draw_data():
     for _task in all_tasks:
         ipc_degrad = 1
         if _task == "SmartNIC-DPI":
-            ipc_degrad = 1 - 0.014
+            ipc_degrad = 1 - 0.0166
         for _ipsec in all_ipsecs:
             for _trace in all_traces:
                 for _core in all_cores:

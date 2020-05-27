@@ -256,11 +256,12 @@ def plot_vary_cachesize(_type, _cpu, _domain):
         yerr[1, :] = np.array(data_vec_tail) - np.array(data_vec)
         
         if _type == 'ipc' and _domain == 2:
+            print(_nf)
             print(data_vec)
             print(data_vec_tail)
             print(data_vec_lowtail)
             print()
-            avg_4mb.append(data_vec[2])
+            avg_4mb.append(data_vec[-3])
             
         (p1, caps, _) = plt.errorbar(ind + width * (cnt - (N - 7) / 2.0), data_vec, yerr = yerr,
             linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt]/2,
@@ -343,11 +344,12 @@ def plot_vary_corun(_type, _cpu, _l2size):
         yerr[1, :] = np.array(data_vec_tail) - np.array(data_vec)
         
         if _type == 'ipc' and _l2size == '4MB':
+            print(_nf)
             print(data_vec)
             print(data_vec_tail)
             print(data_vec_lowtail)
             print()
-            avg_4dom.append(data_vec[1])
+            avg_4dom.append(data_vec[-1])
 
         # p1, = plt.plot(ind, data_vec, linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt],
         #     color=colors[cnt], linewidth=3)

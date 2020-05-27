@@ -127,7 +127,7 @@ def process_draw_data(norm_flag=False):
         norm_base = 1
         ipc_degra = 1
         if _type == "SmartNIC":
-            ipc_degra = 1 - 0.014
+            ipc_degra = 1 - 0.0166
         if norm_flag:
             if _type == "SmartNIC":
                 norm_base = smartnic_percore_price
