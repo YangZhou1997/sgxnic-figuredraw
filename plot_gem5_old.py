@@ -351,8 +351,8 @@ if __name__ == '__main__':
        family = 'Gill Sans',
        fname = '/usr/share/fonts/truetype/adf/GilliusADF-Regular.otf')
 
-    # load_data()
-    # write_to_file(rawdata, f'./{datadir}/drawdata/thrput_l2miss.res')
+    load_data()
+    write_to_file(rawdata, f'./{datadir}/drawdata/thrput_l2miss.res')
 
     rawdata = read_from_file(f'./{datadir}/drawdata/thrput_l2miss.res')
     for _type in ['ipc', 'l2missrate']:

@@ -247,6 +247,9 @@ def plot_vary_cachesize(_type, _cpu, _domain):
 
     avg_4mb = []
 
+    fig = plt.figure()
+    ax = fig.subplots(nrows=1, ncols=1)
+    
     cnt = 0
     legends = list()
     for _nf in singleprog:
@@ -263,35 +266,35 @@ def plot_vary_cachesize(_type, _cpu, _domain):
             print()
             avg_4mb.append(data_vec[-3])
             
-        (p1, caps, _) = plt.errorbar(ind + width * (cnt - (N - 7) / 2.0), data_vec, yerr = yerr,
+        (p1, caps, _) = ax.errorbar(ind + width * (cnt - (N - 7) / 2.0), data_vec, yerr = yerr,
             linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt]/2,
             color=colors[cnt], linewidth=3, capthick=2, capsize=5, elinewidth=2, ecolor=colors[cnt])
         caps[0].set_marker('_')
         caps[1].set_marker('_')
 
         # p1, = plt.plot(ind, data_vec, linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt],
-        #     color=colors[cnt], linewidth=3)
+            # color=colors[cnt], linewidth=3)
         # p1 = plt.bar(ind + width * (cnt - (N - 7) / 2.0), data_vec, width, color=colors[cnt], hatch=patterns[cnt], edgecolor = 'k', align="center")
         legends.append(p1)
         cnt += 1
     if _type == 'ipc' and _domain == 2:
         print('{:.2f}'.format(np.average(avg_4mb)))
 
-    plt.legend(legends, nfinvoke_legend, loc='best', ncol=3, frameon=False)
+    ax.legend(legends, nfinvoke_legend, loc='best', ncol=3, frameon=False)
     if _type == 'ipc':
-        plt.ylabel('IPC degrading percent (\%)')
+        ax.set_ylabel('IPC degrading percent (\%)')
     elif _type == 'l2missrate':
-        plt.ylabel('L2 missing rate increasing')
+        ax.set_ylabel('L2 missing rate increasing')
 
-    plt.xticks(ind, list(map(lambda x: x.upper(), l2_size)), rotation=45, ha="right", rotation_mode="anchor")
+    ax.set_xticks(ind, list(map(lambda x: x.upper(), l2_size)), rotation=45, ha="right", rotation_mode="anchor")
     # plt.xticks(ind, l2_size)
     # plt.axes().set_ylim(ymin=0)
 
     # apply offset transform to all x ticklabels.
-    for label in plt.axes().xaxis.get_majorticklabels():
+    for label in ax.xaxis.get_majorticklabels():
         label.set_transform(label.get_transform() + offset)
-    plt.axes().grid(which='major', axis='y', linestyle=':')
-    plt.axes().set_axisbelow(True)
+    ax.grid(which='major', axis='y', linestyle=':')
+    ax.set_axisbelow(True)
 
     plt.gcf().set_size_inches(15, 8)
     plt.tight_layout()
@@ -334,6 +337,9 @@ def plot_vary_corun(_type, _cpu, _l2size):
     ind = np.array([10, 20, 30])    # the x locations for the groups    
     width = 1       # the width of the bars: can also be len(x) sequence
 
+    fig = plt.figure()
+    ax = fig.subplots(nrows=1, ncols=1)
+
     avg_4dom = []
     cnt = 0
     legends = list()
@@ -353,7 +359,7 @@ def plot_vary_corun(_type, _cpu, _l2size):
 
         # p1, = plt.plot(ind, data_vec, linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt],
         #     color=colors[cnt], linewidth=3)
-        p1 = plt.bar(ind + width * (cnt - (N - 1) / 2.0 - 1.5), data_vec, width, yerr = yerr, color=colors[cnt], hatch=patterns[cnt], 
+        p1 = ax.bar(ind + width * (cnt - (N - 1) / 2.0 - 1.5), data_vec, width, yerr = yerr, color=colors[cnt], hatch=patterns[cnt], 
             edgecolor = 'k', align="center", capsize=5, ecolor='k', error_kw = dict(capthick=2, elinewidth=2))
         
         # (_, caps, _) = plt.errorbar(ind + width * (cnt - (N - 1) / 2.0 - 1.5), data_vec_tail, yerr = yerr[1, :],
@@ -363,24 +369,25 @@ def plot_vary_corun(_type, _cpu, _l2size):
         
         legends.append(p1)
         cnt += 1
-    print('{:.2f}'.format(np.average(avg_4dom)))
+    if _type == 'ipc' and _l2size == '4MB':
+        print('{:.2f}'.format(np.average(avg_4dom)))
 
-    plt.legend(legends, nfinvoke_legend, loc='upper left', ncol=1, frameon=False)
+    ax.legend(legends, nfinvoke_legend, loc='upper left', ncol=1, frameon=False)
     if _type == 'ipc':
-        plt.ylabel('IPC degrading percent (\%)')
+        ax.set_ylabel('IPC degrading percent (\%)')
     elif _type == 'l2missrate':
-        plt.ylabel('L2 missing rate increasing')
+        ax.set_ylabel('L2 missing rate increasing')
         
-    plt.xticks(ind, ['2 NFs', '3 NFs', '4 NFs'])
-    plt.axes().set_xlim(xmin=4, xmax=36)
+    ax.set_xticks(ind, ['2 NFs', '3 NFs', '4 NFs'])
+    ax.set_xlim(xmin=4, xmax=36)
     # plt.xticks(ind, ['1 domain', '2 domains', '4 domains'], rotation=45, ha="right", rotation_mode="anchor", fontsize=24)
     # plt.axes().set_ylim(ymin=0)
 
     # apply offset transform to all x ticklabels.
-    for label in plt.axes().xaxis.get_majorticklabels():
+    for label in ax.xaxis.get_majorticklabels():
         label.set_transform(label.get_transform() + offset)
-    plt.axes().grid(which='major', axis='y', linestyle=':')
-    plt.axes().set_axisbelow(True)
+    ax.grid(which='major', axis='y', linestyle=':')
+    ax.set_axisbelow(True)
 
     plt.gcf().set_size_inches(9, 8)
     plt.tight_layout()
@@ -392,16 +399,16 @@ if __name__ == '__main__':
     plt.rc('text', usetex=True)
     font = fm.FontProperties(
        family = 'Gill Sans',
-       fname = '/usr/share/fonts/truetype/adf/GilliusADF-Regular.otf')
+       fname = './GilliusADF-Regular.otf')
 
-    load_data()
-    write_to_file(rawdata, f'./{datadir}/drawdata/thrput_l2miss.res')
+    # load_data()
+    # write_to_file(rawdata, f'./{datadir}/drawdata/thrput_l2miss.res')
 
     rawdata = read_from_file(f'./{datadir}/drawdata/thrput_l2miss.res')
     for _type in ['ipc', 'l2missrate']:
         for _cpu in cpus:
-            for _domain in [2]:
-                plot_vary_cachesize(_type, _cpu, _domain)
+            # for _domain in [2]:
+            #     plot_vary_cachesize(_type, _cpu, _domain)
             for _l2size in ['4MB']:
                 plot_vary_corun(_type, _cpu, _l2size)
 
