@@ -675,6 +675,126 @@
             "none": 0.20800153506667945,
             "tp": 0.242232
           }
+        },
+        "nat-tcp-v4.nat-tcp-v4.nat-tcp-v4.monitoring.monitoring.lpm.acl-fw.monitoring": {
+          "4MB": {
+            "tp": 0.332235,
+            "none": 0.3171934728102265
+          }
+        },
+        "nat-tcp-v4.monitoring.nat-tcp-v4.dpi.monitoring.dpi.lpm.dpi.monitoring.acl-fw.dpi.acl-fw.dpi.dpi.dpi.lpm": {
+          "4MB": {
+            "tp": 0.442797,
+            "none": 0.40742516610726764
+          }
+        },
+        "nat-tcp-v4.monitoring.dpi.dpi.acl-fw.monitoring.acl-fw.maglev.nat-tcp-v4.nat-tcp-v4.acl-fw.lpm.dpi.lpm.nat-tcp-v4.monitoring": {
+          "4MB": {
+            "none": 0.41563013698630136,
+            "tp": 0.443214
+          }
+        },
+        "nat-tcp-v4.lpm.acl-fw.monitoring.lpm.dpi.maglev.lpm.lpm.nat-tcp-v4.lpm.acl-fw.dpi.acl-fw.nat-tcp-v4.dpi": {
+          "4MB": {
+            "none": 0.4006749711902541,
+            "tp": 0.443609
+          }
+        },
+        "nat-tcp-v4.lpm.maglev.monitoring.dpi.nat-tcp-v4.dpi.maglev": {
+          "4MB": {
+            "tp": 0.331686,
+            "none": 0.2917756625350955
+          }
+        },
+        "nat-tcp-v4.dpi.lpm.maglev.dpi.acl-fw.monitoring.maglev": {
+          "4MB": {
+            "tp": 0.331842,
+            "none": 0.28687153900981416
+          }
+        },
+        "nat-tcp-v4.maglev.lpm.monitoring.monitoring.acl-fw.maglev.maglev": {
+          "4MB": {
+            "tp": 0.331545,
+            "none": 0.2816804973571057
+          }
+        },
+        "nat-tcp-v4.monitoring.maglev.maglev.monitoring.dpi.acl-fw.lpm": {
+          "4MB": {
+            "tp": 0.331398,
+            "none": 0.2875119945167923
+          }
+        },
+        "nat-tcp-v4.lpm.dpi.acl-fw.acl-fw.dpi.dpi.nat-tcp-v4.lpm.acl-fw.dpi.maglev.monitoring.lpm.dpi.lpm": {
+          "4MB": {
+            "tp": 0.442702,
+            "none": 0.39578024386902316
+          }
+        },
+        "nat-tcp-v4.maglev.acl-fw.monitoring.maglev.dpi.dpi.lpm": {
+          "4MB": {
+            "tp": 0.331901,
+            "none": 0.2842142778813466
+          }
+        },
+        "nat-tcp-v4.dpi.lpm.lpm.dpi.acl-fw.maglev.acl-fw.nat-tcp-v4.nat-tcp-v4.acl-fw.acl-fw.nat-tcp-v4.monitoring.maglev.monitoring": {
+          "4MB": {
+            "none": 0.4204301222467111,
+            "tp": 0.44321
+          }
+        },
+        "nat-tcp-v4.nat-tcp-v4.dpi.maglev.lpm.lpm.dpi.lpm.dpi.acl-fw.lpm.maglev.acl-fw.maglev.maglev.dpi": {
+          "4MB": {
+            "tp": 0.442843,
+            "none": 0.3881274157734587
+          }
+        },
+        "nat-tcp-v4.acl-fw.monitoring.maglev.dpi.maglev.lpm.lpm.monitoring.monitoring.acl-fw.dpi.maglev.monitoring.monitoring.lpm": {
+          "4MB": {
+            "none": 0.38254527507780045,
+            "tp": 0.442427
+          }
+        },
+        "nat-tcp-v4.acl-fw.acl-fw.dpi.monitoring.acl-fw.lpm.monitoring.lpm.dpi.nat-tcp-v4.lpm.maglev.dpi.nat-tcp-v4.dpi": {
+          "4MB": {
+            "none": 0.3972966680817847,
+            "tp": 0.443522
+          }
+        },
+        "nat-tcp-v4.nat-tcp-v4.lpm.monitoring.maglev.lpm.acl-fw.maglev": {
+          "4MB": {
+            "tp": 0.331767,
+            "none": 0.29081870223780437
+          }
+        },
+        "nat-tcp-v4.maglev.dpi.dpi.maglev.maglev.acl-fw.monitoring.maglev.lpm.lpm.acl-fw.nat-tcp-v4.acl-fw.acl-fw.monitoring": {
+          "4MB": {
+            "tp": 0.443374,
+            "none": 0.4053724889156495
+          }
+        },
+        "nat-tcp-v4.dpi.lpm.dpi.dpi.nat-tcp-v4.monitoring.dpi": {
+          "4MB": {
+            "tp": 0.331135,
+            "none": 0.29717576089936937
+          }
+        },
+        "nat-tcp-v4.monitoring.dpi.dpi.lpm.dpi.acl-fw.lpm": {
+          "4MB": {
+            "tp": 0.33155,
+            "none": 0.2870678441842952
+          }
+        },
+        "nat-tcp-v4.nat-tcp-v4.monitoring.monitoring.lpm.dpi.lpm.monitoring.monitoring.maglev.acl-fw.lpm.nat-tcp-v4.monitoring.nat-tcp-v4.maglev": {
+          "4MB": {
+            "tp": 0.443391,
+            "none": 0.4106349728573779
+          }
+        },
+        "nat-tcp-v4.dpi.lpm.lpm.nat-tcp-v4.acl-fw.acl-fw.maglev": {
+          "4MB": {
+            "tp": 0.33141,
+            "none": 0.30169769989047096
+          }
         }
       },
       "maglev": {
@@ -1354,6 +1474,126 @@
           "4MB": {
             "tp": 0.101372,
             "none": 0.14048007338701457
+          }
+        },
+        "maglev.nat-tcp-v4.monitoring.acl-fw.monitoring.lpm.nat-tcp-v4.maglev.dpi.lpm.dpi.dpi.monitoring.nat-tcp-v4.maglev.lpm": {
+          "4MB": {
+            "none": 0.35124764767700467,
+            "tp": 0.293832
+          }
+        },
+        "maglev.dpi.dpi.lpm.monitoring.nat-tcp-v4.monitoring.dpi.acl-fw.maglev.dpi.nat-tcp-v4.lpm.acl-fw.monitoring.lpm": {
+          "4MB": {
+            "tp": 0.293832,
+            "none": 0.34966385527441635
+          }
+        },
+        "maglev.dpi.acl-fw.lpm.maglev.nat-tcp-v4.monitoring.acl-fw": {
+          "4MB": {
+            "tp": 0.206649,
+            "none": 0.2518085834392414
+          }
+        },
+        "maglev.maglev.maglev.monitoring.acl-fw.nat-tcp-v4.maglev.maglev": {
+          "4MB": {
+            "tp": 0.206644,
+            "none": 0.23660539694955027
+          }
+        },
+        "maglev.nat-tcp-v4.nat-tcp-v4.monitoring.monitoring.lpm.nat-tcp-v4.nat-tcp-v4.dpi.dpi.monitoring.lpm.dpi.nat-tcp-v4.dpi.nat-tcp-v4": {
+          "4MB": {
+            "none": 0.3619699376756691,
+            "tp": 0.293832
+          }
+        },
+        "maglev.acl-fw.monitoring.monitoring.monitoring.dpi.lpm.nat-tcp-v4": {
+          "4MB": {
+            "none": 0.24630313103414564,
+            "tp": 0.206644
+          }
+        },
+        "maglev.acl-fw.monitoring.acl-fw.dpi.dpi.monitoring.acl-fw": {
+          "4MB": {
+            "none": 0.26380877896177535,
+            "tp": 0.206644
+          }
+        },
+        "maglev.nat-tcp-v4.dpi.maglev.monitoring.nat-tcp-v4.monitoring.dpi.maglev.monitoring.maglev.monitoring.maglev.lpm.dpi.nat-tcp-v4": {
+          "4MB": {
+            "none": 0.34986313422621956,
+            "tp": 0.293839
+          }
+        },
+        "maglev.maglev.acl-fw.maglev.acl-fw.acl-fw.dpi.lpm.dpi.lpm.maglev.lpm.monitoring.acl-fw.maglev.nat-tcp-v4": {
+          "4MB": {
+            "tp": 0.293832,
+            "none": 0.3358922328435567
+          }
+        },
+        "maglev.lpm.acl-fw.monitoring.maglev.maglev.lpm.monitoring.monitoring.monitoring.acl-fw.maglev.lpm.acl-fw.lpm.nat-tcp-v4": {
+          "4MB": {
+            "none": 0.3309955525145399,
+            "tp": 0.293832
+          }
+        },
+        "maglev.dpi.dpi.nat-tcp-v4.lpm.lpm.lpm.maglev": {
+          "4MB": {
+            "none": 0.2223145545643407,
+            "tp": 0.206644
+          }
+        },
+        "maglev.lpm.acl-fw.maglev.dpi.monitoring.acl-fw.lpm.nat-tcp-v4.nat-tcp-v4.lpm.monitoring.nat-tcp-v4.lpm.maglev.nat-tcp-v4": {
+          "4MB": {
+            "tp": 0.293832,
+            "none": 0.33126390144941703
+          }
+        },
+        "maglev.nat-tcp-v4.lpm.monitoring.acl-fw.acl-fw.monitoring.dpi": {
+          "4MB": {
+            "none": 0.25556044385784815,
+            "tp": 0.206644
+          }
+        },
+        "maglev.nat-tcp-v4.acl-fw.acl-fw.maglev.lpm.dpi.dpi.dpi.monitoring.dpi.dpi.maglev.acl-fw.acl-fw.acl-fw": {
+          "4MB": {
+            "tp": 0.293832,
+            "none": 0.357533844875617
+          }
+        },
+        "maglev.acl-fw.monitoring.monitoring.lpm.lpm.lpm.maglev": {
+          "4MB": {
+            "none": 0.22206202194472277,
+            "tp": 0.206644
+          }
+        },
+        "maglev.dpi.acl-fw.monitoring.lpm.monitoring.lpm.lpm.monitoring.acl-fw.acl-fw.dpi.lpm.dpi.nat-tcp-v4.acl-fw": {
+          "4MB": {
+            "none": 0.3465148108319484,
+            "tp": 0.293832
+          }
+        },
+        "maglev.monitoring.dpi.monitoring.monitoring.maglev.lpm.dpi": {
+          "4MB": {
+            "tp": 0.206644,
+            "none": 0.23178451836824482
+          }
+        },
+        "maglev.dpi.monitoring.lpm.dpi.monitoring.acl-fw.monitoring.nat-tcp-v4.maglev.acl-fw.dpi.lpm.maglev.dpi.dpi": {
+          "4MB": {
+            "tp": 0.293832,
+            "none": 0.34945618966149333
+          }
+        },
+        "maglev.maglev.lpm.monitoring.dpi.nat-tcp-v4.acl-fw.maglev": {
+          "4MB": {
+            "none": 0.24072625971360148,
+            "tp": 0.206644
+          }
+        },
+        "maglev.monitoring.lpm.dpi.nat-tcp-v4.dpi.maglev.dpi": {
+          "4MB": {
+            "none": 0.23696045363445276,
+            "tp": 0.206644
           }
         }
       },
@@ -2035,6 +2275,126 @@
             "none": 0.1385636681872183,
             "tp": 0.176113
           }
+        },
+        "acl-fw.maglev.monitoring.maglev.lpm.lpm.nat-tcp-v4.maglev.maglev.monitoring.monitoring.nat-tcp-v4.nat-tcp-v4.lpm.dpi.nat-tcp-v4": {
+          "4MB": {
+            "none": 0.38194338603078715,
+            "tp": 0.460172
+          }
+        },
+        "acl-fw.lpm.nat-tcp-v4.lpm.dpi.lpm.acl-fw.maglev": {
+          "4MB": {
+            "none": 0.2944883212905394,
+            "tp": 0.354016
+          }
+        },
+        "acl-fw.nat-tcp-v4.dpi.monitoring.monitoring.maglev.monitoring.dpi.acl-fw.nat-tcp-v4.nat-tcp-v4.monitoring.monitoring.monitoring.monitoring.lpm": {
+          "4MB": {
+            "none": 0.4032981019312711,
+            "tp": 0.459966
+          }
+        },
+        "acl-fw.maglev.dpi.dpi.nat-tcp-v4.dpi.nat-tcp-v4.acl-fw.lpm.lpm.monitoring.maglev.lpm.dpi.nat-tcp-v4.dpi": {
+          "4MB": {
+            "tp": 0.460064,
+            "none": 0.39788430118246515
+          }
+        },
+        "acl-fw.monitoring.monitoring.maglev.nat-tcp-v4.maglev.nat-tcp-v4.monitoring": {
+          "4MB": {
+            "tp": 0.354044,
+            "none": 0.30331435286875497
+          }
+        },
+        "acl-fw.maglev.dpi.monitoring.lpm.acl-fw.dpi.maglev": {
+          "4MB": {
+            "none": 0.2985386221294363,
+            "tp": 0.353806
+          }
+        },
+        "acl-fw.acl-fw.monitoring.lpm.lpm.lpm.lpm.lpm.acl-fw.lpm.nat-tcp-v4.acl-fw.lpm.monitoring.nat-tcp-v4.maglev": {
+          "4MB": {
+            "tp": 0.460056,
+            "none": 0.3945109117093165
+          }
+        },
+        "acl-fw.monitoring.monitoring.lpm.dpi.lpm.nat-tcp-v4.dpi": {
+          "4MB": {
+            "none": 0.29914410186728674,
+            "tp": 0.353956
+          }
+        },
+        "acl-fw.nat-tcp-v4.maglev.dpi.acl-fw.acl-fw.dpi.nat-tcp-v4": {
+          "4MB": {
+            "tp": 0.353966,
+            "none": 0.3245223507738685
+          }
+        },
+        "acl-fw.maglev.dpi.maglev.maglev.nat-tcp-v4.lpm.lpm": {
+          "4MB": {
+            "tp": 0.354159,
+            "none": 0.28172905650850644
+          }
+        },
+        "acl-fw.nat-tcp-v4.nat-tcp-v4.nat-tcp-v4.nat-tcp-v4.dpi.lpm.nat-tcp-v4": {
+          "4MB": {
+            "none": 0.3110125501937795,
+            "tp": 0.353933
+          }
+        },
+        "acl-fw.monitoring.maglev.monitoring.maglev.monitoring.lpm.monitoring": {
+          "4MB": {
+            "tp": 0.354003,
+            "none": 0.28890133744135565
+          }
+        },
+        "acl-fw.acl-fw.maglev.maglev.lpm.maglev.lpm.maglev": {
+          "4MB": {
+            "none": 0.2798676907551718,
+            "tp": 0.353977
+          }
+        },
+        "acl-fw.dpi.maglev.maglev.monitoring.dpi.acl-fw.maglev.monitoring.lpm.acl-fw.nat-tcp-v4.dpi.maglev.nat-tcp-v4.monitoring": {
+          "4MB": {
+            "none": 0.3986485550893809,
+            "tp": 0.459989
+          }
+        },
+        "acl-fw.dpi.maglev.acl-fw.lpm.maglev.nat-tcp-v4.acl-fw.monitoring.dpi.monitoring.dpi.nat-tcp-v4.lpm.maglev.maglev": {
+          "4MB": {
+            "tp": 0.459998,
+            "none": 0.3916193378584292
+          }
+        },
+        "acl-fw.nat-tcp-v4.monitoring.maglev.nat-tcp-v4.maglev.maglev.maglev": {
+          "4MB": {
+            "tp": 0.353915,
+            "none": 0.2943960567955863
+          }
+        },
+        "acl-fw.acl-fw.monitoring.acl-fw.acl-fw.maglev.maglev.maglev.monitoring.lpm.dpi.acl-fw.maglev.maglev.nat-tcp-v4.monitoring": {
+          "4MB": {
+            "none": 0.41038088125466765,
+            "tp": 0.460056
+          }
+        },
+        "acl-fw.lpm.dpi.acl-fw.acl-fw.monitoring.lpm.nat-tcp-v4.nat-tcp-v4.dpi.dpi.maglev.acl-fw.maglev.maglev.maglev": {
+          "4MB": {
+            "none": 0.4027658573050195,
+            "tp": 0.460044
+          }
+        },
+        "acl-fw.maglev.lpm.maglev.monitoring.monitoring.dpi.maglev.lpm.acl-fw.maglev.dpi.dpi.nat-tcp-v4.lpm.dpi": {
+          "4MB": {
+            "tp": 0.459993,
+            "none": 0.3790712829827651
+          }
+        },
+        "acl-fw.lpm.lpm.monitoring.monitoring.maglev.nat-tcp-v4.monitoring.maglev.acl-fw.dpi.monitoring.maglev.dpi.dpi.nat-tcp-v4": {
+          "4MB": {
+            "none": 0.38807396634115937,
+            "tp": 0.460169
+          }
         }
       },
       "dpi": {
@@ -2711,6 +3071,126 @@
             "none": 0.23981662114709326,
             "tp": 0.252232
           }
+        },
+        "dpi.monitoring.dpi.monitoring.acl-fw.maglev.nat-tcp-v4.monitoring": {
+          "4MB": {
+            "tp": 0.259801,
+            "none": 0.2691919757928948
+          }
+        },
+        "dpi.monitoring.lpm.acl-fw.acl-fw.lpm.monitoring.acl-fw": {
+          "4MB": {
+            "none": 0.26952624839948786,
+            "tp": 0.259797
+          }
+        },
+        "dpi.maglev.lpm.maglev.dpi.lpm.acl-fw.maglev.lpm.nat-tcp-v4.nat-tcp-v4.maglev.dpi.maglev.dpi.maglev": {
+          "4MB": {
+            "none": 0.3424409763905562,
+            "tp": 0.334359
+          }
+        },
+        "dpi.dpi.dpi.maglev.dpi.nat-tcp-v4.nat-tcp-v4.maglev": {
+          "4MB": {
+            "none": 0.2633262430629968,
+            "tp": 0.259848
+          }
+        },
+        "dpi.acl-fw.lpm.lpm.lpm.lpm.dpi.dpi.lpm.dpi.nat-tcp-v4.acl-fw.lpm.dpi.dpi.acl-fw": {
+          "4MB": {
+            "tp": 0.334395,
+            "none": 0.34026664957374525
+          }
+        },
+        "dpi.monitoring.dpi.dpi.maglev.acl-fw.monitoring.maglev.acl-fw.lpm.lpm.maglev.nat-tcp-v4.maglev.monitoring.dpi": {
+          "4MB": {
+            "none": 0.3366995822863819,
+            "tp": 0.334129
+          }
+        },
+        "dpi.dpi.monitoring.nat-tcp-v4.monitoring.lpm.monitoring.maglev.acl-fw.acl-fw.maglev.nat-tcp-v4.maglev.acl-fw.maglev.nat-tcp-v4": {
+          "4MB": {
+            "none": 0.35488209019739686,
+            "tp": 0.334352
+          }
+        },
+        "dpi.lpm.lpm.dpi.acl-fw.maglev.nat-tcp-v4.maglev": {
+          "4MB": {
+            "tp": 0.259761,
+            "none": 0.2558649033310412
+          }
+        },
+        "dpi.nat-tcp-v4.maglev.maglev.maglev.lpm.monitoring.lpm": {
+          "4MB": {
+            "none": 0.2536379208221941,
+            "tp": 0.259875
+          }
+        },
+        "dpi.nat-tcp-v4.lpm.lpm.acl-fw.nat-tcp-v4.nat-tcp-v4.acl-fw": {
+          "4MB": {
+            "tp": 0.259719,
+            "none": 0.2808632586734122
+          }
+        },
+        "dpi.monitoring.maglev.acl-fw.nat-tcp-v4.nat-tcp-v4.nat-tcp-v4.acl-fw.maglev.monitoring.acl-fw.lpm.lpm.acl-fw.acl-fw.nat-tcp-v4": {
+          "4MB": {
+            "tp": 0.33446,
+            "none": 0.365906362545018
+          }
+        },
+        "dpi.monitoring.nat-tcp-v4.lpm.maglev.acl-fw.acl-fw.acl-fw": {
+          "4MB": {
+            "none": 0.27872054303278687,
+            "tp": 0.259703
+          }
+        },
+        "dpi.monitoring.monitoring.acl-fw.monitoring.nat-tcp-v4.lpm.nat-tcp-v4": {
+          "4MB": {
+            "tp": 0.259665,
+            "none": 0.27392041998783573
+          }
+        },
+        "dpi.nat-tcp-v4.monitoring.acl-fw.dpi.monitoring.monitoring.lpm.nat-tcp-v4.acl-fw.lpm.acl-fw.monitoring.monitoring.acl-fw.lpm": {
+          "4MB": {
+            "tp": 0.334224,
+            "none": 0.36232
+          }
+        },
+        "dpi.dpi.dpi.monitoring.maglev.acl-fw.maglev.monitoring": {
+          "4MB": {
+            "tp": 0.259758,
+            "none": 0.26263467110634414
+          }
+        },
+        "dpi.monitoring.acl-fw.monitoring.acl-fw.dpi.dpi.nat-tcp-v4.maglev.nat-tcp-v4.dpi.monitoring.dpi.acl-fw.dpi.acl-fw": {
+          "4MB": {
+            "tp": 0.334379,
+            "none": 0.3741152355635269
+          }
+        },
+        "dpi.monitoring.lpm.maglev.maglev.dpi.monitoring.dpi.acl-fw.acl-fw.acl-fw.lpm.nat-tcp-v4.monitoring.acl-fw.maglev": {
+          "4MB": {
+            "tp": 0.334689,
+            "none": 0.3569530274406839
+          }
+        },
+        "dpi.maglev.dpi.acl-fw.lpm.dpi.nat-tcp-v4.acl-fw.lpm.dpi.dpi.acl-fw.dpi.maglev.lpm.monitoring": {
+          "4MB": {
+            "none": 0.34759786192107034,
+            "tp": 0.334439
+          }
+        },
+        "dpi.maglev.monitoring.lpm.nat-tcp-v4.acl-fw.nat-tcp-v4.nat-tcp-v4.maglev.nat-tcp-v4.dpi.monitoring.dpi.lpm.nat-tcp-v4.dpi": {
+          "4MB": {
+            "tp": 0.3343,
+            "none": 0.34959076129610944
+          }
+        },
+        "dpi.acl-fw.acl-fw.maglev.acl-fw.dpi.nat-tcp-v4.monitoring": {
+          "4MB": {
+            "tp": 0.259948,
+            "none": 0.2810548563742915
+          }
         }
       },
       "monitoring": {
@@ -3383,6 +3863,126 @@
             "none": 0.15425595594397223,
             "tp": 0.17052
           }
+        },
+        "monitoring.lpm.dpi.maglev.maglev.maglev.nat-tcp-v4.acl-fw.acl-fw.acl-fw.dpi.acl-fw.maglev.nat-tcp-v4.dpi.lpm": {
+          "4MB": {
+            "tp": 0.349283,
+            "none": 0.35647551546391754
+          }
+        },
+        "monitoring.nat-tcp-v4.maglev.maglev.maglev.dpi.acl-fw.nat-tcp-v4": {
+          "4MB": {
+            "tp": 0.250987,
+            "none": 0.25734729929872774
+          }
+        },
+        "monitoring.dpi.lpm.maglev.monitoring.monitoring.nat-tcp-v4.acl-fw.lpm.nat-tcp-v4.maglev.lpm.lpm.nat-tcp-v4.maglev.monitoring": {
+          "4MB": {
+            "tp": 0.349221,
+            "none": 0.35282824332491913
+          }
+        },
+        "monitoring.dpi.monitoring.lpm.maglev.nat-tcp-v4.acl-fw.lpm.acl-fw.dpi.dpi.dpi.lpm.nat-tcp-v4.nat-tcp-v4.acl-fw": {
+          "4MB": {
+            "none": 0.3731512881061023,
+            "tp": 0.349142
+          }
+        },
+        "monitoring.acl-fw.lpm.lpm.lpm.dpi.nat-tcp-v4.acl-fw.nat-tcp-v4.lpm.maglev.dpi.acl-fw.lpm.dpi.acl-fw": {
+          "4MB": {
+            "none": 0.3486975733171792,
+            "tp": 0.349575
+          }
+        },
+        "monitoring.lpm.maglev.acl-fw.lpm.monitoring.monitoring.nat-tcp-v4": {
+          "4MB": {
+            "none": 0.2504501613449573,
+            "tp": 0.250592
+          }
+        },
+        "monitoring.acl-fw.maglev.dpi.monitoring.nat-tcp-v4.acl-fw.nat-tcp-v4": {
+          "4MB": {
+            "none": 0.27169602343777915,
+            "tp": 0.251018
+          }
+        },
+        "monitoring.lpm.nat-tcp-v4.dpi.dpi.nat-tcp-v4.maglev.maglev": {
+          "4MB": {
+            "none": 0.2501382422718111,
+            "tp": 0.252089
+          }
+        },
+        "monitoring.maglev.dpi.dpi.maglev.monitoring.dpi.lpm": {
+          "4MB": {
+            "tp": 0.250987,
+            "none": 0.2425260986323783
+          }
+        },
+        "monitoring.acl-fw.monitoring.dpi.nat-tcp-v4.dpi.lpm.maglev": {
+          "4MB": {
+            "tp": 0.251021,
+            "none": 0.2563473437166631
+          }
+        },
+        "monitoring.maglev.acl-fw.nat-tcp-v4.maglev.nat-tcp-v4.lpm.lpm": {
+          "4MB": {
+            "tp": 0.250987,
+            "none": 0.24872417115734627
+          }
+        },
+        "monitoring.acl-fw.maglev.nat-tcp-v4.maglev.dpi.dpi.maglev.nat-tcp-v4.dpi.lpm.acl-fw.acl-fw.maglev.monitoring.acl-fw": {
+          "4MB": {
+            "none": 0.3589716236398549,
+            "tp": 0.348575
+          }
+        },
+        "monitoring.dpi.nat-tcp-v4.monitoring.acl-fw.dpi.lpm.monitoring.maglev.monitoring.lpm.dpi.nat-tcp-v4.maglev.nat-tcp-v4.dpi": {
+          "4MB": {
+            "none": 0.36197486088146924,
+            "tp": 0.348741
+          }
+        },
+        "monitoring.nat-tcp-v4.lpm.dpi.maglev.dpi.monitoring.lpm.acl-fw.dpi.maglev.dpi.monitoring.monitoring.maglev.nat-tcp-v4": {
+          "4MB": {
+            "none": 0.36246510629160406,
+            "tp": 0.348571
+          }
+        },
+        "monitoring.acl-fw.dpi.dpi.monitoring.lpm.dpi.lpm": {
+          "4MB": {
+            "none": 0.25619290153687246,
+            "tp": 0.250987
+          }
+        },
+        "monitoring.monitoring.lpm.maglev.acl-fw.lpm.dpi.maglev.lpm.dpi.maglev.acl-fw.acl-fw.monitoring.monitoring.lpm": {
+          "4MB": {
+            "tp": 0.348735,
+            "none": 0.3433079820882792
+          }
+        },
+        "monitoring.acl-fw.dpi.maglev.maglev.acl-fw.dpi.acl-fw.maglev.monitoring.maglev.lpm.monitoring.nat-tcp-v4.monitoring.maglev": {
+          "4MB": {
+            "none": 0.3460517170709105,
+            "tp": 0.348122
+          }
+        },
+        "monitoring.monitoring.dpi.acl-fw.lpm.maglev.acl-fw.acl-fw": {
+          "4MB": {
+            "tp": 0.251395,
+            "none": 0.26334981678465974
+          }
+        },
+        "monitoring.acl-fw.maglev.maglev.maglev.nat-tcp-v4.dpi.monitoring.dpi.lpm.lpm.nat-tcp-v4.nat-tcp-v4.maglev.dpi.nat-tcp-v4": {
+          "4MB": {
+            "tp": 0.348735,
+            "none": 0.35516028146989836
+          }
+        },
+        "monitoring.dpi.nat-tcp-v4.lpm.lpm.maglev.nat-tcp-v4.monitoring": {
+          "4MB": {
+            "tp": 0.250987,
+            "none": 0.25002230907890277
+          }
         }
       },
       "lpm": {
@@ -4054,6 +4654,126 @@
           "4MB": {
             "none": 0.15351795826545653,
             "tp": 0.111774
+          }
+        },
+        "lpm.nat-tcp-v4.acl-fw.acl-fw.monitoring.acl-fw.nat-tcp-v4.dpi.maglev.nat-tcp-v4.dpi.lpm.acl-fw.nat-tcp-v4.nat-tcp-v4.acl-fw": {
+          "4MB": {
+            "tp": 0.233414,
+            "none": 0.310254311439781
+          }
+        },
+        "lpm.maglev.maglev.dpi.monitoring.acl-fw.acl-fw.nat-tcp-v4": {
+          "4MB": {
+            "none": 0.22215309787065576,
+            "tp": 0.173044
+          }
+        },
+        "lpm.dpi.monitoring.monitoring.maglev.dpi.monitoring.nat-tcp-v4": {
+          "4MB": {
+            "tp": 0.173044,
+            "none": 0.21355711904156424
+          }
+        },
+        "lpm.nat-tcp-v4.maglev.lpm.acl-fw.maglev.acl-fw.nat-tcp-v4.monitoring.maglev.nat-tcp-v4.dpi.monitoring.acl-fw.lpm.dpi": {
+          "4MB": {
+            "none": 0.2945852664931538,
+            "tp": 0.233414
+          }
+        },
+        "lpm.monitoring.maglev.lpm.acl-fw.nat-tcp-v4.dpi.nat-tcp-v4": {
+          "4MB": {
+            "tp": 0.172903,
+            "none": 0.21631095406360423
+          }
+        },
+        "lpm.dpi.acl-fw.maglev.dpi.lpm.nat-tcp-v4.nat-tcp-v4": {
+          "4MB": {
+            "tp": 0.172903,
+            "none": 0.2178231791630217
+          }
+        },
+        "lpm.maglev.dpi.maglev.acl-fw.nat-tcp-v4.nat-tcp-v4.lpm.monitoring.nat-tcp-v4.lpm.maglev.acl-fw.dpi.monitoring.maglev": {
+          "4MB": {
+            "none": 0.2941375804811928,
+            "tp": 0.233414
+          }
+        },
+        "lpm.nat-tcp-v4.monitoring.dpi.dpi.lpm.maglev.lpm.dpi.monitoring.acl-fw.monitoring.acl-fw.monitoring.dpi.maglev": {
+          "4MB": {
+            "tp": 0.233414,
+            "none": 0.30575549721963474
+          }
+        },
+        "lpm.lpm.acl-fw.maglev.dpi.acl-fw.nat-tcp-v4.maglev": {
+          "4MB": {
+            "none": 0.21324671656545685,
+            "tp": 0.173127
+          }
+        },
+        "lpm.maglev.maglev.nat-tcp-v4.acl-fw.nat-tcp-v4.nat-tcp-v4.monitoring.monitoring.maglev.dpi.dpi.maglev.maglev.lpm.acl-fw": {
+          "4MB": {
+            "tp": 0.233718,
+            "none": 0.30388113665894584
+          }
+        },
+        "lpm.dpi.maglev.monitoring.maglev.monitoring.nat-tcp-v4.nat-tcp-v4.acl-fw.lpm.maglev.monitoring.nat-tcp-v4.lpm.monitoring.lpm": {
+          "4MB": {
+            "tp": 0.233414,
+            "none": 0.2995227741224974
+          }
+        },
+        "lpm.monitoring.nat-tcp-v4.nat-tcp-v4.monitoring.dpi.nat-tcp-v4.dpi": {
+          "4MB": {
+            "tp": 0.173044,
+            "none": 0.22364442937469978
+          }
+        },
+        "lpm.maglev.maglev.maglev.lpm.lpm.monitoring.acl-fw": {
+          "4MB": {
+            "tp": 0.173118,
+            "none": 0.20061519358844113
+          }
+        },
+        "lpm.nat-tcp-v4.maglev.acl-fw.nat-tcp-v4.lpm.lpm.monitoring": {
+          "4MB": {
+            "none": 0.20918612201112272,
+            "tp": 0.173044
+          }
+        },
+        "lpm.acl-fw.nat-tcp-v4.maglev.acl-fw.maglev.maglev.lpm.lpm.acl-fw.nat-tcp-v4.maglev.acl-fw.monitoring.acl-fw.nat-tcp-v4": {
+          "4MB": {
+            "tp": 0.233414,
+            "none": 0.29922082321720966
+          }
+        },
+        "lpm.nat-tcp-v4.acl-fw.maglev.monitoring.acl-fw.monitoring.lpm": {
+          "4MB": {
+            "none": 0.21289867344058708,
+            "tp": 0.173127
+          }
+        },
+        "lpm.monitoring.acl-fw.nat-tcp-v4.dpi.dpi.dpi.acl-fw.acl-fw.dpi.maglev.acl-fw.dpi.maglev.nat-tcp-v4.monitoring": {
+          "4MB": {
+            "tp": 0.233414,
+            "none": 0.30959376235945535
+          }
+        },
+        "lpm.nat-tcp-v4.monitoring.acl-fw.nat-tcp-v4.acl-fw.maglev.monitoring.nat-tcp-v4.lpm.maglev.acl-fw.lpm.nat-tcp-v4.acl-fw.lpm": {
+          "4MB": {
+            "none": 0.3052857465552293,
+            "tp": 0.233441
+          }
+        },
+        "lpm.dpi.lpm.acl-fw.lpm.monitoring.acl-fw.acl-fw.nat-tcp-v4.lpm.dpi.monitoring.maglev.acl-fw.lpm.maglev": {
+          "4MB": {
+            "tp": 0.233414,
+            "none": 0.29441825009175865
+          }
+        },
+        "lpm.monitoring.monitoring.acl-fw.lpm.acl-fw.monitoring.acl-fw": {
+          "4MB": {
+            "tp": 0.173137,
+            "none": 0.2236659981356459
           }
         }
       }
@@ -4735,6 +5455,126 @@
             "none": 0.416324,
             "tp": 0.413053
           }
+        },
+        "nat-tcp-v4.nat-tcp-v4.nat-tcp-v4.monitoring.monitoring.lpm.acl-fw.monitoring": {
+          "4MB": {
+            "tp": 0.372774,
+            "none": 0.39269
+          }
+        },
+        "nat-tcp-v4.monitoring.nat-tcp-v4.dpi.monitoring.dpi.lpm.dpi.monitoring.acl-fw.dpi.acl-fw.dpi.dpi.dpi.lpm": {
+          "4MB": {
+            "tp": 0.338737,
+            "none": 0.390759
+          }
+        },
+        "nat-tcp-v4.monitoring.dpi.dpi.acl-fw.monitoring.acl-fw.maglev.nat-tcp-v4.nat-tcp-v4.acl-fw.lpm.dpi.lpm.nat-tcp-v4.monitoring": {
+          "4MB": {
+            "none": 0.390684,
+            "tp": 0.338581
+          }
+        },
+        "nat-tcp-v4.lpm.acl-fw.monitoring.lpm.dpi.maglev.lpm.lpm.nat-tcp-v4.lpm.acl-fw.dpi.acl-fw.nat-tcp-v4.dpi": {
+          "4MB": {
+            "none": 0.390871,
+            "tp": 0.338464
+          }
+        },
+        "nat-tcp-v4.lpm.maglev.monitoring.dpi.nat-tcp-v4.dpi.maglev": {
+          "4MB": {
+            "tp": 0.37299,
+            "none": 0.392966
+          }
+        },
+        "nat-tcp-v4.dpi.lpm.maglev.dpi.acl-fw.monitoring.maglev": {
+          "4MB": {
+            "tp": 0.372956,
+            "none": 0.393039
+          }
+        },
+        "nat-tcp-v4.maglev.lpm.monitoring.monitoring.acl-fw.maglev.maglev": {
+          "4MB": {
+            "tp": 0.373045,
+            "none": 0.393054
+          }
+        },
+        "nat-tcp-v4.monitoring.maglev.maglev.monitoring.dpi.acl-fw.lpm": {
+          "4MB": {
+            "tp": 0.372963,
+            "none": 0.393043
+          }
+        },
+        "nat-tcp-v4.lpm.dpi.acl-fw.acl-fw.dpi.dpi.nat-tcp-v4.lpm.acl-fw.dpi.maglev.monitoring.lpm.dpi.lpm": {
+          "4MB": {
+            "tp": 0.338737,
+            "none": 0.391127
+          }
+        },
+        "nat-tcp-v4.maglev.acl-fw.monitoring.maglev.dpi.dpi.lpm": {
+          "4MB": {
+            "tp": 0.373073,
+            "none": 0.393059
+          }
+        },
+        "nat-tcp-v4.dpi.lpm.lpm.dpi.acl-fw.maglev.acl-fw.nat-tcp-v4.nat-tcp-v4.acl-fw.acl-fw.nat-tcp-v4.monitoring.maglev.monitoring": {
+          "4MB": {
+            "none": 0.390458,
+            "tp": 0.338879
+          }
+        },
+        "nat-tcp-v4.nat-tcp-v4.dpi.maglev.lpm.lpm.dpi.lpm.dpi.acl-fw.lpm.maglev.acl-fw.maglev.maglev.dpi": {
+          "4MB": {
+            "tp": 0.338601,
+            "none": 0.391131
+          }
+        },
+        "nat-tcp-v4.acl-fw.monitoring.maglev.dpi.maglev.lpm.lpm.monitoring.monitoring.acl-fw.dpi.maglev.monitoring.monitoring.lpm": {
+          "4MB": {
+            "none": 0.391183,
+            "tp": 0.338705
+          }
+        },
+        "nat-tcp-v4.acl-fw.acl-fw.dpi.monitoring.acl-fw.lpm.monitoring.lpm.dpi.nat-tcp-v4.lpm.maglev.dpi.nat-tcp-v4.dpi": {
+          "4MB": {
+            "none": 0.391117,
+            "tp": 0.33866
+          }
+        },
+        "nat-tcp-v4.nat-tcp-v4.lpm.monitoring.maglev.lpm.acl-fw.maglev": {
+          "4MB": {
+            "tp": 0.373171,
+            "none": 0.393021
+          }
+        },
+        "nat-tcp-v4.maglev.dpi.dpi.maglev.maglev.acl-fw.monitoring.maglev.lpm.lpm.acl-fw.nat-tcp-v4.acl-fw.acl-fw.monitoring": {
+          "4MB": {
+            "tp": 0.338741,
+            "none": 0.390786
+          }
+        },
+        "nat-tcp-v4.dpi.lpm.dpi.dpi.nat-tcp-v4.monitoring.dpi": {
+          "4MB": {
+            "tp": 0.373141,
+            "none": 0.392962
+          }
+        },
+        "nat-tcp-v4.monitoring.dpi.dpi.lpm.dpi.acl-fw.lpm": {
+          "4MB": {
+            "tp": 0.372981,
+            "none": 0.393004
+          }
+        },
+        "nat-tcp-v4.nat-tcp-v4.monitoring.monitoring.lpm.dpi.lpm.monitoring.monitoring.maglev.acl-fw.lpm.nat-tcp-v4.monitoring.nat-tcp-v4.maglev": {
+          "4MB": {
+            "tp": 0.338718,
+            "none": 0.390831
+          }
+        },
+        "nat-tcp-v4.dpi.lpm.lpm.nat-tcp-v4.acl-fw.acl-fw.maglev": {
+          "4MB": {
+            "tp": 0.37307,
+            "none": 0.392761
+          }
         }
       },
       "maglev": {
@@ -5414,6 +6254,126 @@
           "4MB": {
             "tp": 0.420377,
             "none": 0.420611
+          }
+        },
+        "maglev.nat-tcp-v4.monitoring.acl-fw.monitoring.lpm.nat-tcp-v4.maglev.dpi.lpm.dpi.dpi.monitoring.nat-tcp-v4.maglev.lpm": {
+          "4MB": {
+            "none": 0.398606,
+            "tp": 0.373729
+          }
+        },
+        "maglev.dpi.dpi.lpm.monitoring.nat-tcp-v4.monitoring.dpi.acl-fw.maglev.dpi.nat-tcp-v4.lpm.acl-fw.monitoring.lpm": {
+          "4MB": {
+            "tp": 0.373728,
+            "none": 0.398586
+          }
+        },
+        "maglev.dpi.acl-fw.lpm.maglev.nat-tcp-v4.monitoring.acl-fw": {
+          "4MB": {
+            "tp": 0.392791,
+            "none": 0.400219
+          }
+        },
+        "maglev.maglev.maglev.monitoring.acl-fw.nat-tcp-v4.maglev.maglev": {
+          "4MB": {
+            "tp": 0.392749,
+            "none": 0.400446
+          }
+        },
+        "maglev.nat-tcp-v4.nat-tcp-v4.monitoring.monitoring.lpm.nat-tcp-v4.nat-tcp-v4.dpi.dpi.monitoring.lpm.dpi.nat-tcp-v4.dpi.nat-tcp-v4": {
+          "4MB": {
+            "none": 0.398318,
+            "tp": 0.373819
+          }
+        },
+        "maglev.acl-fw.monitoring.monitoring.monitoring.dpi.lpm.nat-tcp-v4": {
+          "4MB": {
+            "none": 0.400327,
+            "tp": 0.392749
+          }
+        },
+        "maglev.acl-fw.monitoring.acl-fw.dpi.dpi.monitoring.acl-fw": {
+          "4MB": {
+            "none": 0.400014,
+            "tp": 0.392749
+          }
+        },
+        "maglev.nat-tcp-v4.dpi.maglev.monitoring.nat-tcp-v4.monitoring.dpi.maglev.monitoring.maglev.monitoring.maglev.lpm.dpi.nat-tcp-v4": {
+          "4MB": {
+            "none": 0.39862,
+            "tp": 0.373821
+          }
+        },
+        "maglev.maglev.acl-fw.maglev.acl-fw.acl-fw.dpi.lpm.dpi.lpm.maglev.lpm.monitoring.acl-fw.maglev.nat-tcp-v4": {
+          "4MB": {
+            "tp": 0.373819,
+            "none": 0.39892
+          }
+        },
+        "maglev.lpm.acl-fw.monitoring.maglev.maglev.lpm.monitoring.monitoring.monitoring.acl-fw.maglev.lpm.acl-fw.lpm.nat-tcp-v4": {
+          "4MB": {
+            "none": 0.398953,
+            "tp": 0.373728
+          }
+        },
+        "maglev.dpi.dpi.nat-tcp-v4.lpm.lpm.lpm.maglev": {
+          "4MB": {
+            "none": 0.400671,
+            "tp": 0.392749
+          }
+        },
+        "maglev.lpm.acl-fw.maglev.dpi.monitoring.acl-fw.lpm.nat-tcp-v4.nat-tcp-v4.lpm.monitoring.nat-tcp-v4.lpm.maglev.nat-tcp-v4": {
+          "4MB": {
+            "tp": 0.373819,
+            "none": 0.39883
+          }
+        },
+        "maglev.nat-tcp-v4.lpm.monitoring.acl-fw.acl-fw.monitoring.dpi": {
+          "4MB": {
+            "none": 0.400073,
+            "tp": 0.392749
+          }
+        },
+        "maglev.nat-tcp-v4.acl-fw.acl-fw.maglev.lpm.dpi.dpi.dpi.monitoring.dpi.dpi.maglev.acl-fw.acl-fw.acl-fw": {
+          "4MB": {
+            "tp": 0.373887,
+            "none": 0.398395
+          }
+        },
+        "maglev.acl-fw.monitoring.monitoring.lpm.lpm.lpm.maglev": {
+          "4MB": {
+            "none": 0.400656,
+            "tp": 0.392749
+          }
+        },
+        "maglev.dpi.acl-fw.monitoring.lpm.monitoring.lpm.lpm.monitoring.acl-fw.acl-fw.dpi.lpm.dpi.nat-tcp-v4.acl-fw": {
+          "4MB": {
+            "none": 0.398593,
+            "tp": 0.373728
+          }
+        },
+        "maglev.monitoring.dpi.monitoring.monitoring.maglev.lpm.dpi": {
+          "4MB": {
+            "tp": 0.392749,
+            "none": 0.400637
+          }
+        },
+        "maglev.dpi.monitoring.lpm.dpi.monitoring.acl-fw.monitoring.nat-tcp-v4.maglev.acl-fw.dpi.lpm.maglev.dpi.dpi": {
+          "4MB": {
+            "tp": 0.373728,
+            "none": 0.398628
+          }
+        },
+        "maglev.maglev.lpm.monitoring.dpi.nat-tcp-v4.acl-fw.maglev": {
+          "4MB": {
+            "none": 0.400259,
+            "tp": 0.392749
+          }
+        },
+        "maglev.monitoring.lpm.dpi.nat-tcp-v4.dpi.maglev.dpi": {
+          "4MB": {
+            "none": 0.400464,
+            "tp": 0.392749
           }
         }
       },
@@ -6095,6 +7055,126 @@
             "none": 0.40415,
             "tp": 0.400183
           }
+        },
+        "acl-fw.maglev.monitoring.maglev.lpm.lpm.nat-tcp-v4.maglev.maglev.monitoring.monitoring.nat-tcp-v4.nat-tcp-v4.lpm.dpi.nat-tcp-v4": {
+          "4MB": {
+            "none": 0.444196,
+            "tp": 0.383601
+          }
+        },
+        "acl-fw.lpm.nat-tcp-v4.lpm.dpi.lpm.acl-fw.maglev": {
+          "4MB": {
+            "none": 0.445916,
+            "tp": 0.423116
+          }
+        },
+        "acl-fw.nat-tcp-v4.dpi.monitoring.monitoring.maglev.monitoring.dpi.acl-fw.nat-tcp-v4.nat-tcp-v4.monitoring.monitoring.monitoring.monitoring.lpm": {
+          "4MB": {
+            "none": 0.443645,
+            "tp": 0.383432
+          }
+        },
+        "acl-fw.maglev.dpi.dpi.nat-tcp-v4.dpi.nat-tcp-v4.acl-fw.lpm.lpm.monitoring.maglev.lpm.dpi.nat-tcp-v4.dpi": {
+          "4MB": {
+            "tp": 0.383468,
+            "none": 0.443516
+          }
+        },
+        "acl-fw.monitoring.monitoring.maglev.nat-tcp-v4.maglev.nat-tcp-v4.monitoring": {
+          "4MB": {
+            "tp": 0.423311,
+            "none": 0.445611
+          }
+        },
+        "acl-fw.maglev.dpi.monitoring.lpm.acl-fw.dpi.maglev": {
+          "4MB": {
+            "none": 0.445638,
+            "tp": 0.423342
+          }
+        },
+        "acl-fw.acl-fw.monitoring.lpm.lpm.lpm.lpm.lpm.acl-fw.lpm.nat-tcp-v4.acl-fw.lpm.monitoring.nat-tcp-v4.maglev": {
+          "4MB": {
+            "tp": 0.383438,
+            "none": 0.443792
+          }
+        },
+        "acl-fw.monitoring.monitoring.lpm.dpi.lpm.nat-tcp-v4.dpi": {
+          "4MB": {
+            "none": 0.445807,
+            "tp": 0.423365
+          }
+        },
+        "acl-fw.nat-tcp-v4.maglev.dpi.acl-fw.acl-fw.dpi.nat-tcp-v4": {
+          "4MB": {
+            "tp": 0.423009,
+            "none": 0.445255
+          }
+        },
+        "acl-fw.maglev.dpi.maglev.maglev.nat-tcp-v4.lpm.lpm": {
+          "4MB": {
+            "tp": 0.423336,
+            "none": 0.446176
+          }
+        },
+        "acl-fw.nat-tcp-v4.nat-tcp-v4.nat-tcp-v4.nat-tcp-v4.dpi.lpm.nat-tcp-v4": {
+          "4MB": {
+            "none": 0.445382,
+            "tp": 0.423385
+          }
+        },
+        "acl-fw.monitoring.maglev.monitoring.maglev.monitoring.lpm.monitoring": {
+          "4MB": {
+            "tp": 0.423404,
+            "none": 0.446024
+          }
+        },
+        "acl-fw.acl-fw.maglev.maglev.lpm.maglev.lpm.maglev": {
+          "4MB": {
+            "none": 0.446131,
+            "tp": 0.423315
+          }
+        },
+        "acl-fw.dpi.maglev.maglev.monitoring.dpi.acl-fw.maglev.monitoring.lpm.acl-fw.nat-tcp-v4.dpi.maglev.nat-tcp-v4.monitoring": {
+          "4MB": {
+            "none": 0.443826,
+            "tp": 0.383387
+          }
+        },
+        "acl-fw.dpi.maglev.acl-fw.lpm.maglev.nat-tcp-v4.acl-fw.monitoring.dpi.monitoring.dpi.nat-tcp-v4.lpm.maglev.maglev": {
+          "4MB": {
+            "tp": 0.383492,
+            "none": 0.443938
+          }
+        },
+        "acl-fw.nat-tcp-v4.monitoring.maglev.nat-tcp-v4.maglev.maglev.maglev": {
+          "4MB": {
+            "tp": 0.423423,
+            "none": 0.445875
+          }
+        },
+        "acl-fw.acl-fw.monitoring.acl-fw.acl-fw.maglev.maglev.maglev.monitoring.lpm.dpi.acl-fw.maglev.maglev.nat-tcp-v4.monitoring": {
+          "4MB": {
+            "none": 0.443101,
+            "tp": 0.383438
+          }
+        },
+        "acl-fw.lpm.dpi.acl-fw.acl-fw.monitoring.lpm.nat-tcp-v4.nat-tcp-v4.dpi.dpi.maglev.acl-fw.maglev.maglev.maglev": {
+          "4MB": {
+            "none": 0.443573,
+            "tp": 0.383475
+          }
+        },
+        "acl-fw.maglev.lpm.maglev.monitoring.monitoring.dpi.maglev.lpm.acl-fw.maglev.dpi.dpi.nat-tcp-v4.lpm.dpi": {
+          "4MB": {
+            "tp": 0.383285,
+            "none": 0.444169
+          }
+        },
+        "acl-fw.lpm.lpm.monitoring.monitoring.maglev.nat-tcp-v4.monitoring.maglev.acl-fw.dpi.monitoring.maglev.dpi.dpi.nat-tcp-v4": {
+          "4MB": {
+            "none": 0.443957,
+            "tp": 0.383504
+          }
         }
       },
       "dpi": {
@@ -6771,6 +7851,126 @@
             "none": 0.356213,
             "tp": 0.353766
           }
+        },
+        "dpi.monitoring.dpi.monitoring.acl-fw.maglev.nat-tcp-v4.monitoring": {
+          "4MB": {
+            "tp": 0.337617,
+            "none": 0.349393
+          }
+        },
+        "dpi.monitoring.lpm.acl-fw.acl-fw.lpm.monitoring.acl-fw": {
+          "4MB": {
+            "none": 0.349369,
+            "tp": 0.337509
+          }
+        },
+        "dpi.maglev.lpm.maglev.dpi.lpm.acl-fw.maglev.lpm.nat-tcp-v4.nat-tcp-v4.maglev.dpi.maglev.dpi.maglev": {
+          "4MB": {
+            "none": 0.348014,
+            "tp": 0.315563
+          }
+        },
+        "dpi.dpi.dpi.maglev.dpi.nat-tcp-v4.nat-tcp-v4.maglev": {
+          "4MB": {
+            "none": 0.34949,
+            "tp": 0.337639
+          }
+        },
+        "dpi.acl-fw.lpm.lpm.lpm.lpm.dpi.dpi.lpm.dpi.nat-tcp-v4.acl-fw.lpm.dpi.dpi.acl-fw": {
+          "4MB": {
+            "tp": 0.315597,
+            "none": 0.348024
+          }
+        },
+        "dpi.monitoring.dpi.dpi.maglev.acl-fw.monitoring.maglev.acl-fw.lpm.lpm.maglev.nat-tcp-v4.maglev.monitoring.dpi": {
+          "4MB": {
+            "none": 0.348169,
+            "tp": 0.315538
+          }
+        },
+        "dpi.dpi.monitoring.nat-tcp-v4.monitoring.lpm.monitoring.maglev.acl-fw.acl-fw.maglev.nat-tcp-v4.maglev.acl-fw.maglev.nat-tcp-v4": {
+          "4MB": {
+            "none": 0.347863,
+            "tp": 0.315487
+          }
+        },
+        "dpi.lpm.lpm.dpi.acl-fw.maglev.nat-tcp-v4.maglev": {
+          "4MB": {
+            "tp": 0.337503,
+            "none": 0.349572
+          }
+        },
+        "dpi.nat-tcp-v4.maglev.maglev.maglev.lpm.monitoring.lpm": {
+          "4MB": {
+            "none": 0.349691,
+            "tp": 0.337639
+          }
+        },
+        "dpi.nat-tcp-v4.lpm.lpm.acl-fw.nat-tcp-v4.nat-tcp-v4.acl-fw": {
+          "4MB": {
+            "tp": 0.337654,
+            "none": 0.349172
+          }
+        },
+        "dpi.monitoring.maglev.acl-fw.nat-tcp-v4.nat-tcp-v4.nat-tcp-v4.acl-fw.maglev.monitoring.acl-fw.lpm.lpm.acl-fw.acl-fw.nat-tcp-v4": {
+          "4MB": {
+            "tp": 0.315502,
+            "none": 0.347584
+          }
+        },
+        "dpi.monitoring.nat-tcp-v4.lpm.maglev.acl-fw.acl-fw.acl-fw": {
+          "4MB": {
+            "none": 0.349192,
+            "tp": 0.337786
+          }
+        },
+        "dpi.monitoring.monitoring.acl-fw.monitoring.nat-tcp-v4.lpm.nat-tcp-v4": {
+          "4MB": {
+            "tp": 0.337648,
+            "none": 0.349275
+          }
+        },
+        "dpi.nat-tcp-v4.monitoring.acl-fw.dpi.monitoring.monitoring.lpm.nat-tcp-v4.acl-fw.lpm.acl-fw.monitoring.monitoring.acl-fw.lpm": {
+          "4MB": {
+            "tp": 0.315392,
+            "none": 0.347699
+          }
+        },
+        "dpi.dpi.dpi.monitoring.maglev.acl-fw.maglev.monitoring": {
+          "4MB": {
+            "tp": 0.337595,
+            "none": 0.349622
+          }
+        },
+        "dpi.monitoring.acl-fw.monitoring.acl-fw.dpi.dpi.nat-tcp-v4.maglev.nat-tcp-v4.dpi.monitoring.dpi.acl-fw.dpi.acl-fw": {
+          "4MB": {
+            "tp": 0.315476,
+            "none": 0.347425
+          }
+        },
+        "dpi.monitoring.lpm.maglev.maglev.dpi.monitoring.dpi.acl-fw.acl-fw.acl-fw.lpm.nat-tcp-v4.monitoring.acl-fw.maglev": {
+          "4MB": {
+            "tp": 0.315538,
+            "none": 0.347743
+          }
+        },
+        "dpi.maglev.dpi.acl-fw.lpm.dpi.nat-tcp-v4.acl-fw.lpm.dpi.dpi.acl-fw.dpi.maglev.lpm.monitoring": {
+          "4MB": {
+            "none": 0.347935,
+            "tp": 0.31533
+          }
+        },
+        "dpi.maglev.monitoring.lpm.nat-tcp-v4.acl-fw.nat-tcp-v4.nat-tcp-v4.maglev.nat-tcp-v4.dpi.monitoring.dpi.lpm.nat-tcp-v4.dpi": {
+          "4MB": {
+            "tp": 0.315612,
+            "none": 0.347942
+          }
+        },
+        "dpi.acl-fw.acl-fw.maglev.acl-fw.dpi.nat-tcp-v4.monitoring": {
+          "4MB": {
+            "tp": 0.337528,
+            "none": 0.349209
+          }
         }
       },
       "monitoring": {
@@ -7443,6 +8643,126 @@
             "none": 0.398406,
             "tp": 0.3963
           }
+        },
+        "monitoring.lpm.dpi.maglev.maglev.maglev.nat-tcp-v4.acl-fw.acl-fw.acl-fw.dpi.acl-fw.maglev.nat-tcp-v4.dpi.lpm": {
+          "4MB": {
+            "tp": 0.354344,
+            "none": 0.393203
+          }
+        },
+        "monitoring.nat-tcp-v4.maglev.maglev.maglev.dpi.acl-fw.nat-tcp-v4": {
+          "4MB": {
+            "tp": 0.380635,
+            "none": 0.395436
+          }
+        },
+        "monitoring.dpi.lpm.maglev.monitoring.monitoring.nat-tcp-v4.acl-fw.lpm.nat-tcp-v4.maglev.lpm.lpm.nat-tcp-v4.maglev.monitoring": {
+          "4MB": {
+            "tp": 0.354526,
+            "none": 0.39325
+          }
+        },
+        "monitoring.dpi.monitoring.lpm.maglev.nat-tcp-v4.acl-fw.lpm.acl-fw.dpi.dpi.dpi.lpm.nat-tcp-v4.nat-tcp-v4.acl-fw": {
+          "4MB": {
+            "none": 0.392793,
+            "tp": 0.354653
+          }
+        },
+        "monitoring.acl-fw.lpm.lpm.lpm.dpi.nat-tcp-v4.acl-fw.nat-tcp-v4.lpm.maglev.dpi.acl-fw.lpm.dpi.acl-fw": {
+          "4MB": {
+            "none": 0.393343,
+            "tp": 0.354627
+          }
+        },
+        "monitoring.lpm.maglev.acl-fw.lpm.monitoring.monitoring.nat-tcp-v4": {
+          "4MB": {
+            "none": 0.395412,
+            "tp": 0.380822
+          }
+        },
+        "monitoring.acl-fw.maglev.dpi.monitoring.nat-tcp-v4.acl-fw.nat-tcp-v4": {
+          "4MB": {
+            "none": 0.395033,
+            "tp": 0.380584
+          }
+        },
+        "monitoring.lpm.nat-tcp-v4.dpi.dpi.nat-tcp-v4.maglev.maglev": {
+          "4MB": {
+            "none": 0.395566,
+            "tp": 0.380635
+          }
+        },
+        "monitoring.maglev.dpi.dpi.maglev.monitoring.dpi.lpm": {
+          "4MB": {
+            "tp": 0.380635,
+            "none": 0.395788
+          }
+        },
+        "monitoring.acl-fw.monitoring.dpi.nat-tcp-v4.dpi.lpm.maglev": {
+          "4MB": {
+            "tp": 0.380642,
+            "none": 0.395302
+          }
+        },
+        "monitoring.maglev.acl-fw.nat-tcp-v4.maglev.nat-tcp-v4.lpm.lpm": {
+          "4MB": {
+            "tp": 0.380635,
+            "none": 0.3953
+          }
+        },
+        "monitoring.acl-fw.maglev.nat-tcp-v4.maglev.dpi.dpi.maglev.nat-tcp-v4.dpi.lpm.acl-fw.acl-fw.maglev.monitoring.acl-fw": {
+          "4MB": {
+            "none": 0.392925,
+            "tp": 0.354302
+          }
+        },
+        "monitoring.dpi.nat-tcp-v4.monitoring.acl-fw.dpi.lpm.monitoring.maglev.monitoring.lpm.dpi.nat-tcp-v4.maglev.nat-tcp-v4.dpi": {
+          "4MB": {
+            "none": 0.392957,
+            "tp": 0.354578
+          }
+        },
+        "monitoring.nat-tcp-v4.lpm.dpi.maglev.dpi.monitoring.lpm.acl-fw.dpi.maglev.dpi.monitoring.monitoring.maglev.nat-tcp-v4": {
+          "4MB": {
+            "none": 0.393031,
+            "tp": 0.354306
+          }
+        },
+        "monitoring.acl-fw.dpi.dpi.monitoring.lpm.dpi.lpm": {
+          "4MB": {
+            "none": 0.395304,
+            "tp": 0.380635
+          }
+        },
+        "monitoring.monitoring.lpm.maglev.acl-fw.lpm.dpi.maglev.lpm.dpi.maglev.acl-fw.acl-fw.monitoring.monitoring.lpm": {
+          "4MB": {
+            "tp": 0.354578,
+            "none": 0.393238
+          }
+        },
+        "monitoring.acl-fw.dpi.maglev.maglev.acl-fw.dpi.acl-fw.maglev.monitoring.maglev.lpm.monitoring.nat-tcp-v4.monitoring.maglev": {
+          "4MB": {
+            "none": 0.393268,
+            "tp": 0.354767
+          }
+        },
+        "monitoring.monitoring.dpi.acl-fw.lpm.maglev.acl-fw.acl-fw": {
+          "4MB": {
+            "tp": 0.380612,
+            "none": 0.395063
+          }
+        },
+        "monitoring.acl-fw.maglev.maglev.maglev.nat-tcp-v4.dpi.monitoring.dpi.lpm.lpm.nat-tcp-v4.nat-tcp-v4.maglev.dpi.nat-tcp-v4": {
+          "4MB": {
+            "tp": 0.354578,
+            "none": 0.392981
+          }
+        },
+        "monitoring.dpi.nat-tcp-v4.lpm.lpm.maglev.nat-tcp-v4.monitoring": {
+          "4MB": {
+            "tp": 0.380635,
+            "none": 0.395384
+          }
         }
       },
       "lpm": {
@@ -8114,6 +9434,126 @@
           "4MB": {
             "none": 0.418714,
             "tp": 0.418267
+          }
+        },
+        "lpm.nat-tcp-v4.acl-fw.acl-fw.monitoring.acl-fw.nat-tcp-v4.dpi.maglev.nat-tcp-v4.dpi.lpm.acl-fw.nat-tcp-v4.nat-tcp-v4.acl-fw": {
+          "4MB": {
+            "tp": 0.393254,
+            "none": 0.41066
+          }
+        },
+        "lpm.maglev.maglev.dpi.monitoring.acl-fw.acl-fw.nat-tcp-v4": {
+          "4MB": {
+            "none": 0.412043,
+            "tp": 0.406637
+          }
+        },
+        "lpm.dpi.monitoring.monitoring.maglev.dpi.monitoring.nat-tcp-v4": {
+          "4MB": {
+            "tp": 0.406678,
+            "none": 0.41217
+          }
+        },
+        "lpm.nat-tcp-v4.maglev.lpm.acl-fw.maglev.acl-fw.nat-tcp-v4.monitoring.maglev.nat-tcp-v4.dpi.monitoring.acl-fw.lpm.dpi": {
+          "4MB": {
+            "none": 0.410888,
+            "tp": 0.393254
+          }
+        },
+        "lpm.monitoring.maglev.lpm.acl-fw.nat-tcp-v4.dpi.nat-tcp-v4": {
+          "4MB": {
+            "tp": 0.406559,
+            "none": 0.412185
+          }
+        },
+        "lpm.dpi.acl-fw.maglev.dpi.lpm.nat-tcp-v4.nat-tcp-v4": {
+          "4MB": {
+            "tp": 0.406592,
+            "none": 0.412146
+          }
+        },
+        "lpm.maglev.dpi.maglev.acl-fw.nat-tcp-v4.nat-tcp-v4.lpm.monitoring.nat-tcp-v4.lpm.maglev.acl-fw.dpi.monitoring.maglev": {
+          "4MB": {
+            "none": 0.410944,
+            "tp": 0.393254
+          }
+        },
+        "lpm.nat-tcp-v4.monitoring.dpi.dpi.lpm.maglev.lpm.dpi.monitoring.acl-fw.monitoring.acl-fw.monitoring.dpi.maglev": {
+          "4MB": {
+            "tp": 0.393254,
+            "none": 0.410742
+          }
+        },
+        "lpm.lpm.acl-fw.maglev.dpi.acl-fw.nat-tcp-v4.maglev": {
+          "4MB": {
+            "none": 0.412388,
+            "tp": 0.406582
+          }
+        },
+        "lpm.maglev.maglev.nat-tcp-v4.acl-fw.nat-tcp-v4.nat-tcp-v4.monitoring.monitoring.maglev.dpi.dpi.maglev.maglev.lpm.acl-fw": {
+          "4MB": {
+            "tp": 0.393315,
+            "none": 0.410685
+          }
+        },
+        "lpm.dpi.maglev.monitoring.maglev.monitoring.nat-tcp-v4.nat-tcp-v4.acl-fw.lpm.maglev.monitoring.nat-tcp-v4.lpm.monitoring.lpm": {
+          "4MB": {
+            "tp": 0.393254,
+            "none": 0.410878
+          }
+        },
+        "lpm.monitoring.nat-tcp-v4.nat-tcp-v4.monitoring.dpi.nat-tcp-v4.dpi": {
+          "4MB": {
+            "tp": 0.406637,
+            "none": 0.412183
+          }
+        },
+        "lpm.maglev.maglev.maglev.lpm.lpm.monitoring.acl-fw": {
+          "4MB": {
+            "tp": 0.40655,
+            "none": 0.412385
+          }
+        },
+        "lpm.nat-tcp-v4.maglev.acl-fw.nat-tcp-v4.lpm.lpm.monitoring": {
+          "4MB": {
+            "none": 0.412213,
+            "tp": 0.406678
+          }
+        },
+        "lpm.acl-fw.nat-tcp-v4.maglev.acl-fw.maglev.maglev.lpm.lpm.acl-fw.nat-tcp-v4.maglev.acl-fw.monitoring.acl-fw.nat-tcp-v4": {
+          "4MB": {
+            "tp": 0.393254,
+            "none": 0.410934
+          }
+        },
+        "lpm.nat-tcp-v4.acl-fw.maglev.monitoring.acl-fw.monitoring.lpm": {
+          "4MB": {
+            "none": 0.412148,
+            "tp": 0.40658
+          }
+        },
+        "lpm.monitoring.acl-fw.nat-tcp-v4.dpi.dpi.dpi.acl-fw.acl-fw.dpi.maglev.acl-fw.dpi.maglev.nat-tcp-v4.monitoring": {
+          "4MB": {
+            "tp": 0.393254,
+            "none": 0.410689
+          }
+        },
+        "lpm.nat-tcp-v4.monitoring.acl-fw.nat-tcp-v4.acl-fw.maglev.monitoring.nat-tcp-v4.lpm.maglev.acl-fw.lpm.nat-tcp-v4.acl-fw.lpm": {
+          "4MB": {
+            "none": 0.410813,
+            "tp": 0.393283
+          }
+        },
+        "lpm.dpi.lpm.acl-fw.lpm.monitoring.acl-fw.acl-fw.nat-tcp-v4.lpm.dpi.monitoring.maglev.acl-fw.lpm.maglev": {
+          "4MB": {
+            "tp": 0.393254,
+            "none": 0.410917
+          }
+        },
+        "lpm.monitoring.monitoring.acl-fw.lpm.acl-fw.monitoring.acl-fw": {
+          "4MB": {
+            "tp": 0.406641,
+            "none": 0.411961
           }
         }
       }

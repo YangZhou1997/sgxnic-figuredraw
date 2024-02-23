@@ -9,6 +9,7 @@ from matplotlib import rcParams
 from collections import defaultdict
 import glob
 import re
+import os
 from termcolor import colored
 from util_serilize import *
 from util_patterns import *
@@ -20,16 +21,18 @@ params_line = {
     'ytick.labelsize': 36,
     'text.usetex': False,
     'figure.figsize': [12, 8],
-    'legend.fontsize': 28,
-    'legend.handlelength': 2,
+    'legend.fontsize': 36,
+    'legend.handlelength': 1.5,
     'legend.loc': 'best', 
-    'legend.columnspacing': 1
+    'legend.columnspacing': 0.8,
+    "lines.markersize": 14,
+    "lines.markerfacecolor": "none",
+    "lines.markeredgewidth": 3,
 }
 rcParams.update(params_line)
 
 dx = 0/72.; dy = -15/72. 
 offset = matplotlib.transforms.ScaledTranslation(dx, dy, plt.gcf().dpi_scale_trans)
-
 
 nfinvoke = ['acl-fw', 'dpi', 'nat-tcp-v4', 'maglev', 'lpm', 'monitoring']
 nfinvoke_legend = ["FW", "DPI", "NAT", "LB", "LPM", "Mon."]
@@ -200,7 +203,7 @@ def load_data():
             corun_nfs = prog_set_to_cmd(nfs)
             cpu_id = nf_cpu_ids[nf]
             # print(nf)
-            # print(cpu_ids)
+            # print(cpu_id)
 
             miss_rate = extract_miss_rate(contents, nf, cpu_id, num_nfs, mode)
             ipc = extract_ipc(contents, nf, cpu_id, num_nfs, mode)
@@ -210,6 +213,61 @@ def load_data():
 
             print('l2missrate', cpu, nf, corun_nfs, cachesize, mode, miss_rate)
             print('ipc', cpu, nf, corun_nfs, cachesize, mode, ipc)
+         
+        print('')
+
+nf_to_corun_nfs = defaultdict(lambda: defaultdict(lambda: []))
+
+def load_nf_to_corun_nfs():
+    f_list = glob.glob(f'./gem5data/tp_100M_ins_8_16_nfs/m5out/*')
+    for f_name in f_list:
+        dir_name = extract_m5out(f_name + '/')
+        splits = dir_name.split('_')
+        nfs_str = splits[1]
+
+        nfs = nfs_str.split('.')
+        nf = nfs[0]
+        corun_nfs = prog_set_to_cmd(nfs)
+        nf_to_corun_nfs[nf][len(nfs)].append(corun_nfs)
+    
+
+def load_data_8_16_nfs():
+    f_list = glob.glob(f'./gem5data/tp_100M_ins_8_16_nfs/m5out/*')
+    for f_name in f_list:
+        # if 'TimingSimpleCPU_dpi-queue_' not in f_name:
+        #     continue
+
+        print(f_name)
+        dir_name = extract_m5out(f_name + '/')
+        
+        splits = dir_name.split('_')
+        cpu = splits[0]
+        nfs_str = splits[1]
+        cachesize = splits[2]
+        mode = splits[3]
+
+        f_name = f'{f_name}/{dir_name}_stats.txt'
+        # print(f_name)
+        contents = open(f_name).read()
+
+        nfs = nfs_str.split('.')
+        num_nfs = len(nfs)
+
+        # for nf in nfs:
+        nf = nfs[0]
+        corun_nfs = prog_set_to_cmd(nfs)
+        cpu_id = '00' if len(nfs) == 16 else '0'
+        # print(nf)
+        # print(cpu_id)
+
+        miss_rate = extract_miss_rate(contents, nf, cpu_id, num_nfs, mode)
+        ipc = extract_ipc(contents, nf, cpu_id, num_nfs, mode)
+
+        rawdata['l2missrate'][cpu][nf][corun_nfs][cachesize][mode] = miss_rate
+        rawdata['ipc'][cpu][nf][corun_nfs][cachesize][mode] = ipc
+
+        print('l2missrate', cpu, nf, corun_nfs, cachesize, mode, miss_rate)
+        print('ipc', cpu, nf, corun_nfs, cachesize, mode, ipc)
          
         print('')
 
@@ -267,7 +325,7 @@ def plot_vary_cachesize(_type, _cpu, _domain):
             avg_4mb.append(data_vec[-3])
             
         (p1, caps, _) = ax.errorbar(ind + width * (cnt - (N - 7) / 2.0), data_vec, yerr = yerr,
-            linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt]/2,
+            linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt]*2/3,
             color=colors[cnt], linewidth=3, capthick=2, capsize=5, elinewidth=2, ecolor=colors[cnt])
         caps[0].set_marker('_')
         caps[1].set_marker('_')
@@ -280,7 +338,7 @@ def plot_vary_cachesize(_type, _cpu, _domain):
     if _type == 'ipc' and _domain == 2:
         print('{:.2f}'.format(np.average(avg_4mb)))
 
-    ax.legend(legends, nfinvoke_legend, loc='best', ncol=3, frameon=False)
+    ax.legend(legends, nfinvoke_legend, loc='best', ncol=2, frameon=False)
     if _type == 'ipc':
         ax.set_ylabel('IPC degrading percent (\%)')
     elif _type == 'l2missrate':
@@ -296,10 +354,20 @@ def plot_vary_cachesize(_type, _cpu, _domain):
     ax.grid(which='major', axis='y', linestyle=':')
     ax.set_axisbelow(True)
 
-    plt.gcf().set_size_inches(15, 8)
+    plt.gcf().set_size_inches(12, 8)
     plt.tight_layout()
     plt.savefig(f'./figures/gem5/cachesize_{_type}_{_cpu}_{_domain}domains.pdf')
     plt.clf()
+    
+    fig_folder = './figures/gem5/'
+    fig_full_name = f'./figures/gem5/cachesize_{_type}_{_cpu}_{_domain}domains'
+
+    os.system(
+        f"pdf-crop-margins -suv -p 1 -o {fig_folder} {fig_full_name}.pdf -mo >"
+        " /dev/null"
+    )
+    os.system(f"rm {fig_full_name}_uncropped.pdf > /dev/null")
+
 
 def get_datavec_vary_corun(_type, _cpu, _nf, _l2size):
     nf_combs = multiprog.copy()
@@ -308,8 +376,8 @@ def get_datavec_vary_corun(_type, _cpu, _nf, _l2size):
     data_vec = []
     data_vec_tail = []
     data_vec_lowtail = []
-    tps = [[] for i in range(3)]
-    nones = [[] for i in range(3)]
+    tps = [[] for i in range(5)]
+    nones = [[] for i in range(5)]
     
     for nf_comb in nf_combs:
         if _nf in nf_comb:
@@ -320,7 +388,13 @@ def get_datavec_vary_corun(_type, _cpu, _nf, _l2size):
             tps[dot_num - 1].append(rawdata[_type][_cpu][_nf][nf_comb][_l2size]['tp'])
             nones[dot_num - 1].append(rawdata[_type][_cpu][_nf][nf_comb][_l2size]['none'])
 
-    for i in range(3):
+    # for 8 and 16 nfs
+    for i, num_nf in zip([3, 4], [8, 16]):
+        for corun_nf in nf_to_corun_nfs[_nf][num_nf]:
+            tps[i].append(rawdata[_type][_cpu][_nf][corun_nf][_l2size]['tp'])
+            nones[i].append(rawdata[_type][_cpu][_nf][corun_nf][_l2size]['none'])
+
+    for i in range(5):
         if _type == 'ipc':
             ratios = (np.array(nones[i]) - np.array(tps[i])) / np.array(nones[i])
         else:
@@ -333,14 +407,15 @@ def get_datavec_vary_corun(_type, _cpu, _nf, _l2size):
 
 # type: ipc or l2missrate
 def plot_vary_corun(_type, _cpu, _l2size):
-    N = 3
-    ind = np.array([10, 20, 30])    # the x locations for the groups    
-    width = 1       # the width of the bars: can also be len(x) sequence
+    N = 5
+    ind = np.array([10, 20, 30, 40, 50])    # the x locations for the groups    
+    width = 1.2       # the width of the bars: can also be len(x) sequence
 
     fig = plt.figure()
     ax = fig.subplots(nrows=1, ncols=1)
 
-    avg_4dom = []
+    avg_8dom = []
+    avg_16dom = []
     cnt = 0
     legends = list()
     for _nf in singleprog:
@@ -355,11 +430,12 @@ def plot_vary_corun(_type, _cpu, _l2size):
             print(data_vec_tail)
             print(data_vec_lowtail)
             print()
-            avg_4dom.append(data_vec[-1])
+            avg_8dom.append(data_vec[-2])
+            avg_16dom.append(data_vec[-1])
 
         # p1, = plt.plot(ind, data_vec, linestyle = linestyles[cnt], marker = markers[cnt], markersize = markersizes[cnt],
         #     color=colors[cnt], linewidth=3)
-        p1 = ax.bar(ind + width * (cnt - (N - 1) / 2.0 - 1.5), data_vec, width, yerr = yerr, color=colors[cnt], hatch=patterns[cnt], 
+        p1 = ax.bar(ind + width * (cnt - (N - 1) / 2.0 - 0.5), data_vec, width, yerr = yerr, color=colors[cnt], hatch=patterns[cnt], 
             edgecolor = 'k', align="center", capsize=5, ecolor='k', error_kw = dict(capthick=2, elinewidth=2))
         
         # (_, caps, _) = plt.errorbar(ind + width * (cnt - (N - 1) / 2.0 - 1.5), data_vec_tail, yerr = yerr[1, :],
@@ -370,16 +446,16 @@ def plot_vary_corun(_type, _cpu, _l2size):
         legends.append(p1)
         cnt += 1
     if _type == 'ipc' and _l2size == '4MB':
-        print('{:.2f}'.format(np.average(avg_4dom)))
+        print('{:.2f} {:.2f}'.format(np.average(avg_8dom), np.average(avg_16dom)))
 
-    ax.legend(legends, nfinvoke_legend, loc='upper left', ncol=1, frameon=False)
+    ax.legend(legends, nfinvoke_legend, loc='upper left', ncol=2, frameon=False)
     if _type == 'ipc':
         ax.set_ylabel('IPC degrading percent (\%)')
     elif _type == 'l2missrate':
         ax.set_ylabel('L2 missing rate increasing')
         
-    ax.set_xticks(ind, ['2 NFs', '3 NFs', '4 NFs'])
-    ax.set_xlim(xmin=4, xmax=36)
+    ax.set_xticks(ind, ['2 NFs', '3 NFs', '4 NFs', '8 NFs', '16 NFs'], rotation=45, ha="right", rotation_mode="anchor")
+    ax.set_xlim(xmin=4, xmax=56)
     # plt.xticks(ind, ['1 domain', '2 domains', '4 domains'], rotation=45, ha="right", rotation_mode="anchor", fontsize=24)
     # plt.axes().set_ylim(ymin=0)
 
@@ -389,10 +465,19 @@ def plot_vary_corun(_type, _cpu, _l2size):
     ax.grid(which='major', axis='y', linestyle=':')
     ax.set_axisbelow(True)
 
-    plt.gcf().set_size_inches(9, 8)
+    plt.gcf().set_size_inches(12, 8)
     plt.tight_layout()
     plt.savefig(f'./figures/gem5/domain_{_type}_{_cpu}_{_l2size}.pdf')
     plt.clf()
+
+    fig_folder = './figures/gem5/'
+    fig_full_name = f'./figures/gem5/domain_{_type}_{_cpu}_{_l2size}'
+
+    os.system(
+        f"pdf-crop-margins -suv -p 1 -o {fig_folder} {fig_full_name}.pdf -mo >"
+        " /dev/null"
+    )
+    os.system(f"rm {fig_full_name}_uncropped.pdf > /dev/null")
 
 
 if __name__ == '__main__':
@@ -402,13 +487,11 @@ if __name__ == '__main__':
        fname = './GilliusADF-Regular.otf')
 
     # load_data()
+    # load_data_8_16_nfs()
     # write_to_file(rawdata, f'./{datadir}/drawdata/thrput_l2miss.res')
 
     rawdata = read_from_file(f'./{datadir}/drawdata/thrput_l2miss.res')
-    for _type in ['ipc', 'l2missrate']:
-        for _cpu in cpus:
-            # for _domain in [2]:
-            #     plot_vary_cachesize(_type, _cpu, _domain)
-            for _l2size in ['4MB']:
-                plot_vary_corun(_type, _cpu, _l2size)
-
+    load_nf_to_corun_nfs()
+    # plot_vary_cachesize('l2missrate', cpus[0], 2)
+    plot_vary_cachesize('ipc', cpus[0], 2)
+    plot_vary_corun('ipc', cpus[0], '4MB')
