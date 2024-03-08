@@ -22,8 +22,8 @@ params = {
 }
 rcParams.update(params)
 
-legends_launch = ["TLB setup \&config. reading", "Blacklisting", "SHA-256 digesting"]
-legends_destroy = ["Whitelisting", "Memory scrubing"]
+legends_launch = ["TLB setup \&config. reading", "Denylisting", "SHA-256 digesting"]
+legends_destroy = ["Allowlisting", "Memory scrubing"]
 
 nfs = ["FW", "DPI", "NAT", "LB", "LPM", "Mon."]
 def format_func(value, tick_number):
